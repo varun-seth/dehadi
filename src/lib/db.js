@@ -113,30 +113,61 @@ export const getAllHabits = async () => {
 
 // Actions operations
 export const toggleHabitForDate = async (habitId, date) => {
-  const db = await openDB();
-  const tx = db.transaction('actions', 'readwrite');
-  const store = tx.objectStore('actions');
-  const index = store.index('date_habit');
+  return new Promise(async (resolve, reject) => {
+    try {
+      const db = await openDB();
+      const tx = db.transaction('actions', 'readwrite');
+      const store = tx.objectStore('actions');
+      const index = store.index('date_habit');
 
-  // Check if action exists for this habit and date
-  const existingActions = await index.getAllKeys(IDBKeyRange.only([date, habitId]));
-  
-  if (existingActions.length > 0) {
-    // If action exists, delete it (untoggle)
-    for (const key of existingActions) {
-      await store.delete(key);
-    }
-    return false;
+      // Get all actions for this habit and date
+      const request = index.getAll(IDBKeyRange.only([date, habitId]));
+
+      request.onsuccess = async () => {
+        try {
+          const existingActions = request.result || [];
+          console.log('Found actions:', existingActions);
+
+          if (existingActions.length > 0) {
+            // If action exists, delete it (untoggle)
+            for (const action of existingActions) {
+              console.log('Deleting action:', [action.habit_id, action.created_at]);
+              const deleteRequest = store.delete([action.habit_id, action.created_at]);
+              await new Promise((res, rej) => {
+                deleteRequest.onsuccess = () => res();
+                deleteRequest.onerror = () => rej(deleteRequest.error);
+              });
+            }
+            resolve(false);
   } else {
-    // If no action exists, create one (toggle on)
-    const now = new Date().toISOString();
-    await store.add({
-      habit_id: habitId,
-      date: date,
-      created_at: now
-    });
-    return true;
-  }
+            // If no action exists, create one (toggle on)
+            const now = new Date().toISOString();
+            const action = {
+              habit_id: habitId,
+              created_at: now,
+              date
+            };
+            const addRequest = store.add(action);
+            await new Promise((res, rej) => {
+              addRequest.onsuccess = () => res();
+              addRequest.onerror = () => rej(addRequest.error);
+            });
+            resolve(true);
+          }
+        } catch (err) {
+          reject(err);
+        }
+      };
+
+      request.onerror = () => reject(request.error);
+      
+      tx.oncomplete = () => db.close();
+      tx.onerror = () => reject(tx.error);
+    } catch (error) {
+      console.error('Toggle error:', error);
+      reject(error);
+    }
+  });
 };
 
 export const getActionsForDate = async (date) => {
@@ -146,12 +177,15 @@ export const getActionsForDate = async (date) => {
     const store = tx.objectStore('actions');
     const index = store.index('date_habit');
     
-    const request = index.getAllKeys(IDBKeyRange.bound(
+    const request = index.getAll(IDBKeyRange.bound(
       [date, '0'.padStart(20, '0')],
       [date, '9'.padStart(20, '9')]
     ));
 
-    request.onsuccess = () => resolve(request.result || []);
+    request.onsuccess = () => {
+      const actions = request.result || [];
+      resolve(actions.map(action => [action.habit_id, action.created_at]));
+    };
     request.onerror = () => reject(request.error);
     
     tx.oncomplete = () => db.close();

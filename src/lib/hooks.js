@@ -96,7 +96,9 @@ export const useHabitActions = (date) => {
 
   const toggleHabit = async (habitId) => {
     try {
+      console.log('Toggling habit:', habitId, 'for date:', date);
       const isCompleted = await db.toggleHabitForDate(habitId, date);
+      console.log('Toggle result:', isCompleted);
       await loadActions(); // Refresh actions after toggle
       return isCompleted;
     } catch (err) {

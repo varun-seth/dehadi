@@ -34,9 +34,7 @@ export function DailyView() {
     if (habitsLoading || actionsLoading) return <div>Loading...</div>;
 
     const isHabitCompleted = (habitId) => {
-        return actions.some(action =>
-            action[0] === habitId && action[1].startsWith(date)
-        );
+        return actions.some(action => action[0] === habitId);
     };
 
     return (
