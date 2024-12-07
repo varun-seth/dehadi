@@ -1,28 +1,52 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from 'lucide-react';
+import { Calendar } from "@/components/ui/calendar";
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useHabits, useHabitActions } from '@/lib/hooks';
 
 const formatDate = (date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    
+    if (date.toDateString() === today.toDateString()) {
+        return 'Today';
+    } else if (date.toDateString() === yesterday.toDateString()) {
+        return 'Yesterday';
+    } else if (date.toDateString() === tomorrow.toDateString()) {
+        return 'Tomorrow';
+    }
+    
     return date.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
+        weekday: 'short',
+        month: 'short',
         day: 'numeric',
+        year: date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined
     });
 };
 
 export function DailyView() {
-    const [date] = useState(() => {
+    const [selectedDate, setSelectedDate] = useState(() => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         return today.toISOString().split('T')[0];
     });
 
     const { habits = [], loading: habitsLoading, error: habitsError } = useHabits();
-    const { actions = [], toggleHabit, loading: actionsLoading, error: actionsError } = useHabitActions(date);
+    const { actions = [], toggleHabit, loading: actionsLoading, error: actionsError } = useHabitActions(selectedDate);
 
     if (habitsError) return <div>Error loading habits: {habitsError}</div>;
     if (actionsError) return <div>Error loading actions: {actionsError}</div>;
@@ -40,9 +64,44 @@ export function DailyView() {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold">{formatDate(new Date(date))}</h1>
-                <div className="text-2xl">
-                    {/* Add navigation buttons later */}
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <div className="flex items-center space-x-2 cursor-pointer hover:opacity-80">
+                            <h1 className="text-2xl font-bold">{formatDate(new Date(selectedDate))}</h1>
+                            <CalendarIcon className="h-5 w-5" />
+                        </div>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <Calendar
+                            mode="single"
+                            selected={new Date(selectedDate)}
+                            onSelect={(date) => date && setSelectedDate(date.toISOString().split('T')[0])}
+                        />
+                    </DialogContent>
+                </Dialog>
+                <div className="flex items-center space-x-2">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                            const prevDay = new Date(selectedDate);
+                            prevDay.setDate(prevDay.getDate() - 1);
+                            setSelectedDate(prevDay.toISOString().split('T')[0]);
+                        }}
+                    >
+                        <ChevronLeftIcon className="h-4 w-4" />
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                            const nextDay = new Date(selectedDate);
+                            nextDay.setDate(nextDay.getDate() + 1);
+                            setSelectedDate(nextDay.toISOString().split('T')[0]);
+                        }}
+                    >
+                        <ChevronRightIcon className="h-4 w-4" />
+                    </Button>
                 </div>
             </div>
 
