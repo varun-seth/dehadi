@@ -63,7 +63,7 @@ const addDays = (dateString, days) => {
     const [year, month, day] = dateString.split('-').map(Number);
     const date = new Date(year, month - 1, day);
     date.setDate(date.getDate() + days);
-    
+
     const newYear = date.getFullYear();
     const newMonth = String(date.getMonth() + 1).padStart(2, '0');
     const newDay = String(date.getDate()).padStart(2, '0');
@@ -72,7 +72,7 @@ const addDays = (dateString, days) => {
 
 export function DailyView() {
     const [searchParams, setSearchParams] = useSearchParams();
-    
+
     // Get selected date from URL query parameter, default to today
     const selectedDate = useMemo(() => {
         return searchParams.get('date') || getTodayString();
@@ -108,7 +108,13 @@ export function DailyView() {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between border-b py-2 px-4">
-                <h2 className="text-lg font-semibold">Dehadi</h2>
+                <Button
+                    variant="ghost"
+                    className="text-lg font-semibold hover:bg-transparent p-0 h-auto"
+                    onClick={() => setSearchParams({})}
+                >
+                    Dehadi
+                </Button>
                 <div className="flex items-center space-x-4">
                     <Button
                         variant="ghost"
