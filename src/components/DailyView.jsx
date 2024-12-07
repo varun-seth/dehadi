@@ -61,12 +61,14 @@ export function DailyView() {
                         {safeHabits.map((habit) => (
                             <div
                                 key={habit.id}
-                                className="flex items-center space-x-4 p-2 rounded hover:bg-accent/50"
+                                className="flex items-center space-x-4 p-2 rounded hover:bg-accent/50 cursor-pointer"
+                                onClick={() => toggleHabit(habit.id)}
                             >
                                 <Checkbox
                                     checked={isHabitCompleted(habit.id)}
                                     onCheckedChange={() => toggleHabit(habit.id)}
                                     id={`habit-${habit.id}`}
+                                    className="pointer-events-none"
                                 />
                                 <div className="flex items-center space-x-4 flex-1">
                                     {habit.icon && (
@@ -79,7 +81,7 @@ export function DailyView() {
                                     )}
                                     <label
                                         htmlFor={`habit-${habit.id}`}
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                                     >
                                         {habit.name}
                                     </label>
