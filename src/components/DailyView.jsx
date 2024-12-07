@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon, Settings } from 'lucide-react';
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -12,7 +12,11 @@ import { useHabits, useHabitActions } from '@/lib/hooks';
 
 import HabitItem from './HabitItem';
 
-const formatDate = (date) => {
+/**
+ * Formats a date string (YYYY-MM-DD) to a human-readable format
+ */
+const formatDate = (dateString) => {
+    const date = new Date(dateString + 'T00:00:00');
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -38,14 +42,41 @@ const formatDate = (date) => {
     });
 };
 
+/**
+ * Formats today's date as YYYY-MM-DD
+ */
+const getTodayString = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+/**
+ * Add or subtract days from a date string (YYYY-MM-DD)
+ * @param {string} dateString - Date in YYYY-MM-DD format
+ * @param {number} days - Number of days to add (positive) or subtract (negative)
+ * @returns {string} New date in YYYY-MM-DD format
+ */
+const addDays = (dateString, days) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    date.setDate(date.getDate() + days);
+    
+    const newYear = date.getFullYear();
+    const newMonth = String(date.getMonth() + 1).padStart(2, '0');
+    const newDay = String(date.getDate()).padStart(2, '0');
+    return `${newYear}-${newMonth}-${newDay}`;
+};
+
 export function DailyView() {
-    const [selectedDate, setSelectedDate] = useState(() => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    });
+    const [searchParams, setSearchParams] = useSearchParams();
+    
+    // Get selected date from URL query parameter, default to today
+    const selectedDate = useMemo(() => {
+        return searchParams.get('date') || getTodayString();
+    }, [searchParams]);
 
     const { habits = [], loading: habitsLoading, error: habitsError } = useHabits();
     const { actions = [], toggleHabit, loading: actionsLoading, error: actionsError } = useHabitActions(selectedDate);
@@ -83,9 +114,7 @@ export function DailyView() {
                         variant="ghost"
                         size="icon"
                         onClick={() => {
-                            const prevDay = new Date(selectedDate);
-                            prevDay.setDate(prevDay.getDate() - 1);
-                            setSelectedDate(prevDay.toISOString().split('T')[0]);
+                            setSearchParams({ date: addDays(selectedDate, -1) });
                         }}
                     >
                         <ChevronLeftIcon className="h-4 w-4" />
@@ -93,14 +122,22 @@ export function DailyView() {
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button variant="ghost" className="font-medium">
-                                {formatDate(new Date(selectedDate))}
+                                {formatDate(selectedDate)}
                             </Button>
                         </DialogTrigger>
                         <DialogContent className="[&>button]:hidden">
                             <Calendar
                                 mode="single"
-                                selected={new Date(selectedDate)}
-                                onSelect={(date) => date && setSelectedDate(date.toISOString().split('T')[0])}
+                                selected={new Date(selectedDate + 'T00:00:00')}
+                                onSelect={(date) => {
+                                    if (date) {
+                                        const year = date.getFullYear();
+                                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                                        const day = String(date.getDate()).padStart(2, '0');
+                                        const dateString = `${year}-${month}-${day}`;
+                                        setSearchParams({ date: dateString });
+                                    }
+                                }}
                             />
                         </DialogContent>
                     </Dialog>
@@ -108,9 +145,7 @@ export function DailyView() {
                         variant="ghost"
                         size="icon"
                         onClick={() => {
-                            const nextDay = new Date(selectedDate);
-                            nextDay.setDate(nextDay.getDate() + 1);
-                            setSelectedDate(nextDay.toISOString().split('T')[0]);
+                            setSearchParams({ date: addDays(selectedDate, 1) });
                         }}
                     >
                         <ChevronRightIcon className="h-4 w-4" />

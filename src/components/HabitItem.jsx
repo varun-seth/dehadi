@@ -56,7 +56,7 @@ const HabitItem = React.memo(({ habit, isCompleted, onToggle }) => {
                 )}
                 onClick={(e) => e.stopPropagation()}
             />
-            
+
             <div className="flex items-center gap-3 flex-1 min-w-0">
                 {habit.icon && IconComponent && (
                     <div
