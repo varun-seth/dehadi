@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import { IconPicker } from './IconPicker';
+import * as Icons from 'lucide-react';
 import {
     Dumbbell,
     BookOpen,
@@ -17,7 +19,39 @@ import {
     Puzzle,
     Footprints,
     Apple,
-    Users
+    Users,
+    Coffee,
+    Moon,
+    Sun,
+    Utensils,
+    Bed,
+    Music,
+    Camera,
+    Droplet,
+    Smile,
+    Bike,
+    Clipboard,
+    Home,
+    Leaf,
+    MessageCircle,
+    ShoppingCart,
+    Sparkles,
+    Target,
+    Zap,
+    Wind,
+    Trophy,
+    Timer,
+    Briefcase,
+    Palette,
+    Waves,
+    Lightbulb,
+    Laptop,
+    Pill,
+    Dog,
+    Flower,
+    TreePine,
+    Cookie,
+    Salad
 } from 'lucide-react';
 
 const COLORS = [
@@ -33,7 +67,7 @@ const COLORS = [
     '#d946ef', // fuchsia
 ];
 
-const ICONS = [
+export const ICONS = [
     { name: 'Dumbbell', component: Dumbbell },
     { name: 'Footprints', component: Footprints },
     { name: 'Bath', component: Bath },
@@ -45,13 +79,46 @@ const ICONS = [
     { name: 'Apple', component: Apple },
     { name: 'Heart', component: Heart },
     { name: 'Users', component: Users },
-    { name: 'Phone', component: Phone }
+    { name: 'Phone', component: Phone },
+    { name: 'Coffee', component: Coffee },
+    { name: 'Moon', component: Moon },
+    { name: 'Sun', component: Sun },
+    { name: 'Utensils', component: Utensils },
+    { name: 'Bed', component: Bed },
+    { name: 'Music', component: Music },
+    { name: 'Camera', component: Camera },
+    { name: 'Droplet', component: Droplet },
+    { name: 'Smile', component: Smile },
+    { name: 'Bike', component: Bike },
+    { name: 'Clipboard', component: Clipboard },
+    { name: 'Home', component: Home },
+    { name: 'Leaf', component: Leaf },
+    { name: 'MessageCircle', component: MessageCircle },
+    { name: 'ShoppingCart', component: ShoppingCart },
+    { name: 'Sparkles', component: Sparkles },
+    { name: 'Target', component: Target },
+    { name: 'Zap', component: Zap },
+    { name: 'Wind', component: Wind },
+    { name: 'Trophy', component: Trophy },
+    { name: 'Timer', component: Timer },
+    { name: 'Briefcase', component: Briefcase },
+    { name: 'Palette', component: Palette },
+    { name: 'Waves', component: Waves },
+    { name: 'Lightbulb', component: Lightbulb },
+    { name: 'Laptop', component: Laptop },
+    { name: 'Pill', component: Pill },
+    { name: 'Dog', component: Dog },
+    { name: 'Flower', component: Flower },
+    { name: 'TreePine', component: TreePine },
+    { name: 'Cookie', component: Cookie },
+    { name: 'Salad', component: Salad }
 ];
 
 export function HabitForm() {
     const navigate = useNavigate();
     const { id } = useParams();
     const { createHabit, updateHabit, loading, error } = useHabits();
+    const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -91,6 +158,12 @@ export function HabitForm() {
         }
     };
 
+    const handleIconColorSelect = ({ icon, color }) => {
+        setFormData({ ...formData, icon, color });
+    };
+
+    const IconComponent = Icons[formData.icon];
+
     return (
         <div className="max-w-2xl mx-auto">
             <Card className="p-6">
@@ -101,12 +174,27 @@ export function HabitForm() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                         <Label htmlFor="name">Name</Label>
-                        <Input
-                            id="name"
-                            value={formData.name}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            required
-                        />
+                        <div className="flex items-center gap-3">
+                            {/* Clickable Icon */}
+                            <button
+                                type="button"
+                                className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center cursor-pointer shadow-sm"
+                                style={{ backgroundColor: formData.color }}
+                                onClick={() => setIsIconPickerOpen(true)}
+                                title="Click to change icon and color"
+                            >
+                                {IconComponent && <IconComponent className="w-7 h-7 text-white" />}
+                            </button>
+
+                            {/* Name Input */}
+                            <Input
+                                id="name"
+                                className="flex-1"
+                                value={formData.name}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                required
+                            />
+                        </div>
                     </div>
 
                     <div className="space-y-2">
@@ -118,39 +206,6 @@ export function HabitForm() {
                         />
                     </div>
 
-                    <div className="space-y-2">
-                        <Label>Color</Label>
-                        <div className="flex flex-wrap gap-2">
-                            {COLORS.map((color) => (
-                                <button
-                                    key={color}
-                                    type="button"
-                                    className={`w-8 h-8 rounded-full border-2 ${formData.color === color ? 'border-primary' : 'border-transparent'
-                                        }`}
-                                    style={{ backgroundColor: color }}
-                                    onClick={() => setFormData({ ...formData, color })}
-                                />
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label>Icon</Label>
-                        <div className="flex flex-wrap gap-2">
-                            {ICONS.map(({ name, component: Icon }) => (
-                                <button
-                                    key={name}
-                                    type="button"
-                                    className={`w-10 h-10 rounded flex items-center justify-center border-2 ${formData.icon === name ? 'border-primary' : 'border-muted'
-                                        } hover:bg-accent`}
-                                    onClick={() => setFormData({ ...formData, icon: name })}
-                                >
-                                    <Icon className="w-6 h-6" />
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
                     <div className="flex justify-end space-x-4">
                         <Button type="button" variant="outline" onClick={() => navigate('/habits')}>
                             Cancel
@@ -160,6 +215,15 @@ export function HabitForm() {
                         </Button>
                     </div>
                 </form>
+
+                {/* Icon & Color Picker Modal */}
+                <IconPicker
+                    open={isIconPickerOpen}
+                    onOpenChange={setIsIconPickerOpen}
+                    currentIcon={formData.icon}
+                    currentColor={formData.color}
+                    onSelect={handleIconColorSelect}
+                />
             </Card>
         </div>
     );

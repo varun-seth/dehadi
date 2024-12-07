@@ -19,7 +19,7 @@ export function HabitList() {
                     className="text-lg font-semibold hover:bg-transparent p-0 h-auto"
                     asChild
                 >
-                    <Link to="/">Dehadi</Link>
+                    <Link to="/">Dihadi</Link>
                 </Button>
                 <div className="flex items-center space-x-2">
                     <span className="text-sm text-muted-foreground">Manage Habits</span>

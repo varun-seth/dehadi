@@ -113,7 +113,7 @@ export function DailyView() {
                     className="text-lg font-semibold hover:bg-transparent p-0 h-auto"
                     onClick={() => setSearchParams({})}
                 >
-                    Dehadi
+                    Dihadi
                 </Button>
                 <div className="flex items-center space-x-4">
                     <Button
@@ -131,7 +131,7 @@ export function DailyView() {
                                 {formatDate(selectedDate)}
                             </Button>
                         </DialogTrigger>
-                        <DialogContent className="[&>button]:hidden">
+                        <DialogContent className="[&>button]:hidden max-w-fit p-0">
                             <Calendar
                                 mode="single"
                                 selected={new Date(selectedDate + 'T00:00:00')}
