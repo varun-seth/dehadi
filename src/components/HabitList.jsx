@@ -1,7 +1,9 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useHabits } from '@/lib/hooks';
+import * as Icons from 'lucide-react';
 
 export function HabitList() {
     const { habits, loading, error, deleteHabit } = useHabits();
@@ -22,12 +24,12 @@ export function HabitList() {
                 {habits.map((habit) => (
                     <Card key={habit.id} className="p-4">
                         <div className="flex items-center space-x-4">
-                            {habit.icon && (
+                            {habit.icon && Icons[habit.icon] && (
                                 <div
                                     className="w-8 h-8 flex items-center justify-center rounded"
                                     style={{ backgroundColor: habit.color || '#e5e7eb' }}
                                 >
-                                    {habit.icon}
+                                    {React.createElement(Icons[habit.icon], { className: 'w-5 h-5' })}
                                 </div>
                             )}
                             <div className="flex-1">

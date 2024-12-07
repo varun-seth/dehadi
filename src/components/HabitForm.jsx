@@ -5,6 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import {
+    Dumbbell,
+    BookOpen,
+    Brain,
+    Heart,
+    Phone,
+    Bath,
+    Languages,
+    PenLine,
+    Puzzle,
+    Footprints,
+    Apple,
+    Users
+} from 'lucide-react';
 
 const COLORS = [
     '#ef4444', // red
@@ -19,8 +33,20 @@ const COLORS = [
     '#d946ef', // fuchsia
 ];
 
-// We'll add icon support later with a proper icon library
-const PLACEHOLDER_ICONS = ['⭐️', '🎯', '💪', '🏃‍♂️', '📚', '🎨', '🎵', '🧘‍♂️', '💭', '🌟'];
+const ICONS = [
+    { name: 'Dumbbell', component: Dumbbell },
+    { name: 'Footprints', component: Footprints },
+    { name: 'Bath', component: Bath },
+    { name: 'BookOpen', component: BookOpen },
+    { name: 'Languages', component: Languages },
+    { name: 'Brain', component: Brain },
+    { name: 'Puzzle', component: Puzzle },
+    { name: 'PenLine', component: PenLine },
+    { name: 'Apple', component: Apple },
+    { name: 'Heart', component: Heart },
+    { name: 'Users', component: Users },
+    { name: 'Phone', component: Phone }
+];
 
 export function HabitForm() {
     const navigate = useNavigate();
@@ -30,8 +56,8 @@ export function HabitForm() {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        color: COLORS[0],
-        icon: PLACEHOLDER_ICONS[0],
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        icon: ICONS[0].name
     });
 
     useEffect(() => {
@@ -111,15 +137,15 @@ export function HabitForm() {
                     <div className="space-y-2">
                         <Label>Icon</Label>
                         <div className="flex flex-wrap gap-2">
-                            {PLACEHOLDER_ICONS.map((icon) => (
+                            {ICONS.map(({ name, component: Icon }) => (
                                 <button
-                                    key={icon}
+                                    key={name}
                                     type="button"
-                                    className={`w-10 h-10 rounded flex items-center justify-center text-xl border-2 ${formData.icon === icon ? 'border-primary' : 'border-muted'
-                                        }`}
-                                    onClick={() => setFormData({ ...formData, icon })}
+                                    className={`w-10 h-10 rounded flex items-center justify-center border-2 ${formData.icon === name ? 'border-primary' : 'border-muted'
+                                        } hover:bg-accent`}
+                                    onClick={() => setFormData({ ...formData, icon: name })}
                                 >
-                                    {icon}
+                                    <Icon className="w-6 h-6" />
                                 </button>
                             ))}
                         </div>
