@@ -4,8 +4,9 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview"
+        "build": "npm run generate-icons && vite build",
+        "preview": "vite preview",
+        "generate-icons": "bash scripts/generate-icons.sh"
     },
     "dependencies": {
         "@hookform/resolvers": "^5.2.2",
@@ -33,6 +34,9 @@
     "devDependencies": {
         "@vitejs/plugin-react": "3.1.0",
         "shadcn": "^3.3.1",
-        "vite": "4.3.9"
+        "sharp": "^0.34.4",
+        "vite": "4.3.9",
+        "vite-plugin-pwa": "^1.0.3",
+        "workbox-window": "^7.3.0"
     }
 }

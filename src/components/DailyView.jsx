@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ChevronLeftIcon, ChevronRightIcon, Settings } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, Settings, CalendarCheck } from 'lucide-react';
 import { Calendar } from "@/components/ui/calendar";
 import {
     Dialog,
@@ -110,9 +110,10 @@ export function DailyView() {
             <div className="flex items-center justify-between border-b py-2 px-4">
                 <Button
                     variant="ghost"
-                    className="text-lg font-semibold hover:bg-transparent p-0 h-auto"
+                    className="text-lg font-semibold hover:bg-transparent p-0 h-auto flex items-center gap-2"
                     onClick={() => setSearchParams({})}
                 >
+                    <CalendarCheck className="w-5 h-5" />
                     Dihadi
                 </Button>
                 <div className="flex items-center space-x-4">

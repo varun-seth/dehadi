@@ -2,3 +2,8 @@
 node_modules
 
 docs
+dev-dist
+dist
+
+public/*.png
+public/*.ico
