@@ -85,7 +85,7 @@ export function updateScore(completed, total) {
 /**
  * ScoreDisplay component - mounted once in Toolbar, receives updates via events
  */
-export function ScoreDisplay() {
+export function ScoreDisplay({ size = 32, showText = false }) {
     const scoreTextRef = useRef(null);
 
     useEffect(() => {
@@ -116,10 +116,13 @@ export function ScoreDisplay() {
         return () => window.removeEventListener('scoreUpdate', handleScoreUpdate);
     }, []);
 
+    const strokeWidth = size > 40 ? 4 : 3;
+    const textSizeClass = size > 40 ? 'text-base' : 'text-sm';
+
     return (
-        <div className="flex items-center gap-3 text-sm">
-            <CircularProgressBar size={32} strokeWidth={3} />
-            <span ref={scoreTextRef} className="font-medium hidden">0/0</span>
+        <div className={`flex items-center gap-3 ${textSizeClass}`}>
+            <CircularProgressBar size={size} strokeWidth={strokeWidth} />
+            <span ref={scoreTextRef} className={`font-medium ${showText ? '' : 'hidden'}`}>0/0</span>
         </div>
     );
 }

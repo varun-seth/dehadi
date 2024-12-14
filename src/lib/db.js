@@ -277,6 +277,74 @@ export const isHabitCompletedForDate = async (habitId, date) => {
   });
 };
 
+export const getMonthlyScores = async (year, month) => {
+  const db = await openDB();
+  
+  const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+  const lastDay = new Date(year, month, 0).getDate();
+  const endDate = `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+  
+  return new Promise(async (resolve, reject) => {
+    try {
+      const habitsTx = db.transaction(STORES.HABITS, 'readonly');
+      const habitsStore = habitsTx.objectStore(STORES.HABITS);
+      const habitsRequest = habitsStore.getAll();
+      
+      habitsRequest.onsuccess = async () => {
+        const habits = habitsRequest.result || [];
+        const totalHabits = habits.length;
+        
+        if (totalHabits === 0) {
+          const scores = {};
+          for (let day = 1; day <= lastDay; day++) {
+            const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            scores[dateStr] = 0;
+          }
+          resolve(scores);
+          return;
+        }
+        
+        const actionsTx = db.transaction(STORES.ACTIONS, 'readonly');
+        const actionsStore = actionsTx.objectStore(STORES.ACTIONS);
+        const actionsIndex = actionsStore.index(INDEXES.ACTIONS.DATE_HABIT);
+        
+        const actionsRequest = actionsIndex.getAll(IDBKeyRange.bound(
+          [startDate, '0'.padStart(20, '0')],
+          [endDate, '9'.padStart(20, '9')]
+        ));
+        
+        actionsRequest.onsuccess = () => {
+          const actions = actionsRequest.result || [];
+          
+          const completionsByDate = {};
+          actions.forEach(action => {
+            const date = action[ACTION_COLUMNS.DATE];
+            if (!completionsByDate[date]) {
+              completionsByDate[date] = new Set();
+            }
+            completionsByDate[date].add(action[ACTION_COLUMNS.HABIT_ID]);
+          });
+          
+          const scores = {};
+          for (let day = 1; day <= lastDay; day++) {
+            const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const completedCount = completionsByDate[dateStr]?.size || 0;
+            scores[dateStr] = totalHabits > 0 ? (completedCount / totalHabits) * 100 : 0;
+          }
+          
+          resolve(scores);
+        };
+        
+        actionsRequest.onerror = () => reject(actionsRequest.error);
+      };
+      
+      habitsRequest.onerror = () => reject(habitsRequest.error);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export const calculatePaceForHabit = async (habitId) => {
   const db = await openDB();
   
