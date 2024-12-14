@@ -39,13 +39,6 @@ export function DailyView() {
     }, [setSearchParams]);
 
     useEffect(() => {
-        const updateScore = () => {
-            const event = new CustomEvent('scoreUpdate', {
-                detail: scoreState
-            });
-            window.dispatchEvent(event);
-        };
-
         const countCompletedHabits = async () => {
             let count = 0;
             for (const habit of safeHabits) {
@@ -55,9 +48,8 @@ export function DailyView() {
             return count;
         };
 
-        const handleHabitToggle = async () => {
-            const completed = await countCompletedHabits();
-            const newScore = { completed, total: safeHabits.length };
+        const updateScoreDisplay = (completed, total) => {
+            const newScore = { completed, total };
             setScoreState(newScore);
 
             const event = new CustomEvent('scoreUpdate', {
@@ -66,16 +58,26 @@ export function DailyView() {
             window.dispatchEvent(event);
         };
 
+        const handleHabitToggle = async () => {
+            const completed = await countCompletedHabits();
+            updateScoreDisplay(completed, safeHabits.length);
+        };
+
+        const handleRequestScoreUpdate = async () => {
+            const completed = await countCompletedHabits();
+            updateScoreDisplay(completed, safeHabits.length);
+        };
+
         window.addEventListener('habitToggled', handleHabitToggle);
-        window.addEventListener('requestScoreUpdate', updateScore);
+        window.addEventListener('requestScoreUpdate', handleRequestScoreUpdate);
 
         countCompletedHabits().then(completed => {
-            setScoreState({ completed, total: safeHabits.length });
+            updateScoreDisplay(completed, safeHabits.length);
         });
 
         return () => {
             window.removeEventListener('habitToggled', handleHabitToggle);
-            window.removeEventListener('requestScoreUpdate', updateScore);
+            window.removeEventListener('requestScoreUpdate', handleRequestScoreUpdate);
         };
     }, [selectedDate, safeHabits]);
 
