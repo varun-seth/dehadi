@@ -2,9 +2,20 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import * as Icons from 'lucide-react';
 import * as db from '@/lib/db';
+import { ICON_PAIRS } from './HabitForm';
 
 const HabitItem = React.memo(({ habit, date }) => {
-    const IconComponent = Icons[habit.icon];
+    const hasPairedIcon = ICON_PAIRS[habit.icon];
+    const isCheckIcon = habit.icon === 'Check';
+
+    const IconComponent = isCheckIcon
+        ? Icons.Square
+        : Icons[habit.icon];
+
+    const CompletedIconComponent = hasPairedIcon
+        ? Icons[ICON_PAIRS[habit.icon]]
+        : Icons[habit.icon];
+
     const [isCompleted, setIsCompleted] = useState(false);
     const [pace, setPace] = useState(null);
 
@@ -120,15 +131,24 @@ const HabitItem = React.memo(({ habit, date }) => {
                             "transition-all duration-300 ease-out"
                         )}
                     >
-                        <IconComponent
-                            className={cn(
-                                "w-6 h-6 transition-all duration-300 ease-out",
-                                isCompleted && "text-background"
-                            )}
-                            style={{
-                                color: !isCompleted ? habitColor : undefined
-                            }}
-                        />
+                        {isCompleted && CompletedIconComponent ? (
+                            <CompletedIconComponent
+                                className={cn(
+                                    "w-6 h-6 transition-all duration-300 ease-out",
+                                    "text-background"
+                                )}
+                            />
+                        ) : (
+                            <IconComponent
+                                className={cn(
+                                    "w-6 h-6 transition-all duration-300 ease-out",
+                                    isCompleted && "text-background"
+                                )}
+                                style={{
+                                    color: !isCompleted ? habitColor : undefined
+                                }}
+                            />
+                        )}
                     </div>
                 )}
                 <span

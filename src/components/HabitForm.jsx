@@ -9,6 +9,26 @@ import { Card } from "@/components/ui/card";
 import { IconPicker } from './IconPicker';
 import * as Icons from 'lucide-react';
 import {
+    Check,
+    CheckSquare,
+    Square,
+    BadgeCheck,
+    Badge,
+    CircleCheck,
+    Circle,
+    MailCheck,
+    Mail,
+    UserCheck,
+    User,
+    FileCheck,
+    File,
+    AlarmClockCheck,
+    AlarmClock,
+    SearchCheck,
+    Search,
+    LaptopMinimalCheck,
+    LaptopMinimal,
+    BookOpenCheck,
     Dumbbell,
     BookOpen,
     Brain,
@@ -68,7 +88,20 @@ const COLORS = [
     '#d946ef', // fuchsia
 ];
 
+export const ICON_PAIRS = {
+    'Check': 'CheckSquare',
+    'Circle': 'CircleCheck',
+};
+
 export const ICONS = [
+    { name: 'Check', component: Check },
+    { name: 'Circle', component: Circle },
+    { name: 'Mail', component: Mail },
+    { name: 'User', component: User },
+    { name: 'File', component: File },
+    { name: 'AlarmClock', component: AlarmClock },
+    { name: 'Search', component: Search },
+    { name: 'LaptopMinimal', component: LaptopMinimal },
     { name: 'Dumbbell', component: Dumbbell },
     { name: 'Footprints', component: Footprints },
     { name: 'Bath', component: Bath },
@@ -163,7 +196,10 @@ export function HabitForm() {
         setFormData({ ...formData, icon, color });
     };
 
-    const IconComponent = Icons[formData.icon];
+    const hasPairedIcon = ICON_PAIRS[formData.icon];
+    const IconComponent = hasPairedIcon
+        ? Icons[ICON_PAIRS[formData.icon]]
+        : Icons[formData.icon];
 
     return (
         <div className="space-y-6">
@@ -183,11 +219,10 @@ export function HabitForm() {
                                 <button
                                     type="button"
                                     className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center cursor-pointer shadow-sm"
-                                    style={{ backgroundColor: formData.color }}
                                     onClick={() => setIsIconPickerOpen(true)}
                                     title="Click to change icon and color"
                                 >
-                                    {IconComponent && <IconComponent className="w-7 h-7 text-white" />}
+                                    {IconComponent && <IconComponent className="w-7 h-7" style={{ color: formData.color }} />}
                                 </button>
 
                                 {/* Name Input */}

@@ -93,6 +93,10 @@ export function DailyView() {
         return <div className="text-center text-destructive p-4">Error loading habits: {habitsError}</div>;
     }
 
+    const sortedHabits = [...safeHabits].sort((a, b) =>
+        a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+    );
+
     return (
         <div className="px-4 pt-6 pb-4">
             {safeHabits.length === 0 ? (
@@ -103,7 +107,7 @@ export function DailyView() {
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {safeHabits.map((habit) => (
+                    {sortedHabits.map((habit) => (
                         <HabitItem
                             key={habit.id}
                             habit={habit}

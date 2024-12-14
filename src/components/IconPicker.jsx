@@ -7,8 +7,9 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ICONS } from './HabitForm';
+import { ICONS, ICON_PAIRS } from './HabitForm';
 import { cn } from '@/lib/utils';
+import * as Icons from 'lucide-react';
 
 const COLORS = [
     '#ef4444', // red
@@ -68,24 +69,30 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                     <div className="space-y-2">
                         <h3 className="text-sm font-medium">Icon</h3>
                         <div className="grid grid-cols-6 gap-2 max-h-[300px] overflow-y-auto pr-2">
-                            {ICONS.map(({ name, component: Icon }) => (
-                                <button
-                                    key={name}
-                                    type="button"
-                                    className={cn(
-                                        "w-full aspect-square rounded flex items-center justify-center",
-                                        "border-2",
-                                        selectedIcon === name
-                                            ? "border-primary"
-                                            : "border-muted",
-                                        "hover:bg-accent"
-                                    )}
-                                    onClick={() => setSelectedIcon(name)}
-                                    title={name}
-                                >
-                                    <Icon className="w-6 h-6" />
-                                </button>
-                            ))}
+                            {ICONS.map(({ name, component: Icon }) => {
+                                const DisplayIcon = ICON_PAIRS[name]
+                                    ? Icons[ICON_PAIRS[name]]
+                                    : Icon;
+
+                                return (
+                                    <button
+                                        key={name}
+                                        type="button"
+                                        className={cn(
+                                            "w-full aspect-square rounded flex items-center justify-center",
+                                            "border-2",
+                                            selectedIcon === name
+                                                ? "border-primary"
+                                                : "border-muted",
+                                            "hover:bg-accent"
+                                        )}
+                                        onClick={() => setSelectedIcon(name)}
+                                        title={name}
+                                    >
+                                        <DisplayIcon className="w-6 h-6" />
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
