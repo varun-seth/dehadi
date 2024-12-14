@@ -138,19 +138,33 @@ export const updateHabit = async (id, updates) => {
 
 export const deleteHabit = async (id) => {
   const db = await openDB();
-  const tx = db.transaction([STORES.HABITS, STORES.ACTIONS], 'readwrite');
-  
-  await tx.objectStore(STORES.HABITS).delete(id);
-  
-  const actionStore = tx.objectStore(STORES.ACTIONS);
-  const actionKeys = await actionStore.getAllKeys(IDBKeyRange.bound(
-    [id, ''],
-    [id, '\uffff']
-  ));
-  
-  for (const key of actionKeys) {
-    await actionStore.delete(key);
-  }
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORES.HABITS, STORES.ACTIONS], 'readwrite');
+    
+    tx.objectStore(STORES.HABITS).delete(id);
+    
+    const actionStore = tx.objectStore(STORES.ACTIONS);
+    const getAllKeysRequest = actionStore.getAllKeys(IDBKeyRange.bound(
+      [id, ''],
+      [id, '\uffff']
+    ));
+    
+    getAllKeysRequest.onsuccess = () => {
+      const actionKeys = getAllKeysRequest.result;
+      
+      for (const key of actionKeys) {
+        actionStore.delete(key);
+      }
+    };
+    
+    getAllKeysRequest.onerror = () => reject(getAllKeysRequest.error);
+    
+    tx.oncomplete = () => {
+      db.close();
+      resolve();
+    };
+    tx.onerror = () => reject(tx.error);
+  });
 };
 
 export const getAllHabits = async () => {
