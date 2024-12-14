@@ -6,6 +6,7 @@ import * as db from '@/lib/db';
 const HabitItem = React.memo(({ habit, date }) => {
     const IconComponent = Icons[habit.icon];
     const [isCompleted, setIsCompleted] = useState(false);
+    const [pace, setPace] = useState(null);
 
     useEffect(() => {
         let mounted = true;
@@ -28,6 +29,37 @@ const HabitItem = React.memo(({ habit, date }) => {
         };
     }, [habit.id, date]);
 
+    useEffect(() => {
+        let mounted = true;
+
+        const calculatePace = async () => {
+            try {
+                const paceValue = await db.calculatePaceForHabit(habit.id);
+                if (mounted) {
+                    setPace(paceValue);
+                }
+            } catch (error) {
+                console.error('Failed to calculate pace:', error);
+            }
+        };
+
+        calculatePace();
+
+        const handlePaceUpdate = async (event) => {
+            if (event.detail.habitId === habit.id && mounted) {
+                const paceValue = await db.calculatePaceForHabit(habit.id);
+                setPace(paceValue);
+            }
+        };
+
+        window.addEventListener('paceUpdate', handlePaceUpdate);
+
+        return () => {
+            mounted = false;
+            window.removeEventListener('paceUpdate', handlePaceUpdate);
+        };
+    }, [habit.id]);
+
     const handleToggle = useCallback(async (e) => {
         if (e) {
             e.stopPropagation();
@@ -36,7 +68,6 @@ const HabitItem = React.memo(({ habit, date }) => {
         const previousState = isCompleted;
         const optimisticState = !isCompleted;
 
-        // Optimistically update UI
         setIsCompleted(optimisticState);
 
         try {
@@ -46,12 +77,19 @@ const HabitItem = React.memo(({ habit, date }) => {
                 setIsCompleted(newState);
             }
 
+            const paceValue = await db.calculatePaceForHabit(habit.id);
+            setPace(paceValue);
+
             const event = new CustomEvent('habitToggled', {
                 detail: { habitId: habit.id, date, completed: newState }
             });
             window.dispatchEvent(event);
+
+            const paceUpdateEvent = new CustomEvent('paceUpdate', {
+                detail: { habitId: habit.id }
+            });
+            window.dispatchEvent(paceUpdateEvent);
         } catch (error) {
-            // Revert on error
             setIsCompleted(previousState);
             console.error('Failed to toggle habit:', error);
         }
@@ -103,6 +141,17 @@ const HabitItem = React.memo(({ habit, date }) => {
                     {habit.name}
                 </span>
             </div>
+            {pace !== null && (
+                <div
+                    className={cn(
+                        "px-2 py-1 rounded-md text-xs font-semibold shrink-0",
+                        "transition-all duration-300 ease-out",
+                        isCompleted ? "bg-background/20 text-background" : "bg-muted text-muted-foreground"
+                    )}
+                >
+                    {pace}%
+                </div>
+            )}
         </div>
     );
 });

@@ -248,3 +248,68 @@ export const isHabitCompletedForDate = async (habitId, date) => {
     tx.onerror = () => reject(tx.error);
   });
 };
+
+export const calculatePaceForHabit = async (habitId) => {
+  const db = await openDB();
+  
+  return new Promise(async (resolve, reject) => {
+    const habitTx = db.transaction('habits', 'readonly');
+    const habitStore = habitTx.objectStore('habits');
+    const habitRequest = habitStore.get(habitId);
+    
+    habitRequest.onsuccess = async () => {
+      const habit = habitRequest.result;
+      if (!habit) {
+        resolve(0);
+        return;
+      }
+      
+      const habitCreatedDate = new Date(habit.created_at);
+      habitCreatedDate.setHours(0, 0, 0, 0);
+      
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const actionsTx = db.transaction('actions', 'readonly');
+      const actionsStore = actionsTx.objectStore('actions');
+      
+      const actionsRequest = actionsStore.getAll(IDBKeyRange.bound(
+        [habitId, ''],
+        [habitId, '\uffff']
+      ));
+      
+      actionsRequest.onsuccess = () => {
+        const actions = actionsRequest.result || [];
+        
+        if (actions.length === 0) {
+          resolve(0);
+          return;
+        }
+        
+        const uniqueDates = new Set();
+        let earliestActionDate = null;
+        
+        actions.forEach(action => {
+          uniqueDates.add(action.date);
+          
+          const actionDate = new Date(action.date);
+          if (!earliestActionDate || actionDate < earliestActionDate) {
+            earliestActionDate = actionDate;
+          }
+        });
+        
+        const startDate = earliestActionDate < habitCreatedDate ? earliestActionDate : habitCreatedDate;
+        const daysSinceCreation = Math.ceil((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
+        
+        const daysCompleted = uniqueDates.size;
+        const pace = daysSinceCreation > 0 ? (daysCompleted / daysSinceCreation) * 100 : 0;
+        
+        resolve(Math.round(pace * 10) / 10);
+      };
+      
+      actionsRequest.onerror = () => reject(actionsRequest.error);
+    };
+    
+    habitRequest.onerror = () => reject(habitRequest.error);
+  });
+};
