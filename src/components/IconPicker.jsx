@@ -37,10 +37,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle>Customize Habit</DialogTitle>
-                    <DialogDescription>
-                        Choose an icon and color for your habit
-                    </DialogDescription>
+                    <DialogTitle>Customize Habit Appearance</DialogTitle>
                 </DialogHeader>
 
                 <div className="space-y-6 py-4">
@@ -55,8 +52,8 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                     className={cn(
                                         "w-10 h-10 rounded-full border-2 transition-all",
                                         selectedColor === color
-                                            ? 'border-primary scale-110'
-                                            : 'border-transparent hover:scale-105'
+                                            ? 'ring-2 ring-foreground scale-110'
+                                            : 'border-background hover:scale-105'
                                     )}
                                     style={{ backgroundColor: color }}
                                     onClick={() => setSelectedColor(color)}
@@ -68,7 +65,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                     {/* Icon Selection */}
                     <div className="space-y-2">
                         <h3 className="text-sm font-medium">Icon</h3>
-                        <div className="grid grid-cols-6 gap-2 max-h-[300px] overflow-y-auto pr-2">
+                        <div className="grid grid-cols-10 gap-2 max-h-[300px] overflow-y-auto pr-5">
                             {ICONS.map(({ name, component: Icon }) => {
                                 const DisplayIcon = ICON_PAIRS[name]
                                     ? Icons[ICON_PAIRS[name]]
@@ -79,7 +76,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                         key={name}
                                         type="button"
                                         className={cn(
-                                            "w-full aspect-square rounded flex items-center justify-center",
+                                            "w-full aspect-square rounded flex items-center justify-center p-1.5",
                                             "border-2",
                                             selectedIcon === name
                                                 ? "border-primary"
@@ -89,7 +86,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                         onClick={() => setSelectedIcon(name)}
                                         title={name}
                                     >
-                                        <DisplayIcon className="w-6 h-6" />
+                                        <DisplayIcon className="w-5 h-5" />
                                     </button>
                                 );
                             })}
