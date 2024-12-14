@@ -66,10 +66,11 @@ const HabitItem = React.memo(({ habit, date }) => {
                 "transition-all duration-300 ease-out",
                 "cursor-pointer",
                 "active:scale-[0.98]",
-                "shadow-sm"
+                "shadow-sm",
+                !isCompleted && "bg-card"
             )}
             style={{
-                backgroundColor: isCompleted ? habitColor : 'white'
+                backgroundColor: isCompleted ? habitColor : undefined
             }}
             onClick={handleToggle}
         >
@@ -82,9 +83,12 @@ const HabitItem = React.memo(({ habit, date }) => {
                         )}
                     >
                         <IconComponent
-                            className="w-6 h-6 transition-all duration-300 ease-out"
+                            className={cn(
+                                "w-6 h-6 transition-all duration-300 ease-out",
+                                isCompleted && "text-background"
+                            )}
                             style={{
-                                color: isCompleted ? 'white' : habitColor
+                                color: !isCompleted ? habitColor : undefined
                             }}
                         />
                     </div>
@@ -92,11 +96,9 @@ const HabitItem = React.memo(({ habit, date }) => {
                 <span
                     className={cn(
                         "text-base font-medium leading-snug flex-1",
-                        "transition-all duration-300 ease-out"
+                        "transition-all duration-300 ease-out",
+                        isCompleted && "text-background"
                     )}
-                    style={{
-                        color: isCompleted ? 'white' : 'inherit'
-                    }}
                 >
                     {habit.name}
                 </span>

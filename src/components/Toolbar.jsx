@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { CalendarCheck, ChevronLeftIcon, ChevronRightIcon, Settings } from 'lucide-react';
+import { CalendarCheck, ChevronLeftIcon, ChevronRightIcon, Settings, ListChecks } from 'lucide-react';
 import { Calendar } from "@/components/ui/calendar";
 import {
     Dialog,
@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ScoreDisplay } from './ScoreDisplay';
+import { SettingsDialog } from './SettingsDialog';
 import * as dateService from '@/lib/dateService';
 
 /**
@@ -19,6 +20,7 @@ export function Toolbar() {
     const location = useLocation();
     const dateTextRef = useRef(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const isDailyView = location.pathname === '/';
 
@@ -103,16 +105,28 @@ export function Toolbar() {
                             className="group relative"
                         >
                             <Link to="/habits">
-                                <Settings className="h-4 w-4" />
+                                <ListChecks className="h-4 w-4" />
                                 <span className="absolute -bottom-8 right-0 scale-0 transition-all group-hover:scale-100 rounded bg-secondary px-2 py-1 text-xs">
                                     Manage habits
                                 </span>
                             </Link>
                         </Button>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setIsSettingsOpen(true)}
+                            className="group relative"
+                        >
+                            <Settings className="h-4 w-4" />
+                            <span className="absolute -bottom-8 right-0 scale-0 transition-all group-hover:scale-100 rounded bg-secondary px-2 py-1 text-xs">
+                                Settings
+                            </span>
+                        </Button>
                         <ScoreDisplay />
                     </div>
                 </>
             )}
+            <SettingsDialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
         </div>
     );
 }

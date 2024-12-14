@@ -1,9 +1,10 @@
 # Dihadi
 
-"Dihadi" in hindi stands for "day work" and this is a simple habit tracking app.
+Dihadi is an acronym for "Diurnal Harmony Directive" - a complex title for a simple habit tracking app.
 
-This uses modern libraries like React, Vite, TailwindCSS + Shadcn UI.
+Also, "Dihadi" in hindi stands for "day work", although it is used in the context of daily wage labor.
 
+This app uses modern libraries like React, Vite, TailwindCSS + Shadcn UI.
 
 ## Development
 
