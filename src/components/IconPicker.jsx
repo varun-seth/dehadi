@@ -7,7 +7,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ICONS, ICON_PAIRS } from './HabitForm';
+import { ICONS, ICON_PAIRS } from '@/lib/iconRegistry';
 import { cn } from '@/lib/utils';
 import * as Icons from 'lucide-react';
 

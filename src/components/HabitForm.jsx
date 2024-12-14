@@ -8,72 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { IconPicker } from './IconPicker';
 import * as Icons from 'lucide-react';
-import {
-    Check,
-    CheckSquare,
-    Square,
-    BadgeCheck,
-    Badge,
-    CircleCheck,
-    Circle,
-    MailCheck,
-    Mail,
-    UserCheck,
-    User,
-    FileCheck,
-    File,
-    AlarmClockCheck,
-    AlarmClock,
-    SearchCheck,
-    Search,
-    LaptopMinimalCheck,
-    LaptopMinimal,
-    BookOpenCheck,
-    Dumbbell,
-    BookOpen,
-    Brain,
-    Heart,
-    Phone,
-    Bath,
-    Languages,
-    PenLine,
-    Puzzle,
-    Footprints,
-    Apple,
-    Users,
-    Coffee,
-    Moon,
-    Sun,
-    Utensils,
-    Bed,
-    Music,
-    Camera,
-    Droplet,
-    Smile,
-    Bike,
-    Clipboard,
-    Home,
-    Leaf,
-    MessageCircle,
-    ShoppingCart,
-    Sparkles,
-    Target,
-    Zap,
-    Wind,
-    Trophy,
-    Timer,
-    Briefcase,
-    Palette,
-    Waves,
-    Lightbulb,
-    Laptop,
-    Pill,
-    Dog,
-    Flower,
-    TreePine,
-    Cookie,
-    Salad
-} from 'lucide-react';
+import { ICONS, ICON_PAIRS, searchIconForHabit } from '@/lib/iconRegistry';
 
 const COLORS = [
     '#ef4444', // red
@@ -88,71 +23,14 @@ const COLORS = [
     '#d946ef', // fuchsia
 ];
 
-export const ICON_PAIRS = {
-    'Check': 'CheckSquare',
-    'Circle': 'CircleCheck',
-};
-
-export const ICONS = [
-    { name: 'Check', component: Check },
-    { name: 'Circle', component: Circle },
-    { name: 'Mail', component: Mail },
-    { name: 'User', component: User },
-    { name: 'File', component: File },
-    { name: 'AlarmClock', component: AlarmClock },
-    { name: 'Search', component: Search },
-    { name: 'LaptopMinimal', component: LaptopMinimal },
-    { name: 'Dumbbell', component: Dumbbell },
-    { name: 'Footprints', component: Footprints },
-    { name: 'Bath', component: Bath },
-    { name: 'BookOpen', component: BookOpen },
-    { name: 'Languages', component: Languages },
-    { name: 'Brain', component: Brain },
-    { name: 'Puzzle', component: Puzzle },
-    { name: 'PenLine', component: PenLine },
-    { name: 'Apple', component: Apple },
-    { name: 'Heart', component: Heart },
-    { name: 'Users', component: Users },
-    { name: 'Phone', component: Phone },
-    { name: 'Coffee', component: Coffee },
-    { name: 'Moon', component: Moon },
-    { name: 'Sun', component: Sun },
-    { name: 'Utensils', component: Utensils },
-    { name: 'Bed', component: Bed },
-    { name: 'Music', component: Music },
-    { name: 'Camera', component: Camera },
-    { name: 'Droplet', component: Droplet },
-    { name: 'Smile', component: Smile },
-    { name: 'Bike', component: Bike },
-    { name: 'Clipboard', component: Clipboard },
-    { name: 'Home', component: Home },
-    { name: 'Leaf', component: Leaf },
-    { name: 'MessageCircle', component: MessageCircle },
-    { name: 'ShoppingCart', component: ShoppingCart },
-    { name: 'Sparkles', component: Sparkles },
-    { name: 'Target', component: Target },
-    { name: 'Zap', component: Zap },
-    { name: 'Wind', component: Wind },
-    { name: 'Trophy', component: Trophy },
-    { name: 'Timer', component: Timer },
-    { name: 'Briefcase', component: Briefcase },
-    { name: 'Palette', component: Palette },
-    { name: 'Waves', component: Waves },
-    { name: 'Lightbulb', component: Lightbulb },
-    { name: 'Laptop', component: Laptop },
-    { name: 'Pill', component: Pill },
-    { name: 'Dog', component: Dog },
-    { name: 'Flower', component: Flower },
-    { name: 'TreePine', component: TreePine },
-    { name: 'Cookie', component: Cookie },
-    { name: 'Salad', component: Salad }
-];
+export { ICON_PAIRS, ICONS };
 
 export function HabitForm() {
     const navigate = useNavigate();
     const { id } = useParams();
     const { createHabit, updateHabit, loading, error } = useHabits();
     const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
+    const [isIconLocked, setIsIconLocked] = useState(false);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -163,7 +41,6 @@ export function HabitForm() {
 
     useEffect(() => {
         if (id) {
-            // Load habit data if editing
             const loadHabit = async () => {
                 try {
                     const habit = await getHabit(id);
@@ -176,7 +53,17 @@ export function HabitForm() {
             };
             loadHabit();
         }
+        setIsIconLocked(false);
     }, [id]);
+
+    useEffect(() => {
+        if (formData.name && !isIconLocked) {
+            const suggestedIcon = searchIconForHabit(formData.name);
+            if (suggestedIcon) {
+                setFormData(prev => ({ ...prev, icon: suggestedIcon }));
+            }
+        }
+    }, [formData.name, isIconLocked]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -194,6 +81,7 @@ export function HabitForm() {
 
     const handleIconColorSelect = ({ icon, color }) => {
         setFormData({ ...formData, icon, color });
+        setIsIconLocked(true);
     };
 
     const hasPairedIcon = ICON_PAIRS[formData.icon];

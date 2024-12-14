@@ -1,0 +1,684 @@
+{
+    "iconPairs": {
+        "Check": "CheckSquare",
+        "Circle": "CircleCheck"
+    },
+    "icons": [
+        {
+            "name": "Check",
+            "description": "General task completion",
+            "tags": [
+                "task",
+                "complete",
+                "done",
+                "todo",
+                "checklist",
+                "tick",
+                "mark",
+                "finish"
+            ]
+        },
+        {
+            "name": "Circle",
+            "description": "Basic habit tracking",
+            "tags": [
+                "basic",
+                "simple",
+                "round",
+                "general",
+                "default"
+            ]
+        },
+        {
+            "name": "Mail",
+            "description": "Email and communication",
+            "tags": [
+                "email",
+                "message",
+                "inbox",
+                "letter",
+                "communication",
+                "correspondence"
+            ]
+        },
+        {
+            "name": "User",
+            "description": "Personal habits and self-care",
+            "tags": [
+                "personal",
+                "self",
+                "me",
+                "individual",
+                "profile",
+                "person"
+            ]
+        },
+        {
+            "name": "File",
+            "description": "Documentation and paperwork",
+            "tags": [
+                "document",
+                "paper",
+                "paperwork",
+                "filing",
+                "organize",
+                "admin"
+            ]
+        },
+        {
+            "name": "AlarmClock",
+            "description": "Wake up and time-based habits",
+            "tags": [
+                "wake",
+                "wakeup",
+                "morning",
+                "time",
+                "alarm",
+                "clock",
+                "schedule",
+                "reminder"
+            ]
+        },
+        {
+            "name": "LaptopMinimal",
+            "description": "Computer work and coding",
+            "tags": [
+                "computer",
+                "work",
+                "code",
+                "coding",
+                "programming",
+                "develop",
+                "tech",
+                "screen"
+            ]
+        },
+        {
+            "name": "Dumbbell",
+            "description": "Exercise and strength training",
+            "tags": [
+                "exercise",
+                "workout",
+                "gym",
+                "fitness",
+                "strength",
+                "training",
+                "lift",
+                "weights",
+                "muscle"
+            ]
+        },
+        {
+            "name": "Footprints",
+            "description": "Walking and steps",
+            "tags": [
+                "walk",
+                "walking",
+                "steps",
+                "stroll",
+                "hike",
+                "hiking",
+                "move",
+                "movement"
+            ]
+        },
+        {
+            "name": "ShowerHead",
+            "description": "Shower and hygiene",
+            "tags": [
+                "shower",
+                "bath",
+                "clean",
+                "hygiene",
+                "wash",
+                "bathing",
+                "cleanse"
+            ]
+        },
+        {
+            "name": "BookOpen",
+            "description": "Reading and study",
+            "tags": [
+                "read",
+                "reading",
+                "book",
+                "study",
+                "learn",
+                "education",
+                "literature",
+                "novel"
+            ]
+        },
+        {
+            "name": "Languages",
+            "description": "Language learning",
+            "tags": [
+                "language",
+                "learn",
+                "translate",
+                "foreign",
+                "speak",
+                "linguistic",
+                "vocabulary"
+            ]
+        },
+        {
+            "name": "Brain",
+            "description": "Mental exercises and mindfulness",
+            "tags": [
+                "think",
+                "mental",
+                "mind",
+                "meditation",
+                "mindfulness",
+                "cognitive",
+                "memory",
+                "brain"
+            ]
+        },
+        {
+            "name": "Puzzle",
+            "description": "Problem-solving and games",
+            "tags": [
+                "puzzle",
+                "game",
+                "solve",
+                "challenge",
+                "problem",
+                "logic",
+                "play"
+            ]
+        },
+        {
+            "name": "PenLine",
+            "description": "Writing and journaling",
+            "tags": [
+                "write",
+                "writing",
+                "journal",
+                "diary",
+                "pen",
+                "author",
+                "compose",
+                "note"
+            ]
+        },
+        {
+            "name": "Apple",
+            "description": "Healthy eating and fruit",
+            "tags": [
+                "eat",
+                "food",
+                "fruit",
+                "healthy",
+                "nutrition",
+                "diet",
+                "health",
+                "vegetable"
+            ]
+        },
+        {
+            "name": "Heart",
+            "description": "Health and wellness",
+            "tags": [
+                "health",
+                "wellness",
+                "care",
+                "love",
+                "cardio",
+                "heartbeat",
+                "vital"
+            ]
+        },
+        {
+            "name": "Users",
+            "description": "Social activities and networking",
+            "tags": [
+                "social",
+                "friends",
+                "family",
+                "people",
+                "group",
+                "team",
+                "networking",
+                "meet"
+            ]
+        },
+        {
+            "name": "Phone",
+            "description": "Phone calls and communication",
+            "tags": [
+                "call",
+                "calling",
+                "telephone",
+                "contact",
+                "communicate",
+                "talk"
+            ]
+        },
+        {
+            "name": "Coffee",
+            "description": "Coffee and beverages",
+            "tags": [
+                "drink",
+                "beverage",
+                "caffeine",
+                "tea",
+                "morning",
+                "break"
+            ]
+        },
+        {
+            "name": "Moon",
+            "description": "Night time and sleep routines",
+            "tags": [
+                "night",
+                "evening",
+                "sleep",
+                "bedtime",
+                "dark",
+                "nighttime"
+            ]
+        },
+        {
+            "name": "Sun",
+            "description": "Morning and daytime activities",
+            "tags": [
+                "morning",
+                "day",
+                "daytime",
+                "sunshine",
+                "bright",
+                "light"
+            ]
+        },
+        {
+            "name": "Utensils",
+            "description": "Meals and eating",
+            "tags": [
+                "meal",
+                "eat",
+                "food",
+                "dining",
+                "lunch",
+                "dinner",
+                "breakfast",
+                "cook",
+                "cooking"
+            ]
+        },
+        {
+            "name": "Bed",
+            "description": "Sleep and rest",
+            "tags": [
+                "sleep",
+                "rest",
+                "nap",
+                "sleeping",
+                "bedtime",
+                "retire"
+            ]
+        },
+        {
+            "name": "Music",
+            "description": "Music and practice",
+            "tags": [
+                "music",
+                "song",
+                "listen",
+                "play",
+                "instrument",
+                "practice",
+                "audio",
+                "sound"
+            ]
+        },
+        {
+            "name": "Camera",
+            "description": "Photography and capturing moments",
+            "tags": [
+                "photo",
+                "photograph",
+                "picture",
+                "capture",
+                "snap",
+                "image",
+                "shoot",
+                "selfie"
+            ]
+        },
+        {
+            "name": "Droplet",
+            "description": "Water and hydration",
+            "tags": [
+                "water",
+                "hydrate",
+                "drink",
+                "hydration",
+                "fluid",
+                "liquid"
+            ]
+        },
+        {
+            "name": "Smile",
+            "description": "Happiness and positivity",
+            "tags": [
+                "happy",
+                "happiness",
+                "joy",
+                "positive",
+                "mood",
+                "gratitude",
+                "thankful"
+            ]
+        },
+        {
+            "name": "Bike",
+            "description": "Cycling and biking",
+            "tags": [
+                "cycle",
+                "cycling",
+                "bicycle",
+                "ride",
+                "biking",
+                "pedal"
+            ]
+        },
+        {
+            "name": "Clipboard",
+            "description": "Planning and organization",
+            "tags": [
+                "plan",
+                "planning",
+                "organize",
+                "list",
+                "schedule",
+                "agenda",
+                "tasks"
+            ]
+        },
+        {
+            "name": "Home",
+            "description": "Home and household chores",
+            "tags": [
+                "house",
+                "chore",
+                "chores",
+                "clean",
+                "household",
+                "domestic",
+                "tidy"
+            ]
+        },
+        {
+            "name": "Leaf",
+            "description": "Nature and environment",
+            "tags": [
+                "nature",
+                "plant",
+                "green",
+                "environment",
+                "garden",
+                "gardening",
+                "outdoor"
+            ]
+        },
+        {
+            "name": "MessageCircle",
+            "description": "Messaging and chatting",
+            "tags": [
+                "message",
+                "chat",
+                "text",
+                "messaging",
+                "conversation",
+                "communicate"
+            ]
+        },
+        {
+            "name": "ShoppingCart",
+            "description": "Shopping and groceries",
+            "tags": [
+                "shop",
+                "shopping",
+                "buy",
+                "purchase",
+                "groceries",
+                "store",
+                "market"
+            ]
+        },
+        {
+            "name": "Sparkles",
+            "description": "Creativity and inspiration",
+            "tags": [
+                "creative",
+                "creativity",
+                "inspire",
+                "inspiration",
+                "art",
+                "magic",
+                "shine"
+            ]
+        },
+        {
+            "name": "Target",
+            "description": "Goals and objectives",
+            "tags": [
+                "goal",
+                "goals",
+                "objective",
+                "aim",
+                "focus",
+                "achievement",
+                "purpose"
+            ]
+        },
+        {
+            "name": "Zap",
+            "description": "Energy and power",
+            "tags": [
+                "energy",
+                "power",
+                "boost",
+                "lightning",
+                "fast",
+                "quick",
+                "speed"
+            ]
+        },
+        {
+            "name": "Wind",
+            "description": "Fresh air and breathing",
+            "tags": [
+                "air",
+                "breathe",
+                "breathing",
+                "fresh",
+                "ventilate",
+                "breeze"
+            ]
+        },
+        {
+            "name": "Trophy",
+            "description": "Achievements and success",
+            "tags": [
+                "achievement",
+                "success",
+                "win",
+                "victory",
+                "accomplish",
+                "award",
+                "prize"
+            ]
+        },
+        {
+            "name": "Timer",
+            "description": "Time management and tracking",
+            "tags": [
+                "time",
+                "timing",
+                "track",
+                "duration",
+                "stopwatch",
+                "countdown"
+            ]
+        },
+        {
+            "name": "Briefcase",
+            "description": "Work and career",
+            "tags": [
+                "work",
+                "job",
+                "career",
+                "business",
+                "office",
+                "professional"
+            ]
+        },
+        {
+            "name": "Palette",
+            "description": "Art and painting",
+            "tags": [
+                "art",
+                "paint",
+                "painting",
+                "draw",
+                "drawing",
+                "artist",
+                "color",
+                "design"
+            ]
+        },
+        {
+            "name": "Waves",
+            "description": "Swimming and water activities",
+            "tags": [
+                "swim",
+                "swimming",
+                "pool",
+                "ocean",
+                "surf",
+                "surfing",
+                "aquatic"
+            ]
+        },
+        {
+            "name": "Lightbulb",
+            "description": "Ideas and innovation",
+            "tags": [
+                "idea",
+                "ideas",
+                "think",
+                "innovation",
+                "creative",
+                "brainstorm",
+                "insight"
+            ]
+        },
+        {
+            "name": "Laptop",
+            "description": "Computer work and productivity",
+            "tags": [
+                "computer",
+                "work",
+                "productivity",
+                "desktop",
+                "screen",
+                "online"
+            ]
+        },
+        {
+            "name": "Pill",
+            "description": "Medicine and supplements",
+            "tags": [
+                "medicine",
+                "medication",
+                "pills",
+                "supplement",
+                "vitamin",
+                "drug",
+                "health"
+            ]
+        },
+        {
+            "name": "Dog",
+            "description": "Pet care and animals",
+            "tags": [
+                "pet",
+                "pets",
+                "animal",
+                "animals",
+                "puppy",
+                "cat",
+                "care"
+            ]
+        },
+        {
+            "name": "Flower",
+            "description": "Flowers and gardening",
+            "tags": [
+                "flower",
+                "flowers",
+                "garden",
+                "gardening",
+                "bloom",
+                "plant",
+                "nature"
+            ]
+        },
+        {
+            "name": "TreePine",
+            "description": "Outdoors and nature",
+            "tags": [
+                "tree",
+                "trees",
+                "outdoor",
+                "outdoors",
+                "nature",
+                "forest",
+                "woods"
+            ]
+        },
+        {
+            "name": "Cookie",
+            "description": "Treats and baking",
+            "tags": [
+                "treat",
+                "bake",
+                "baking",
+                "dessert",
+                "sweet",
+                "snack",
+                "food"
+            ]
+        },
+        {
+            "name": "Salad",
+            "description": "Salads and vegetables",
+            "tags": [
+                "salad",
+                "vegetable",
+                "vegetables",
+                "veggie",
+                "greens",
+                "healthy",
+                "veg",
+                "food"
+            ]
+        },
+        {
+            "name": "Search",
+            "description": "Research and learning",
+            "tags": [
+                "research",
+                "find",
+                "look",
+                "investigate",
+                "explore",
+                "study",
+                "discover"
+            ]
+        }
+    ]
+}
