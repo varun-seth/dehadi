@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { IconPicker } from './IconPicker';
-import { Toolbar } from './Toolbar';
 import * as Icons from 'lucide-react';
 import {
     Dumbbell,
@@ -168,18 +167,14 @@ export function HabitForm() {
 
     return (
         <div className="space-y-6">
-            <Toolbar>
-                <span className="text-sm text-muted-foreground">
+            <div className="border-b py-4 px-4">
+                <h1 className="text-xl font-semibold">
                     {id ? 'Edit Habit' : 'New Habit'}
-                </span>
-            </Toolbar>
+                </h1>
+            </div>
 
             <div className="max-w-2xl mx-auto px-4">
                 <Card className="p-6">
-                    <h1 className="text-2xl font-bold mb-6">
-                        {id ? 'Edit Habit' : 'New Habit'}
-                    </h1>
-
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-2">
                             <Label htmlFor="name">Name</Label>

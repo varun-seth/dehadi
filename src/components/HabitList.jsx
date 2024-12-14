@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useHabits } from '@/lib/hooks';
 import * as Icons from 'lucide-react';
-import { Toolbar } from './Toolbar';
 
 export function HabitList() {
     const { habits, loading, error, deleteHabit } = useHabits();
@@ -14,12 +13,12 @@ export function HabitList() {
 
     return (
         <div className="space-y-6">
-            <Toolbar>
-                <span className="text-sm text-muted-foreground">Manage Habits</span>
+            <div className="flex items-center justify-between border-b py-4 px-4">
+                <h1 className="text-xl font-semibold">Manage Habits</h1>
                 <Button asChild size="sm">
                     <Link to="/habits/new">New Habit</Link>
                 </Button>
-            </Toolbar>
+            </div>
 
             <div className="px-4 space-y-4">
 

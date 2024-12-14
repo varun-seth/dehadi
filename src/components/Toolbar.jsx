@@ -71,9 +71,9 @@ export function Toolbar() {
                     Dihadi
                 </Link>
             </Button>
-            <div className="flex items-center space-x-2">
-                {isDailyView && (
-                    <>
+            {isDailyView && (
+                <>
+                    <div className="flex items-center space-x-2 absolute left-1/2 -translate-x-1/2">
                         <Button variant="ghost" size="icon" onClick={handlePreviousDay}>
                             <ChevronLeftIcon className="h-4 w-4" />
                         </Button>
@@ -94,7 +94,8 @@ export function Toolbar() {
                         <Button variant="ghost" size="icon" onClick={handleNextDay}>
                             <ChevronRightIcon className="h-4 w-4" />
                         </Button>
-                        <ScoreDisplay />
+                    </div>
+                    <div className="flex items-center gap-2">
                         <Button
                             variant="ghost"
                             size="icon"
@@ -108,9 +109,10 @@ export function Toolbar() {
                                 </span>
                             </Link>
                         </Button>
-                    </>
-                )}
-            </div>
+                        <ScoreDisplay />
+                    </div>
+                </>
+            )}
         </div>
     );
 }

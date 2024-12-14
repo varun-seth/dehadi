@@ -119,7 +119,7 @@ export function ScoreDisplay() {
     return (
         <div className="flex items-center gap-3 text-sm">
             <CircularProgressBar size={32} strokeWidth={3} />
-            <span ref={scoreTextRef} className="font-medium">0/0</span>
+            <span ref={scoreTextRef} className="font-medium hidden">0/0</span>
         </div>
     );
 }
