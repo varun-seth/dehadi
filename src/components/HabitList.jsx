@@ -31,7 +31,7 @@ export function HabitList() {
                                         className="w-8 h-8 flex items-center justify-center rounded"
                                         style={{ backgroundColor: habit.color || '#e5e7eb' }}
                                     >
-                                        {React.createElement(Icons[habit.icon], { className: 'w-5 h-5' })}
+                                        {React.createElement(Icons[habit.icon], { className: 'w-5 h-5 text-white' })}
                                     </div>
                                 )}
                                 <div className="flex-1">
