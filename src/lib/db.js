@@ -1,6 +1,38 @@
 const DB_NAME = 'dihadi';
 const DB_VERSION = 1;
 
+const STORES = {
+  HABITS: 'habits',
+  ACTIONS: 'actions'
+};
+
+const HABIT_COLUMNS = {
+  ID: 'id',
+  NAME: 'name',
+  DESCRIPTION: 'description',
+  COLOR: 'color',
+  ICON: 'icon',
+  CREATED_AT: 'created_at',
+  UPDATED_AT: 'updated_at'
+};
+
+const ACTION_COLUMNS = {
+  HABIT_ID: 'habit_id',
+  CREATED_AT: 'created_at',
+  DATE: 'date'
+};
+
+const INDEXES = {
+  HABITS: {
+    NAME: 'name',
+    CREATED_AT: 'created_at',
+    UPDATED_AT: 'updated_at'
+  },
+  ACTIONS: {
+    DATE_HABIT: 'date_habit'
+  }
+};
+
 const openDB = () => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -11,18 +43,22 @@ const openDB = () => {
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
 
-      // Create habits store
-      if (!db.objectStoreNames.contains('habits')) {
-        const habitStore = db.createObjectStore('habits', { keyPath: 'id' });
-        habitStore.createIndex('name', 'name', { unique: false });
-        habitStore.createIndex('created_at', 'created_at', { unique: false });
-        habitStore.createIndex('updated_at', 'updated_at', { unique: false });
+      if (!db.objectStoreNames.contains(STORES.HABITS)) {
+        const habitStore = db.createObjectStore(STORES.HABITS, { keyPath: HABIT_COLUMNS.ID });
+        habitStore.createIndex(INDEXES.HABITS.NAME, HABIT_COLUMNS.NAME, { unique: false });
+        habitStore.createIndex(INDEXES.HABITS.CREATED_AT, HABIT_COLUMNS.CREATED_AT, { unique: false });
+        habitStore.createIndex(INDEXES.HABITS.UPDATED_AT, HABIT_COLUMNS.UPDATED_AT, { unique: false });
       }
 
-      // Create actions store
-      if (!db.objectStoreNames.contains('actions')) {
-        const actionStore = db.createObjectStore('actions', { keyPath: ['habit_id', 'created_at'] });
-        actionStore.createIndex('date_habit', ['date', 'habit_id'], { unique: false });
+      if (!db.objectStoreNames.contains(STORES.ACTIONS)) {
+        const actionStore = db.createObjectStore(STORES.ACTIONS, { 
+          keyPath: [ACTION_COLUMNS.HABIT_ID, ACTION_COLUMNS.CREATED_AT] 
+        });
+        actionStore.createIndex(
+          INDEXES.ACTIONS.DATE_HABIT, 
+          [ACTION_COLUMNS.DATE, ACTION_COLUMNS.HABIT_ID], 
+          { unique: false }
+        );
       }
     };
   });
@@ -36,14 +72,14 @@ const generateId = () => {
 // Habits CRUD operations
 export const createHabit = async (habit) => {
   const db = await openDB();
-  const tx = db.transaction('habits', 'readwrite');
-  const store = tx.objectStore('habits');
+  const tx = db.transaction(STORES.HABITS, 'readwrite');
+  const store = tx.objectStore(STORES.HABITS);
   
   const now = new Date().toISOString();
   const newHabit = {
-    id: generateId(),
-    created_at: now,
-    updated_at: now,
+    [HABIT_COLUMNS.ID]: generateId(),
+    [HABIT_COLUMNS.CREATED_AT]: now,
+    [HABIT_COLUMNS.UPDATED_AT]: now,
     ...habit
   };
   
@@ -54,8 +90,8 @@ export const createHabit = async (habit) => {
 export const getHabit = async (id) => {
   const db = await openDB();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction('habits', 'readonly');
-    const store = tx.objectStore('habits');
+    const tx = db.transaction(STORES.HABITS, 'readonly');
+    const store = tx.objectStore(STORES.HABITS);
     const request = store.get(id);
 
     request.onsuccess = () => resolve(request.result);
@@ -69,8 +105,8 @@ export const getHabit = async (id) => {
 export const updateHabit = async (id, updates) => {
   const db = await openDB();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction('habits', 'readwrite');
-    const store = tx.objectStore('habits');
+    const tx = db.transaction(STORES.HABITS, 'readwrite');
+    const store = tx.objectStore(STORES.HABITS);
     
     const getRequest = store.get(id);
     
@@ -84,7 +120,7 @@ export const updateHabit = async (id, updates) => {
       const updatedHabit = {
         ...habit,
         ...updates,
-        updated_at: new Date().toISOString()
+        [HABIT_COLUMNS.UPDATED_AT]: new Date().toISOString()
       };
       
       const putRequest = store.put(updatedHabit);
@@ -102,17 +138,14 @@ export const updateHabit = async (id, updates) => {
 
 export const deleteHabit = async (id) => {
   const db = await openDB();
-  const tx = db.transaction(['habits', 'actions'], 'readwrite');
+  const tx = db.transaction([STORES.HABITS, STORES.ACTIONS], 'readwrite');
   
-  // Delete the habit
-  await tx.objectStore('habits').delete(id);
+  await tx.objectStore(STORES.HABITS).delete(id);
   
-  // Delete all associated actions
-  const actionStore = tx.objectStore('actions');
-  const actionIndex = actionStore.index('date_habit');
-  const actionKeys = await actionIndex.getAllKeys(IDBKeyRange.bound(
-    [new Date(0), id],
-    [new Date(8640000000000000), id]
+  const actionStore = tx.objectStore(STORES.ACTIONS);
+  const actionKeys = await actionStore.getAllKeys(IDBKeyRange.bound(
+    [id, ''],
+    [id, '\uffff']
   ));
   
   for (const key of actionKeys) {
@@ -123,8 +156,8 @@ export const deleteHabit = async (id) => {
 export const getAllHabits = async () => {
   const db = await openDB();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction('habits', 'readonly');
-    const store = tx.objectStore('habits');
+    const tx = db.transaction(STORES.HABITS, 'readonly');
+    const store = tx.objectStore(STORES.HABITS);
     const request = store.getAll();
 
     request.onsuccess = () => resolve(request.result || []);
@@ -140,11 +173,10 @@ export const toggleHabitForDate = async (habitId, date) => {
   return new Promise(async (resolve, reject) => {
     try {
       const db = await openDB();
-      const tx = db.transaction('actions', 'readwrite');
-      const store = tx.objectStore('actions');
-      const index = store.index('date_habit');
+      const tx = db.transaction(STORES.ACTIONS, 'readwrite');
+      const store = tx.objectStore(STORES.ACTIONS);
+      const index = store.index(INDEXES.ACTIONS.DATE_HABIT);
 
-      // Get all actions for this habit and date
       const request = index.getAll(IDBKeyRange.only([date, habitId]));
 
       request.onsuccess = async () => {
@@ -153,10 +185,9 @@ export const toggleHabitForDate = async (habitId, date) => {
           console.log('Found actions:', existingActions);
 
           if (existingActions.length > 0) {
-            // If action exists, delete it (untoggle)
             for (const action of existingActions) {
-              console.log('Deleting action:', [action.habit_id, action.created_at]);
-              const deleteRequest = store.delete([action.habit_id, action.created_at]);
+              console.log('Deleting action:', [action[ACTION_COLUMNS.HABIT_ID], action[ACTION_COLUMNS.CREATED_AT]]);
+              const deleteRequest = store.delete([action[ACTION_COLUMNS.HABIT_ID], action[ACTION_COLUMNS.CREATED_AT]]);
               await new Promise((res, rej) => {
                 deleteRequest.onsuccess = () => res();
                 deleteRequest.onerror = () => rej(deleteRequest.error);
@@ -164,12 +195,11 @@ export const toggleHabitForDate = async (habitId, date) => {
             }
             resolve(false);
   } else {
-            // If no action exists, create one (toggle on)
             const now = new Date().toISOString();
             const action = {
-              habit_id: habitId,
-              created_at: now,
-              date
+              [ACTION_COLUMNS.HABIT_ID]: habitId,
+              [ACTION_COLUMNS.CREATED_AT]: now,
+              [ACTION_COLUMNS.DATE]: date
             };
             const addRequest = store.add(action);
             await new Promise((res, rej) => {
@@ -192,14 +222,12 @@ export const toggleHabitForDate = async (habitId, date) => {
       reject(error);
     }
   });
-};
-
-export const getActionsForDate = async (date) => {
+};export const getActionsForDate = async (date) => {
   const db = await openDB();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction('actions', 'readonly');
-    const store = tx.objectStore('actions');
-    const index = store.index('date_habit');
+    const tx = db.transaction(STORES.ACTIONS, 'readonly');
+    const store = tx.objectStore(STORES.ACTIONS);
+    const index = store.index(INDEXES.ACTIONS.DATE_HABIT);
     
     const request = index.getAll(IDBKeyRange.bound(
       [date, '0'.padStart(20, '0')],
@@ -208,7 +236,7 @@ export const getActionsForDate = async (date) => {
 
     request.onsuccess = () => {
       const actions = request.result || [];
-      resolve(actions.map(action => [action.habit_id, action.created_at]));
+      resolve(actions.map(action => [action[ACTION_COLUMNS.HABIT_ID], action[ACTION_COLUMNS.CREATED_AT]]));
     };
     request.onerror = () => reject(request.error);
     
@@ -219,9 +247,9 @@ export const getActionsForDate = async (date) => {
 
 export const getActionsBetweenDates = async (startDate, endDate) => {
   const db = await openDB();
-  const tx = db.transaction('actions', 'readonly');
-  const store = tx.objectStore('actions');
-  const index = store.index('date_habit');
+  const tx = db.transaction(STORES.ACTIONS, 'readonly');
+  const store = tx.objectStore(STORES.ACTIONS);
+  const index = store.index(INDEXES.ACTIONS.DATE_HABIT);
   
   return await index.getAll(IDBKeyRange.bound(
     [startDate, '0'.padStart(20, '0')],
@@ -232,9 +260,9 @@ export const getActionsBetweenDates = async (startDate, endDate) => {
 export const isHabitCompletedForDate = async (habitId, date) => {
   const db = await openDB();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction('actions', 'readonly');
-    const store = tx.objectStore('actions');
-    const index = store.index('date_habit');
+    const tx = db.transaction(STORES.ACTIONS, 'readonly');
+    const store = tx.objectStore(STORES.ACTIONS);
+    const index = store.index(INDEXES.ACTIONS.DATE_HABIT);
     
     const request = index.getAll(IDBKeyRange.only([date, habitId]));
 
@@ -253,8 +281,8 @@ export const calculatePaceForHabit = async (habitId) => {
   const db = await openDB();
   
   return new Promise(async (resolve, reject) => {
-    const habitTx = db.transaction('habits', 'readonly');
-    const habitStore = habitTx.objectStore('habits');
+    const habitTx = db.transaction(STORES.HABITS, 'readonly');
+    const habitStore = habitTx.objectStore(STORES.HABITS);
     const habitRequest = habitStore.get(habitId);
     
     habitRequest.onsuccess = async () => {
@@ -264,14 +292,14 @@ export const calculatePaceForHabit = async (habitId) => {
         return;
       }
       
-      const habitCreatedDate = new Date(habit.created_at);
+      const habitCreatedDate = new Date(habit[HABIT_COLUMNS.CREATED_AT]);
       habitCreatedDate.setHours(0, 0, 0, 0);
       
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
-      const actionsTx = db.transaction('actions', 'readonly');
-      const actionsStore = actionsTx.objectStore('actions');
+      const actionsTx = db.transaction(STORES.ACTIONS, 'readonly');
+      const actionsStore = actionsTx.objectStore(STORES.ACTIONS);
       
       const actionsRequest = actionsStore.getAll(IDBKeyRange.bound(
         [habitId, ''],
@@ -290,9 +318,9 @@ export const calculatePaceForHabit = async (habitId) => {
         let earliestActionDate = null;
         
         actions.forEach(action => {
-          uniqueDates.add(action.date);
+          uniqueDates.add(action[ACTION_COLUMNS.DATE]);
           
-          const actionDate = new Date(action.date);
+          const actionDate = new Date(action[ACTION_COLUMNS.DATE]);
           if (!earliestActionDate || actionDate < earliestActionDate) {
             earliestActionDate = actionDate;
           }
