@@ -60,7 +60,7 @@ export function Toolbar() {
     };
 
     return (
-        <div className="flex items-center justify-between border-b py-2 px-4">
+        <div className="sticky top-0 z-50 bg-background flex items-center justify-between border-b py-2 px-4">
             <Button
                 variant="ghost"
                 className="text-lg font-semibold hover:bg-transparent p-0 h-auto flex items-center gap-2"

@@ -228,3 +228,23 @@ export const getActionsBetweenDates = async (startDate, endDate) => {
     [endDate, '9'.padStart(20, '9')]
   ));
 };
+
+export const isHabitCompletedForDate = async (habitId, date) => {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction('actions', 'readonly');
+    const store = tx.objectStore('actions');
+    const index = store.index('date_habit');
+    
+    const request = index.getAll(IDBKeyRange.only([date, habitId]));
+
+    request.onsuccess = () => {
+      const actions = request.result || [];
+      resolve(actions.length > 0);
+    };
+    request.onerror = () => reject(request.error);
+    
+    tx.oncomplete = () => db.close();
+    tx.onerror = () => reject(tx.error);
+  });
+};

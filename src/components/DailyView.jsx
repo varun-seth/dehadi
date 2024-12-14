@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useHabits, useHabitActions } from '@/lib/hooks';
+import { useHabits } from '@/lib/hooks';
 import HabitItem from './HabitItem';
 import * as dateService from '@/lib/dateService';
+import * as db from '@/lib/db';
 
 export function DailyView() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -10,14 +11,12 @@ export function DailyView() {
         const dateParam = searchParams.get('date');
         return dateParam || dateService.getTodayString();
     });
+    const [scoreState, setScoreState] = useState({ completed: 0, total: 0 });
 
     const { habits = [], loading: habitsLoading, error: habitsError } = useHabits();
-    const { actions = [], toggleHabit, loading: actionsLoading, error: actionsError } = useHabitActions(selectedDate);
 
-    // Ensure habits is always an array
     const safeHabits = Array.isArray(habits) ? habits : [];
 
-    // Initialize date from URL on mount
     useEffect(() => {
         const dateParam = searchParams.get('date');
         const initialDate = dateParam || dateService.getTodayString();
@@ -25,7 +24,6 @@ export function DailyView() {
         dateService.setDate(initialDate);
     }, []);
 
-    // Listen for date changes from the date service and update URL
     useEffect(() => {
         const unsubscribe = dateService.onDateChange(({ date }) => {
             setSelectedDate(date);
@@ -40,36 +38,48 @@ export function DailyView() {
         return unsubscribe;
     }, [setSearchParams]);
 
-    // Memoize the completion check for performance
-    const completedHabitsSet = React.useMemo(() => {
-        return new Set(actions.map(action => action[0]));
-    }, [actions]);
-
-    const isHabitCompleted = React.useCallback((habitId) => {
-        return completedHabitsSet.has(habitId);
-    }, [completedHabitsSet]);
-
-    // Send score updates via event - doesn't cause re-renders
-    React.useEffect(() => {
-        const event = new CustomEvent('scoreUpdate', {
-            detail: { completed: actions.length, total: safeHabits.length }
-        });
-        window.dispatchEvent(event);
-
-        // Also listen for initial update requests
-        const handleRequest = () => {
+    useEffect(() => {
+        const updateScore = () => {
             const event = new CustomEvent('scoreUpdate', {
-                detail: { completed: actions.length, total: safeHabits.length }
+                detail: scoreState
             });
             window.dispatchEvent(event);
         };
 
-        window.addEventListener('requestScoreUpdate', handleRequest);
-        return () => window.removeEventListener('requestScoreUpdate', handleRequest);
-    }, [actions.length, safeHabits.length]);
+        const countCompletedHabits = async () => {
+            let count = 0;
+            for (const habit of safeHabits) {
+                const isCompleted = await db.isHabitCompletedForDate(habit.id, selectedDate);
+                if (isCompleted) count++;
+            }
+            return count;
+        };
 
-    // Handle loading and error states
-    if (habitsLoading || actionsLoading) {
+        const handleHabitToggle = async () => {
+            const completed = await countCompletedHabits();
+            const newScore = { completed, total: safeHabits.length };
+            setScoreState(newScore);
+
+            const event = new CustomEvent('scoreUpdate', {
+                detail: newScore
+            });
+            window.dispatchEvent(event);
+        };
+
+        window.addEventListener('habitToggled', handleHabitToggle);
+        window.addEventListener('requestScoreUpdate', updateScore);
+
+        countCompletedHabits().then(completed => {
+            setScoreState({ completed, total: safeHabits.length });
+        });
+
+        return () => {
+            window.removeEventListener('habitToggled', handleHabitToggle);
+            window.removeEventListener('requestScoreUpdate', updateScore);
+        };
+    }, [selectedDate, safeHabits]);
+
+    if (habitsLoading) {
         return (
             <div className="flex items-center justify-center h-64">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -81,12 +91,8 @@ export function DailyView() {
         return <div className="text-center text-destructive p-4">Error loading habits: {habitsError}</div>;
     }
 
-    if (actionsError) {
-        return <div className="text-center text-destructive p-4">Error loading actions: {actionsError}</div>;
-    }
-
     return (
-        <div className="px-4 pt-6">
+        <div className="px-4 pt-6 pb-4">
             {safeHabits.length === 0 ? (
                 <div className="text-center py-12">
                     <p className="text-muted-foreground mb-4">
@@ -99,8 +105,7 @@ export function DailyView() {
                         <HabitItem
                             key={habit.id}
                             habit={habit}
-                            isCompleted={isHabitCompleted(habit.id)}
-                            onToggle={toggleHabit}
+                            date={selectedDate}
                         />
                     ))}
                 </div>

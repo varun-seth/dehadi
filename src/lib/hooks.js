@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import * as db from './db';
 
 export const useHabits = () => {
@@ -73,13 +73,7 @@ export const useHabitActions = (date) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (date) {
-      loadActions();
-    }
-  }, [date]);
-
-  const loadActions = async () => {
+  const loadActions = useCallback(async () => {
     try {
       setLoading(true);
       const actions = await db.getActionsForDate(date);
@@ -92,20 +86,26 @@ export const useHabitActions = (date) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [date]);
 
-  const toggleHabit = async (habitId) => {
+  useEffect(() => {
+    if (date) {
+      loadActions();
+    }
+  }, [date, loadActions]);
+
+  const toggleHabit = useCallback(async (habitId) => {
     try {
       console.log('Toggling habit:', habitId, 'for date:', date);
       const isCompleted = await db.toggleHabitForDate(habitId, date);
       console.log('Toggle result:', isCompleted);
-      await loadActions(); // Refresh actions after toggle
+      await loadActions();
       return isCompleted;
     } catch (err) {
       setError(err.message);
       throw err;
     }
-  };
+  }, [date, loadActions]);
 
   return {
     actions,

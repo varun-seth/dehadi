@@ -9,7 +9,7 @@ export default function App() {
         <Router>
             <div className="min-h-screen bg-background">
                 <Toolbar />
-                <main className="container mx-auto">
+                <main className="container mx-auto pb-8">
                     <Routes>
                         <Route path="/" element={<DailyView />} />
                         <Route path="/habits" element={<HabitList />} />
