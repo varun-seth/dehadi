@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useHabits } from '@/lib/hooks';
+import { getHabit } from '@/lib/db';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { IconPicker } from './IconPicker';
+import { Toolbar } from './Toolbar';
 import * as Icons from 'lucide-react';
 import {
     Dumbbell,
@@ -165,66 +167,74 @@ export function HabitForm() {
     const IconComponent = Icons[formData.icon];
 
     return (
-        <div className="max-w-2xl mx-auto">
-            <Card className="p-6">
-                <h1 className="text-2xl font-bold mb-6">
+        <div className="space-y-6">
+            <Toolbar>
+                <span className="text-sm text-muted-foreground">
                     {id ? 'Edit Habit' : 'New Habit'}
-                </h1>
+                </span>
+            </Toolbar>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
-                        <div className="flex items-center gap-3">
-                            {/* Clickable Icon */}
-                            <button
-                                type="button"
-                                className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center cursor-pointer shadow-sm"
-                                style={{ backgroundColor: formData.color }}
-                                onClick={() => setIsIconPickerOpen(true)}
-                                title="Click to change icon and color"
-                            >
-                                {IconComponent && <IconComponent className="w-7 h-7 text-white" />}
-                            </button>
+            <div className="max-w-2xl mx-auto px-4">
+                <Card className="p-6">
+                    <h1 className="text-2xl font-bold mb-6">
+                        {id ? 'Edit Habit' : 'New Habit'}
+                    </h1>
 
-                            {/* Name Input */}
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="space-y-2">
+                            <Label htmlFor="name">Name</Label>
+                            <div className="flex items-center gap-3">
+                                {/* Clickable Icon */}
+                                <button
+                                    type="button"
+                                    className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center cursor-pointer shadow-sm"
+                                    style={{ backgroundColor: formData.color }}
+                                    onClick={() => setIsIconPickerOpen(true)}
+                                    title="Click to change icon and color"
+                                >
+                                    {IconComponent && <IconComponent className="w-7 h-7 text-white" />}
+                                </button>
+
+                                {/* Name Input */}
+                                <Input
+                                    id="name"
+                                    className="flex-1"
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="description">Description (Optional)</Label>
                             <Input
-                                id="name"
-                                className="flex-1"
-                                value={formData.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                required
+                                id="description"
+                                value={formData.description}
+                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             />
                         </div>
-                    </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="description">Description (Optional)</Label>
-                        <Input
-                            id="description"
-                            value={formData.description}
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        />
-                    </div>
+                        <div className="flex justify-end space-x-4">
+                            <Button type="button" variant="outline" onClick={() => navigate('/habits')}>
+                                Cancel
+                            </Button>
+                            <Button type="submit" disabled={loading}>
+                                {id ? 'Update' : 'Create'} Habit
+                            </Button>
+                        </div>
+                    </form>
 
-                    <div className="flex justify-end space-x-4">
-                        <Button type="button" variant="outline" onClick={() => navigate('/habits')}>
-                            Cancel
-                        </Button>
-                        <Button type="submit" disabled={loading}>
-                            {id ? 'Update' : 'Create'} Habit
-                        </Button>
-                    </div>
-                </form>
-
-                {/* Icon & Color Picker Modal */}
-                <IconPicker
-                    open={isIconPickerOpen}
-                    onOpenChange={setIsIconPickerOpen}
-                    currentIcon={formData.icon}
-                    currentColor={formData.color}
-                    onSelect={handleIconColorSelect}
-                />
-            </Card>
+                    {/* Icon & Color Picker Modal */}
+                    <IconPicker
+                        open={isIconPickerOpen}
+                        onOpenChange={setIsIconPickerOpen}
+                        currentIcon={formData.icon}
+                        currentColor={formData.color}
+                        onSelect={handleIconColorSelect}
+                    />
+                </Card>
+            </div>
         </div>
     );
 }

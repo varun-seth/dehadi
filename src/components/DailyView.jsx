@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ChevronLeftIcon, ChevronRightIcon, Settings, CalendarCheck } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, Settings } from 'lucide-react';
 import { Calendar } from "@/components/ui/calendar";
 import {
     Dialog,
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useHabits, useHabitActions } from '@/lib/hooks';
 
 import HabitItem from './HabitItem';
+import { Toolbar } from './Toolbar';
 
 /**
  * Formats a date string (YYYY-MM-DD) to a human-readable format
@@ -107,71 +108,61 @@ export function DailyView() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between border-b py-2 px-4">
+            <Toolbar>
                 <Button
                     variant="ghost"
-                    className="text-lg font-semibold hover:bg-transparent p-0 h-auto flex items-center gap-2"
-                    onClick={() => setSearchParams({})}
+                    size="icon"
+                    onClick={() => {
+                        setSearchParams({ date: addDays(selectedDate, -1) });
+                    }}
                 >
-                    <CalendarCheck className="w-5 h-5" />
-                    Dihadi
+                    <ChevronLeftIcon className="h-4 w-4" />
                 </Button>
-                <div className="flex items-center space-x-4">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => {
-                            setSearchParams({ date: addDays(selectedDate, -1) });
-                        }}
-                    >
-                        <ChevronLeftIcon className="h-4 w-4" />
-                    </Button>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant="ghost" className="font-medium">
-                                {formatDate(selectedDate)}
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="[&>button]:hidden max-w-fit p-0">
-                            <Calendar
-                                mode="single"
-                                selected={new Date(selectedDate + 'T00:00:00')}
-                                onSelect={(date) => {
-                                    if (date) {
-                                        const year = date.getFullYear();
-                                        const month = String(date.getMonth() + 1).padStart(2, '0');
-                                        const day = String(date.getDate()).padStart(2, '0');
-                                        const dateString = `${year}-${month}-${day}`;
-                                        setSearchParams({ date: dateString });
-                                    }
-                                }}
-                            />
-                        </DialogContent>
-                    </Dialog>
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => {
-                            setSearchParams({ date: addDays(selectedDate, 1) });
-                        }}
-                    >
-                        <ChevronRightIcon className="h-4 w-4" />
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        asChild
-                        className="group relative"
-                    >
-                        <Link to="/habits">
-                            <Settings className="h-4 w-4" />
-                            <span className="absolute -bottom-8 right-0 scale-0 transition-all group-hover:scale-100 rounded bg-secondary px-2 py-1 text-xs">
-                                Manage habits
-                            </span>
-                        </Link>
-                    </Button>
-                </div>
-            </div>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" className="font-medium">
+                            {formatDate(selectedDate)}
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="[&>button]:hidden max-w-fit p-0">
+                        <Calendar
+                            mode="single"
+                            selected={new Date(selectedDate + 'T00:00:00')}
+                            onSelect={(date) => {
+                                if (date) {
+                                    const year = date.getFullYear();
+                                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                                    const day = String(date.getDate()).padStart(2, '0');
+                                    const dateString = `${year}-${month}-${day}`;
+                                    setSearchParams({ date: dateString });
+                                }
+                            }}
+                        />
+                    </DialogContent>
+                </Dialog>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                        setSearchParams({ date: addDays(selectedDate, 1) });
+                    }}
+                >
+                    <ChevronRightIcon className="h-4 w-4" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    asChild
+                    className="group relative"
+                >
+                    <Link to="/habits">
+                        <Settings className="h-4 w-4" />
+                        <span className="absolute -bottom-8 right-0 scale-0 transition-all group-hover:scale-100 rounded bg-secondary px-2 py-1 text-xs">
+                            Manage habits
+                        </span>
+                    </Link>
+                </Button>
+            </Toolbar>
 
             <div className="px-4">
                 {safeHabits.length === 0 ? (

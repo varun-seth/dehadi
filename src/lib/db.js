@@ -53,27 +53,51 @@ export const createHabit = async (habit) => {
 
 export const getHabit = async (id) => {
   const db = await openDB();
-  const tx = db.transaction('habits', 'readonly');
-  const store = tx.objectStore('habits');
-  return await store.get(id);
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction('habits', 'readonly');
+    const store = tx.objectStore('habits');
+    const request = store.get(id);
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+    
+    tx.oncomplete = () => db.close();
+    tx.onerror = () => reject(tx.error);
+  });
 };
 
 export const updateHabit = async (id, updates) => {
   const db = await openDB();
-  const tx = db.transaction('habits', 'readwrite');
-  const store = tx.objectStore('habits');
-  
-  const habit = await store.get(id);
-  if (!habit) throw new Error('Habit not found');
-  
-  const updatedHabit = {
-    ...habit,
-    ...updates,
-    updated_at: new Date().toISOString()
-  };
-  
-  await store.put(updatedHabit);
-  return updatedHabit;
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction('habits', 'readwrite');
+    const store = tx.objectStore('habits');
+    
+    const getRequest = store.get(id);
+    
+    getRequest.onsuccess = () => {
+      const habit = getRequest.result;
+      if (!habit) {
+        reject(new Error('Habit not found'));
+        return;
+      }
+      
+      const updatedHabit = {
+        ...habit,
+        ...updates,
+        updated_at: new Date().toISOString()
+      };
+      
+      const putRequest = store.put(updatedHabit);
+      
+      putRequest.onsuccess = () => resolve(updatedHabit);
+      putRequest.onerror = () => reject(putRequest.error);
+    };
+    
+    getRequest.onerror = () => reject(getRequest.error);
+    
+    tx.oncomplete = () => db.close();
+    tx.onerror = () => reject(tx.error);
+  });
 };
 
 export const deleteHabit = async (id) => {
