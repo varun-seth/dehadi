@@ -7,15 +7,17 @@ import { Toolbar } from '@/components/Toolbar';
 export default function App() {
     return (
         <Router>
-            <div className="min-h-screen bg-background">
+            <div className="flex flex-col h-screen bg-background">
                 <Toolbar />
-                <main className="container mx-auto pb-8">
-                    <Routes>
-                        <Route path="/" element={<DailyView />} />
-                        <Route path="/habits" element={<HabitList />} />
-                        <Route path="/habits/new" element={<HabitForm />} />
-                        <Route path="/habits/:id" element={<HabitForm />} />
-                    </Routes>
+                <main className="flex-1 overflow-y-auto">
+                    <div className="container mx-auto pb-8">
+                        <Routes>
+                            <Route path="/" element={<DailyView />} />
+                            <Route path="/habits" element={<HabitList />} />
+                            <Route path="/habits/new" element={<HabitForm />} />
+                            <Route path="/habits/:id" element={<HabitForm />} />
+                        </Routes>
+                    </div>
                 </main>
             </div>
         </Router>
