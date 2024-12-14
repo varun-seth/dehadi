@@ -1,14 +1,14 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HabitList } from '@/components/HabitList';
 import { HabitForm } from '@/components/HabitForm';
 import { DailyView } from '@/components/DailyView';
+import { Toolbar } from '@/components/Toolbar';
 
 export default function App() {
     return (
         <Router>
             <div className="min-h-screen bg-background">
+                <Toolbar />
                 <main className="container mx-auto">
                     <Routes>
                         <Route path="/" element={<DailyView />} />
