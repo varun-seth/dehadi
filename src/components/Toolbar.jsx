@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { CalendarCheck, ChevronLeftIcon, ChevronRightIcon, Settings, ListChecks, Plus, Pencil, Trash2, ArrowLeft } from 'lucide-react';
+import { ClipboardCheck, ChevronLeftIcon, ChevronRightIcon, Settings, PencilRuler, Plus, Pencil, Trash2, ArrowLeft } from 'lucide-react';
 import { HabitFormDialog } from './HabitFormDialog';
 import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import {
@@ -33,7 +33,8 @@ export function Toolbar() {
     const [monthlyScores, setMonthlyScores] = useState({});
     const [currentMonth, setCurrentMonth] = useState(new Date());
 
-    const isDailyView = location.pathname === '/';
+    const isLandingPage = location.pathname === '/';
+    const isDailyView = location.pathname === '/actions';
     const isHabitsView = location.pathname === '/habits';
     const isHabitDetailView = location.pathname.startsWith('/habits/') && location.pathname !== '/habits/';
     const habitId = isHabitDetailView ? location.pathname.split('/habits/')[1] : null;
@@ -155,32 +156,24 @@ export function Toolbar() {
         );
     };
 
+    if (isLandingPage) {
+        return null;
+    }
+
     return (
         <header className="flex-shrink-0 z-50 bg-background flex items-center justify-between border-b py-2 px-4">
-            {!isHabitDetailView && (
+            {!isHabitDetailView && !isHabitsView && (
                 <div className="flex items-center gap-2">
                     <Button
                         variant="ghost"
                         className="text-lg font-semibold hover:bg-transparent p-0 h-auto flex items-center gap-2"
                         asChild
                     >
-                        <Link to="/" onClick={handleHomeClick}>
-                            <CalendarCheck className="w-5 h-5" />
+                        <Link to="/actions" onClick={handleHomeClick}>
+                            <ClipboardCheck className="w-5 h-5" />
                             <span className="hidden sm:inline">Dihadi</span>
                         </Link>
                     </Button>
-                    {isDailyView && (
-                        <Button
-                            variant="ghost"
-                            className="flex items-center gap-2"
-                            asChild
-                        >
-                            <Link to="/habits">
-                                <ListChecks className="h-4 w-4" />
-                                Habits
-                            </Link>
-                        </Button>
-                    )}
                 </div>
             )}
             {isHabitDetailView && (
@@ -248,8 +241,18 @@ export function Toolbar() {
             )}
             {isHabitsView && (
                 <>
-                    <div className="absolute left-1/2 -translate-x-1/2">
-                        <h1 className="text-lg font-semibold">All Habits</h1>
+                    <div className="flex items-center gap-2">
+                        <Button variant="ghost" onClick={() => navigate('/actions')}>
+                            <ChevronLeftIcon className="h-4 w-4 mr-2" />
+                            <span className="hidden sm:inline">Back</span>
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            className="flex items-center gap-2"
+                        >
+                            <PencilRuler className="h-4 w-4" />
+                            Habits
+                        </Button>
                     </div>
                     <Button size="sm" onClick={() => setIsCreateHabitOpen(true)}>
                         <Plus className="h-4 w-4 mr-1" />

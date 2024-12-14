@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Sun, Moon, Monitor } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Sun, Moon, Monitor, PencilRuler, Home } from 'lucide-react';
 import {
     Dialog,
     DialogContent,
@@ -16,6 +17,7 @@ const THEMES = {
 };
 
 export function SettingsDialog({ open, onOpenChange }) {
+    const navigate = useNavigate();
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem(THEME_KEY) || THEMES.SYSTEM;
     });
@@ -49,13 +51,33 @@ export function SettingsDialog({ open, onOpenChange }) {
         setTheme(newTheme);
     };
 
+    const handleNavigateToHabits = () => {
+        onOpenChange(false);
+        navigate('/habits');
+    };
+
+    const handleNavigateToLanding = () => {
+        onOpenChange(false);
+        window.location.href = '/';
+    };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle>Settings</DialogTitle>
                 </DialogHeader>
-                <div className="space-y-4 py-4">
+                <div className="space-y-6 py-4">
+                    <div>
+                        <Button
+                            variant="outline"
+                            className="w-full flex flex-col gap-3 h-auto py-6"
+                            onClick={handleNavigateToHabits}
+                        >
+                            <PencilRuler className="h-8 w-8" />
+                            <span className="text-sm font-medium">Manage Habits</span>
+                        </Button>
+                    </div>
                     <div>
                         <h3 className="text-sm font-medium mb-3">Theme</h3>
                         <div className="grid grid-cols-3 gap-2">
@@ -82,6 +104,19 @@ export function SettingsDialog({ open, onOpenChange }) {
                             >
                                 <Monitor className="h-5 w-5" />
                                 <span className="text-xs">System</span>
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="pt-4 border-t">
+                        <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                            <span>Dihadi is a habit tracking app</span>
+                            <Button
+                                variant="link"
+                                size="sm"
+                                className="h-auto p-0 text-sm"
+                                onClick={handleNavigateToLanding}
+                            >
+                                home page
                             </Button>
                         </div>
                     </div>

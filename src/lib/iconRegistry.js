@@ -1,6 +1,10 @@
 import * as Icons from 'lucide-react';
 import iconsMetadata from './icons-metadata.json';
 
+export const APP_ICON = 'ClipboardCheck';
+export const ACTIONS_ICON = 'CheckCircle2';
+export const HABITS_ICON = 'PencilRuler';
+
 export const ICON_PAIRS = iconsMetadata.iconPairs;
 
 export const ICONS = iconsMetadata.icons.map(icon => ({

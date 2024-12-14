@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useHabits } from '@/lib/hooks';
 import HabitItem from './HabitItem';
+import { HabitFormDialog } from './HabitFormDialog';
+import { Button } from '@/components/ui/button';
 import * as dateService from '@/lib/dateService';
 import * as db from '@/lib/db';
 
 export function DailyView() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState(() => {
         const dateParam = searchParams.get('date');
         return dateParam || dateService.getTodayString();
     });
     const [scoreState, setScoreState] = useState({ completed: 0, total: 0 });
+    const [isCreateHabitOpen, setIsCreateHabitOpen] = useState(false);
 
     const { habits = [], loading: habitsLoading, error: habitsError } = useHabits();
 
@@ -97,13 +101,21 @@ export function DailyView() {
         a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
     );
 
+    const handleHabitCreated = (newHabitId) => {
+        setIsCreateHabitOpen(false);
+        navigate(`/habits/${newHabitId}`);
+    };
+
     return (
         <div className="px-4 pt-6 pb-4">
             {safeHabits.length === 0 ? (
                 <div className="text-center py-12">
                     <p className="text-muted-foreground mb-4">
-                        No habits created yet. Use the "Habits" button above to add your first habit!
+                        No habits planned for today
                     </p>
+                    <Button onClick={() => setIsCreateHabitOpen(true)}>
+                        Create Habit
+                    </Button>
                 </div>
             ) : (
                 <div className="space-y-4">
@@ -116,6 +128,11 @@ export function DailyView() {
                     ))}
                 </div>
             )}
+            <HabitFormDialog
+                open={isCreateHabitOpen}
+                onOpenChange={setIsCreateHabitOpen}
+                onSuccess={handleHabitCreated}
+            />
         </div>
     );
 }

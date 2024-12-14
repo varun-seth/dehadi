@@ -666,19 +666,6 @@
                 "veg",
                 "food"
             ]
-        },
-        {
-            "name": "Search",
-            "description": "Research and learning",
-            "tags": [
-                "research",
-                "find",
-                "look",
-                "investigate",
-                "explore",
-                "study",
-                "discover"
-            ]
         }
     ]
 }

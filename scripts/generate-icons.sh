@@ -16,7 +16,7 @@ mkdir -p public
 # Only fetch if the source SVG doesn't exist (so it stays in git)
 if [ ! -f "public/icon-source.svg" ]; then
     echo "📥 Fetching icon from Lucide..."
-    curl -s "https://api.iconify.design/lucide:calendar-check.svg?color=%23ffffff&width=512&height=512" -o public/icon-source.svg
+    curl -s "https://api.iconify.design/lucide:clipboard-check.svg?color=%23ffffff&width=512&height=512" -o public/icon-source.svg
 else
     echo "✓ Using existing icon-source.svg from git"
 fi
