@@ -1,10 +1,15 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { CalendarCheck, ChevronLeftIcon, ChevronRightIcon, Settings, ListChecks } from 'lucide-react';
+import { CalendarCheck, ChevronLeftIcon, ChevronRightIcon, Settings, ListChecks, Plus, Pencil, Trash2, ArrowLeft } from 'lucide-react';
+import { HabitFormDialog } from './HabitFormDialog';
 import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -20,13 +25,41 @@ import { cn } from '@/lib/utils';
  */
 export function Toolbar() {
     const location = useLocation();
+    const navigate = useNavigate();
     const dateTextRef = useRef(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [isCreateHabitOpen, setIsCreateHabitOpen] = useState(false);
     const [monthlyScores, setMonthlyScores] = useState({});
     const [currentMonth, setCurrentMonth] = useState(new Date());
 
     const isDailyView = location.pathname === '/';
+    const isHabitsView = location.pathname === '/habits';
+    const isHabitDetailView = location.pathname.startsWith('/habits/') && location.pathname !== '/habits/';
+    const habitId = isHabitDetailView ? location.pathname.split('/habits/')[1] : null;
+
+    const [isEditHabitOpen, setIsEditHabitOpen] = useState(false);
+    const [isDeleteHabitOpen, setIsDeleteHabitOpen] = useState(false);
+
+    const handleHabitCreated = (newHabitId) => {
+        setIsCreateHabitOpen(false);
+        navigate(`/habits/${newHabitId}`);
+    };
+
+    const handleEditSuccess = () => {
+        setIsEditHabitOpen(false);
+    };
+
+    const handleDeleteConfirm = async () => {
+        try {
+            const { deleteHabit } = await import('@/lib/db');
+            await deleteHabit(habitId);
+            setIsDeleteHabitOpen(false);
+            navigate('/habits');
+        } catch (err) {
+            console.error('Failed to delete habit:', err);
+        }
+    };
 
     useEffect(() => {
         // Listen for date changes
@@ -124,16 +157,38 @@ export function Toolbar() {
 
     return (
         <header className="flex-shrink-0 z-50 bg-background flex items-center justify-between border-b py-2 px-4">
-            <Button
-                variant="ghost"
-                className="text-lg font-semibold hover:bg-transparent p-0 h-auto flex items-center gap-2"
-                asChild
-            >
-                <Link to="/" onClick={handleHomeClick}>
-                    <CalendarCheck className="w-5 h-5" />
-                    Dihadi
-                </Link>
-            </Button>
+            {!isHabitDetailView && (
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="ghost"
+                        className="text-lg font-semibold hover:bg-transparent p-0 h-auto flex items-center gap-2"
+                        asChild
+                    >
+                        <Link to="/" onClick={handleHomeClick}>
+                            <CalendarCheck className="w-5 h-5" />
+                            <span className="hidden sm:inline">Dihadi</span>
+                        </Link>
+                    </Button>
+                    {isDailyView && (
+                        <Button
+                            variant="ghost"
+                            className="flex items-center gap-2"
+                            asChild
+                        >
+                            <Link to="/habits">
+                                <ListChecks className="h-4 w-4" />
+                                Habits
+                            </Link>
+                        </Button>
+                    )}
+                </div>
+            )}
+            {isHabitDetailView && (
+                <Button variant="ghost" onClick={() => navigate('/habits')}>
+                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    All Habits
+                </Button>
+            )}
             {isDailyView && (
                 <>
                     <div className="flex items-center space-x-2 absolute left-1/2 -translate-x-1/2">
@@ -180,19 +235,6 @@ export function Toolbar() {
                         <Button
                             variant="ghost"
                             size="icon"
-                            asChild
-                            className="group relative"
-                        >
-                            <Link to="/habits">
-                                <ListChecks className="h-4 w-4" />
-                                <span className="absolute -bottom-8 right-0 scale-0 transition-all group-hover:scale-100 rounded bg-secondary px-2 py-1 text-xs">
-                                    Manage habits
-                                </span>
-                            </Link>
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            size="icon"
                             onClick={() => setIsSettingsOpen(true)}
                             className="group relative"
                         >
@@ -204,7 +246,59 @@ export function Toolbar() {
                     </div>
                 </>
             )}
+            {isHabitsView && (
+                <>
+                    <div className="absolute left-1/2 -translate-x-1/2">
+                        <h1 className="text-lg font-semibold">All Habits</h1>
+                    </div>
+                    <Button size="sm" onClick={() => setIsCreateHabitOpen(true)}>
+                        <Plus className="h-4 w-4 mr-1" />
+                        New Habit
+                    </Button>
+                </>
+            )}
+            {isHabitDetailView && (
+                <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => setIsEditHabitOpen(true)}>
+                        <Pencil className="h-4 w-4 mr-1" />
+                        Edit
+                    </Button>
+                    <Button variant="destructive" size="sm" onClick={() => setIsDeleteHabitOpen(true)}>
+                        <Trash2 className="h-4 w-4 mr-1" />
+                        Delete
+                    </Button>
+                </div>
+            )}
             <SettingsDialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
+            <HabitFormDialog
+                open={isCreateHabitOpen}
+                onOpenChange={setIsCreateHabitOpen}
+                onSuccess={handleHabitCreated}
+            />
+            <HabitFormDialog
+                open={isEditHabitOpen}
+                onOpenChange={setIsEditHabitOpen}
+                habitId={habitId}
+                onSuccess={handleEditSuccess}
+            />
+            <Dialog open={isDeleteHabitOpen} onOpenChange={setIsDeleteHabitOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Delete Habit</DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to delete this habit? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsDeleteHabitOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button variant="destructive" onClick={handleDeleteConfirm}>
+                            Delete
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </header>
     );
 }

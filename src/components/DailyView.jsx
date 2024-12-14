@@ -102,7 +102,7 @@ export function DailyView() {
             {safeHabits.length === 0 ? (
                 <div className="text-center py-12">
                     <p className="text-muted-foreground mb-4">
-                        No habits created yet
+                        No habits created yet. Use the "Habits" button above to add your first habit!
                     </p>
                 </div>
             ) : (

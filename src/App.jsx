@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { HabitList } from '@/components/HabitList';
-import { HabitForm } from '@/components/HabitForm';
+import { HabitDetail } from '@/components/HabitDetail';
 import { DailyView } from '@/components/DailyView';
 import { Toolbar } from '@/components/Toolbar';
 
@@ -14,8 +14,7 @@ export default function App() {
                         <Routes>
                             <Route path="/" element={<DailyView />} />
                             <Route path="/habits" element={<HabitList />} />
-                            <Route path="/habits/new" element={<HabitForm />} />
-                            <Route path="/habits/:id" element={<HabitForm />} />
+                            <Route path="/habits/:id" element={<HabitDetail />} />
                         </Routes>
                     </div>
                 </main>

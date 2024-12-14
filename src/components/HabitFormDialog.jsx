@@ -1,0 +1,180 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useHabits } from '@/lib/hooks';
+import { getHabit } from '@/lib/db';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { IconPicker } from './IconPicker';
+import * as Icons from 'lucide-react';
+import { ICONS, ICON_PAIRS, searchIconForHabit } from '@/lib/iconRegistry';
+
+const COLORS = [
+    '#ef4444',
+    '#f97316',
+    '#f59e0b',
+    '#84cc16',
+    '#10b981',
+    '#06b6d4',
+    '#3b82f6',
+    '#6366f1',
+    '#8b5cf6',
+    '#d946ef',
+];
+
+export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess }) {
+    const { createHabit, updateHabit, loading } = useHabits();
+    const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
+    const [isIconLocked, setIsIconLocked] = useState(false);
+
+    const [formData, setFormData] = useState({
+        name: '',
+        description: '',
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        icon: ICONS[0].name
+    });
+
+    useEffect(() => {
+        if (open) {
+            if (habitId) {
+                const loadHabit = async () => {
+                    try {
+                        const habit = await getHabit(habitId);
+                        if (habit) {
+                            setFormData(habit);
+                            setIsIconLocked(true);
+                        }
+                    } catch (err) {
+                        console.error('Failed to load habit:', err);
+                    }
+                };
+                loadHabit();
+            } else {
+                setFormData({
+                    name: '',
+                    description: '',
+                    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    icon: ICONS[0].name
+                });
+                setIsIconLocked(false);
+            }
+        }
+    }, [open, habitId]);
+
+    useEffect(() => {
+        if (formData.name && !isIconLocked && open) {
+            const suggestedIcon = searchIconForHabit(formData.name);
+            if (suggestedIcon) {
+                setFormData(prev => ({ ...prev, icon: suggestedIcon }));
+            }
+        }
+    }, [formData.name, isIconLocked, open]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (habitId) {
+                await updateHabit(habitId, formData);
+                if (onSuccess) {
+                    onSuccess();
+                }
+            } else {
+                const newHabit = await createHabit(formData);
+                onOpenChange(false);
+                if (onSuccess) {
+                    onSuccess(newHabit.id);
+                }
+                return;
+            }
+            onOpenChange(false);
+        } catch (err) {
+            console.error('Failed to save habit:', err);
+        }
+    };
+
+    const handleIconColorSelect = ({ icon, color }) => {
+        setFormData({ ...formData, icon, color });
+        setIsIconLocked(true);
+    };
+
+    const hasPairedIcon = ICON_PAIRS[formData.icon];
+    const IconComponent = hasPairedIcon
+        ? Icons[ICON_PAIRS[formData.icon]]
+        : Icons[formData.icon];
+
+    return (
+        <>
+            <Dialog open={open} onOpenChange={onOpenChange}>
+                <DialogContent className="sm:max-w-[500px]">
+                    <DialogHeader>
+                        <DialogTitle>
+                            {habitId ? 'Edit Habit' : 'New Habit'}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {habitId
+                                ? 'Update your habit details below.'
+                                : 'Create a new habit to track daily.'}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="name">Name</Label>
+                            <div className="flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center cursor-pointer shadow-sm"
+                                    onClick={() => setIsIconPickerOpen(true)}
+                                    title="Click to change icon and color"
+                                >
+                                    {IconComponent && <IconComponent className="w-7 h-7" style={{ color: formData.color }} />}
+                                </button>
+
+                                <Input
+                                    id="name"
+                                    className="flex-1"
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="description">Description (Optional)</Label>
+                            <Input
+                                id="description"
+                                value={formData.description}
+                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            />
+                        </div>
+
+                        <DialogFooter>
+                            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                                Cancel
+                            </Button>
+                            <Button type="submit" disabled={loading}>
+                                {habitId ? 'Update' : 'Create'} Habit
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+
+            <IconPicker
+                open={isIconPickerOpen}
+                onOpenChange={setIsIconPickerOpen}
+                currentIcon={formData.icon}
+                currentColor={formData.color}
+                onSelect={handleIconColorSelect}
+            />
+        </>
+    );
+}
