@@ -19,3 +19,12 @@ start the development server
 npm run dev
 ```
 
+For building
+```bash
+npm run build
+```
+
+For previewing the build
+```bash
+npm run preview
+```
