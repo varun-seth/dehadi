@@ -37,6 +37,7 @@ export function Toolbar() {
     const isDailyView = location.pathname === '/actions';
     const isHabitsView = location.pathname === '/habits';
     const isHabitDetailView = location.pathname.startsWith('/habits/') && location.pathname !== '/habits/';
+    const isDataView = location.pathname === '/data';
     const habitId = isHabitDetailView ? location.pathname.split('/habits/')[1] : null;
 
     const [isEditHabitOpen, setIsEditHabitOpen] = useState(false);
@@ -162,7 +163,7 @@ export function Toolbar() {
 
     return (
         <header className="flex-shrink-0 z-50 bg-background flex items-center justify-between border-b py-2 px-4">
-            {!isHabitDetailView && !isHabitsView && (
+            {!isHabitDetailView && !isHabitsView && !isDataView && (
                 <div className="flex items-center gap-2">
                     <Button
                         variant="ghost"
@@ -181,6 +182,20 @@ export function Toolbar() {
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     All Habits
                 </Button>
+            )}
+            {isDataView && (
+                <div className="flex items-center gap-2">
+                    <Button variant="ghost" onClick={() => navigate('/actions')}>
+                        <ArrowLeft className="h-4 w-4 mr-2" />
+                        <span className="hidden sm:inline">Back</span>
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        className="flex items-center gap-2"
+                    >
+                        <span>Manage Data</span>
+                    </Button>
+                </div>
             )}
             {isDailyView && (
                 <>

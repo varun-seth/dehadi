@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sun, Moon, Monitor, PencilRuler, Home, Download } from 'lucide-react';
+import { Sun, Moon, Monitor, PencilRuler, Database } from 'lucide-react';
 import {
     Dialog,
     DialogContent,
@@ -8,7 +8,6 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { exportAllData } from '@/lib/db';
 
 const THEME_KEY = 'dihadi-theme';
 const THEMES = {
@@ -57,32 +56,14 @@ export function SettingsDialog({ open, onOpenChange }) {
         navigate('/habits');
     };
 
+    const handleNavigateToData = () => {
+        onOpenChange(false);
+        navigate('/data');
+    };
+
     const handleNavigateToLanding = () => {
         onOpenChange(false);
         window.location.href = '/';
-    };
-
-    const handleExportData = async () => {
-        try {
-            const data = await exportAllData();
-
-            const jsonString = JSON.stringify(data, null, 2);
-            const blob = new Blob([jsonString], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-
-            const link = document.createElement('a');
-            link.href = url;
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
-            link.download = `dihadi-export-${timestamp}.json`;
-            document.body.appendChild(link);
-            link.click();
-
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-        } catch (error) {
-            console.error('Error exporting data:', error);
-            alert('Failed to export data. Please try again.');
-        }
     };
 
     return (
@@ -92,24 +73,22 @@ export function SettingsDialog({ open, onOpenChange }) {
                     <DialogTitle>Settings</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-6 py-4">
-                    <div>
+                    <div className="grid grid-cols-2 gap-2">
                         <Button
                             variant="outline"
-                            className="w-full flex flex-col gap-3 h-auto py-6"
+                            className="flex flex-col gap-3 h-auto py-6"
                             onClick={handleNavigateToHabits}
                         >
                             <PencilRuler className="h-8 w-8" />
-                            <span className="text-sm font-medium">Manage Habits</span>
+                            <span className="text-sm font-medium">Edit Habits</span>
                         </Button>
-                    </div>
-                    <div>
                         <Button
                             variant="outline"
-                            className="w-full flex flex-col gap-3 h-auto py-6"
-                            onClick={handleExportData}
+                            className="flex flex-col gap-3 h-auto py-6"
+                            onClick={handleNavigateToData}
                         >
-                            <Download className="h-8 w-8" />
-                            <span className="text-sm font-medium">Export Data</span>
+                            <Database className="h-8 w-8" />
+                            <span className="text-sm font-medium">Manage Data</span>
                         </Button>
                     </div>
                     <div>
