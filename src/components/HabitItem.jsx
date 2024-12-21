@@ -4,7 +4,7 @@ import * as Icons from 'lucide-react';
 import * as db from '@/lib/db';
 import { ICON_PAIRS } from './HabitForm';
 
-const HabitItem = React.memo(({ habit, date }) => {
+const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextCompleted = false }) => {
     const hasPairedIcon = ICON_PAIRS[habit.icon];
     const isCheckIcon = habit.icon === 'Check';
 
@@ -111,12 +111,14 @@ const HabitItem = React.memo(({ habit, date }) => {
     return (
         <div
             className={cn(
-                "flex items-center gap-3 p-4 rounded-lg",
-                "transition-all duration-300 ease-out",
+                "flex items-center gap-3 p-4",
+                "transition-all duration-200 ease-out",
                 "cursor-pointer",
-                "active:scale-[0.98]",
-                "shadow-sm",
-                !isCompleted && "bg-card"
+                "hover:bg-muted/50",
+                !isCompleted && "bg-card",
+                isCompleted && isPrevCompleted ? "rounded-t-none" : "rounded-t-lg",
+                isCompleted && isNextCompleted ? "rounded-b-none" : "rounded-b-lg",
+                !isCompleted && "rounded-lg"
             )}
             style={{
                 backgroundColor: isCompleted ? habitColor : undefined

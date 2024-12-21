@@ -16,6 +16,7 @@ export function DailyView() {
     });
     const [scoreState, setScoreState] = useState({ completed: 0, total: 0 });
     const [isCreateHabitOpen, setIsCreateHabitOpen] = useState(false);
+    const [habitCompletions, setHabitCompletions] = useState({});
 
     const { habits = [], loading: habitsLoading, error: habitsError } = useHabits();
 
@@ -45,10 +46,13 @@ export function DailyView() {
     useEffect(() => {
         const countCompletedHabits = async () => {
             let count = 0;
+            const completions = {};
             for (const habit of safeHabits) {
                 const isCompleted = await db.isHabitCompletedForDate(habit.id, selectedDate);
+                completions[habit.id] = isCompleted;
                 if (isCompleted) count++;
             }
+            setHabitCompletions(completions);
             return count;
         };
 
@@ -118,14 +122,27 @@ export function DailyView() {
                     </Button>
                 </div>
             ) : (
-                <div className="space-y-4">
-                    {sortedHabits.map((habit) => (
-                        <HabitItem
-                            key={habit.id}
-                            habit={habit}
-                            date={selectedDate}
-                        />
-                    ))}
+                <div className="flex flex-col">
+                    {sortedHabits.map((habit, index) => {
+                        const isCurrentCompleted = habitCompletions[habit.id] || false;
+                        const isPrevCompleted = index > 0 ? (habitCompletions[sortedHabits[index - 1].id] || false) : false;
+                        const isNextCompleted = index < sortedHabits.length - 1 ? (habitCompletions[sortedHabits[index + 1].id] || false) : false;
+
+                        return (
+                            <div key={habit.id}>
+                                <HabitItem
+                                    habit={habit}
+                                    date={selectedDate}
+                                    isPrevCompleted={isPrevCompleted}
+                                    isNextCompleted={isNextCompleted}
+                                />
+                                {index < sortedHabits.length - 1 && (
+                                    <div className="border-b border-border" />
+                                )
+                                }
+                            </div>
+                        );
+                    })}
                 </div>
             )}
             <HabitFormDialog
