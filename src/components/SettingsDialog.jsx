@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sun, Moon, Monitor, PencilRuler, Home } from 'lucide-react';
+import { Sun, Moon, Monitor, PencilRuler, Home, Download } from 'lucide-react';
 import {
     Dialog,
     DialogContent,
@@ -8,6 +8,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { exportAllData } from '@/lib/db';
 
 const THEME_KEY = 'dihadi-theme';
 const THEMES = {
@@ -61,6 +62,29 @@ export function SettingsDialog({ open, onOpenChange }) {
         window.location.href = '/';
     };
 
+    const handleExportData = async () => {
+        try {
+            const data = await exportAllData();
+
+            const jsonString = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+            link.download = `dihadi-export-${timestamp}.json`;
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error exporting data:', error);
+            alert('Failed to export data. Please try again.');
+        }
+    };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-md">
@@ -76,6 +100,16 @@ export function SettingsDialog({ open, onOpenChange }) {
                         >
                             <PencilRuler className="h-8 w-8" />
                             <span className="text-sm font-medium">Manage Habits</span>
+                        </Button>
+                    </div>
+                    <div>
+                        <Button
+                            variant="outline"
+                            className="w-full flex flex-col gap-3 h-auto py-6"
+                            onClick={handleExportData}
+                        >
+                            <Download className="h-8 w-8" />
+                            <span className="text-sm font-medium">Export Data</span>
                         </Button>
                     </div>
                     <div>

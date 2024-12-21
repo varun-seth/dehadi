@@ -423,3 +423,40 @@ export const calculatePaceForHabit = async (habitId) => {
     habitRequest.onerror = () => reject(habitRequest.error);
   });
 };
+
+export const exportAllData = async () => {
+  const db = await openDB();
+  
+  return new Promise(async (resolve, reject) => {
+    try {
+      const habitsTx = db.transaction(STORES.HABITS, 'readonly');
+      const habitsStore = habitsTx.objectStore(STORES.HABITS);
+      const habitsRequest = habitsStore.getAll();
+      
+      habitsRequest.onsuccess = async () => {
+        const habits = habitsRequest.result || [];
+        
+        const actionsTx = db.transaction(STORES.ACTIONS, 'readonly');
+        const actionsStore = actionsTx.objectStore(STORES.ACTIONS);
+        const actionsRequest = actionsStore.getAll();
+        
+        actionsRequest.onsuccess = () => {
+          const actions = actionsRequest.result || [];
+          
+          const exportData = {
+            habits,
+            actions
+          };
+          
+          resolve(exportData);
+        };
+        
+        actionsRequest.onerror = () => reject(actionsRequest.error);
+      };
+      
+      habitsRequest.onerror = () => reject(habitsRequest.error);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
