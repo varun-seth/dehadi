@@ -22,29 +22,39 @@ export function searchIconForHabit(habitName) {
         .split(/\s+/)
         .filter(term => term.length > 0);
 
-    const searchResults = new Array();
+    const exactMatches = new Array();
+    
+    for (const term of searchTerms) {
+        for (const icon of ICONS) {
+            if (icon.tags.some(tag => tag.toLowerCase() === term)) {
+                exactMatches.push(icon.name);
+            }
+        }
+    }
+    
+    if (exactMatches.length > 0) {
+        return exactMatches[Math.floor(Math.random() * exactMatches.length)];
+    }
+
+    const partialMatches = new Array();
+    
     for (const term of searchTerms) {
         for (const icon of ICONS) {
             if (icon.name.toLowerCase().includes(term)) {
-                searchResults.push(icon.name);
+                partialMatches.push(icon.name);
             }
         }
 
         for (const icon of ICONS) {
-            if (icon.tags.some(tag => tag.includes(term) || term.includes(tag))) {
-                searchResults.push(icon.name);
-            }
-        }
-
-        for (const icon of ICONS) {
-            if (icon.description.toLowerCase().includes(term)) {
-                searchResults.push(icon.name);
+            if (icon.tags.some(tag => tag.toLowerCase().includes(term))) {
+                partialMatches.push(icon.name);
             }
         }
     }
-    // randomly select one from the search results, higher chance for better matches
-    if (searchResults.length > 0) {
-        return searchResults[Math.floor(Math.random() * searchResults.length)];
+    
+    if (partialMatches.length > 0) {
+        return partialMatches[Math.floor(Math.random() * partialMatches.length)];
     }
+    
     return ICONS[0].name;
 }

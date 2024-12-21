@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -7,9 +7,11 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ICONS, ICON_PAIRS } from '@/lib/iconRegistry';
 import { cn } from '@/lib/utils';
 import * as Icons from 'lucide-react';
+import { Search } from 'lucide-react';
 
 const COLORS = [
     '#ef4444', // red
@@ -27,6 +29,30 @@ const COLORS = [
 export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSelect }) {
     const [selectedIcon, setSelectedIcon] = useState(currentIcon);
     const [selectedColor, setSelectedColor] = useState(currentColor);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredIcons = useMemo(() => {
+        if (!searchQuery.trim()) {
+            return ICONS;
+        }
+
+        const searchTerm = searchQuery.toLowerCase().trim();
+
+        const exactMatches = ICONS.filter(icon =>
+            icon.tags.some(tag => tag.toLowerCase() === searchTerm)
+        );
+
+        if (exactMatches.length > 0) {
+            return exactMatches;
+        }
+
+        const partialMatches = ICONS.filter(icon =>
+            icon.name.toLowerCase().includes(searchTerm) ||
+            icon.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+        );
+
+        return partialMatches;
+    }, [searchQuery]);
 
     const handleApply = () => {
         onSelect({ icon: selectedIcon, color: selectedColor });
@@ -65,31 +91,47 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                     {/* Icon Selection */}
                     <div className="space-y-2">
                         <h3 className="text-sm font-medium">Icon</h3>
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                                type="text"
+                                placeholder="Search icons..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="pl-9"
+                            />
+                        </div>
                         <div className="grid grid-cols-10 gap-2 max-h-[300px] overflow-y-auto pr-5">
-                            {ICONS.map(({ name, component: Icon }) => {
-                                const DisplayIcon = ICON_PAIRS[name]
-                                    ? Icons[ICON_PAIRS[name]]
-                                    : Icon;
+                            {filteredIcons.length === 0 ? (
+                                <div className="col-span-10 text-center text-muted-foreground py-8">
+                                    No icons found
+                                </div>
+                            ) : (
+                                filteredIcons.map(({ name, component: Icon }) => {
+                                    const DisplayIcon = ICON_PAIRS[name]
+                                        ? Icons[ICON_PAIRS[name]]
+                                        : Icon;
 
-                                return (
-                                    <button
-                                        key={name}
-                                        type="button"
-                                        className={cn(
-                                            "w-full aspect-square rounded flex items-center justify-center p-1.5",
-                                            "border-2",
-                                            selectedIcon === name
-                                                ? "border-primary"
-                                                : "border-muted",
-                                            "hover:bg-accent"
-                                        )}
-                                        onClick={() => setSelectedIcon(name)}
-                                        title={name}
-                                    >
-                                        <DisplayIcon className="w-5 h-5" />
-                                    </button>
-                                );
-                            })}
+                                    return (
+                                        <button
+                                            key={name}
+                                            type="button"
+                                            className={cn(
+                                                "w-full aspect-square rounded flex items-center justify-center p-1.5",
+                                                "border-2",
+                                                selectedIcon === name
+                                                    ? "border-primary"
+                                                    : "border-muted",
+                                                "hover:bg-accent"
+                                            )}
+                                            onClick={() => setSelectedIcon(name)}
+                                            title={name}
+                                        >
+                                            <DisplayIcon className="w-5 h-5" />
+                                        </button>
+                                    );
+                                })
+                            )}
                         </div>
                     </div>
                 </div>

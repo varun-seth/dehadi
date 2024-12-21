@@ -404,7 +404,6 @@
                 "house",
                 "chore",
                 "chores",
-                "clean",
                 "household",
                 "domestic",
                 "tidy"
@@ -610,7 +609,6 @@
                 "animal",
                 "animals",
                 "puppy",
-                "cat",
                 "care"
             ]
         },
@@ -665,6 +663,1139 @@
                 "healthy",
                 "veg",
                 "food"
+            ]
+        },
+        {
+            "name": "BrushCleaning",
+            "description": "Cleaning and tooth brushing",
+            "tags": [
+                "clean",
+                "cleaning",
+                "brush",
+                "brushing",
+                "teeth",
+                "tooth",
+                "dental",
+                "hygiene",
+                "scrub"
+            ]
+        },
+        {
+            "name": "Droplets",
+            "description": "Cleaning and washing",
+            "tags": [
+                "clean",
+                "cleaning",
+                "wash",
+                "washing",
+                "bubbles",
+                "soap",
+                "shower",
+                "water"
+            ]
+        },
+        {
+            "name": "Sprout",
+            "description": "Gardening and plant care",
+            "tags": [
+                "garden",
+                "gardening",
+                "plant",
+                "plants",
+                "water",
+                "watering",
+                "grow",
+                "growing",
+                "care",
+                "green"
+            ]
+        },
+        {
+            "name": "PawPrint",
+            "description": "Pet care for cats and dogs",
+            "tags": [
+                "pet",
+                "pets",
+                "animal",
+                "animals",
+                "dog",
+                "cat",
+                "care",
+                "walk",
+                "feed"
+            ]
+        },
+        {
+            "name": "Bone",
+            "description": "Pet care and dog activities",
+            "tags": [
+                "dog",
+                "dogs",
+                "pet",
+                "puppy",
+                "care",
+                "feed",
+                "walk",
+                "play"
+            ]
+        },
+        {
+            "name": "Cat",
+            "description": "Cat care and activities",
+            "tags": [
+                "pet",
+                "cat",
+                "cats",
+                "kitten",
+                "care",
+                "feed",
+                "play",
+                "animal"
+            ]
+        },
+        {
+            "name": "Gamepad2",
+            "description": "Gaming and video games",
+            "tags": [
+                "game",
+                "gaming",
+                "videogame",
+                "videogames",
+                "play",
+                "playing",
+                "entertainment",
+                "fun",
+                "relax"
+            ]
+        },
+        {
+            "name": "Swords",
+            "description": "Gaming and challenges",
+            "tags": [
+                "game",
+                "gaming",
+                "challenge",
+                "compete",
+                "competition",
+                "battle",
+                "fight"
+            ]
+        },
+        {
+            "name": "Pickaxe",
+            "description": "Difficult tasks and mining",
+            "tags": [
+                "difficult",
+                "hard",
+                "tough",
+                "challenge",
+                "challenging",
+                "work",
+                "grind",
+                "mine"
+            ]
+        },
+        {
+            "name": "PocketKnife",
+            "description": "Grooming and nail care",
+            "tags": [
+                "groom",
+                "grooming",
+                "nail",
+                "nails",
+                "cut",
+                "cutting",
+                "trim",
+                "personal",
+                "care"
+            ]
+        },
+        {
+            "name": "Scissors",
+            "description": "Grooming and haircuts",
+            "tags": [
+                "groom",
+                "grooming",
+                "hair",
+                "haircut",
+                "cut",
+                "cutting",
+                "trim",
+                "barber"
+            ]
+        },
+        {
+            "name": "Trash2",
+            "description": "Taking out trash",
+            "tags": [
+                "trash",
+                "garbage",
+                "waste",
+                "chore",
+                "chores",
+                "dispose",
+                "cleanup",
+                "clean"
+            ]
+        },
+        {
+            "name": "Recycle",
+            "description": "Recycling and sustainability",
+            "tags": [
+                "recycle",
+                "recycling",
+                "trash",
+                "garbage",
+                "waste",
+                "environment",
+                "sustainable",
+                "green"
+            ]
+        },
+        {
+            "name": "Store",
+            "description": "Shopping and groceries",
+            "tags": [
+                "shop",
+                "shopping",
+                "store",
+                "groceries",
+                "market",
+                "supermarket",
+                "buy",
+                "purchase"
+            ]
+        },
+        {
+            "name": "CircleDollarSign",
+            "description": "Finances and money tasks",
+            "tags": [
+                "money",
+                "finance",
+                "finances",
+                "tax",
+                "taxes",
+                "invest",
+                "investment",
+                "budget",
+                "bills",
+                "pay"
+            ]
+        },
+        {
+            "name": "Wallet",
+            "description": "Budgeting and expenses",
+            "tags": [
+                "budget",
+                "budgeting",
+                "expense",
+                "expenses",
+                "money",
+                "finance",
+                "spend",
+                "spending",
+                "track"
+            ]
+        },
+        {
+            "name": "PiggyBank",
+            "description": "Saving money",
+            "tags": [
+                "save",
+                "saving",
+                "savings",
+                "money",
+                "finance",
+                "invest",
+                "investment"
+            ]
+        },
+        {
+            "name": "Car",
+            "description": "Driving and car maintenance",
+            "tags": [
+                "car",
+                "drive",
+                "driving",
+                "vehicle",
+                "commute",
+                "transport",
+                "travel"
+            ]
+        },
+        {
+            "name": "ConciergeBell",
+            "description": "Service and hospitality",
+            "tags": [
+                "service",
+                "help",
+                "assist",
+                "hospitality",
+                "bell",
+                "call",
+                "attention"
+            ]
+        },
+        {
+            "name": "Smartphone",
+            "description": "Phone and app usage",
+            "tags": [
+                "phone",
+                "smartphone",
+                "mobile",
+                "app",
+                "apps",
+                "device",
+                "screen",
+                "usage"
+            ]
+        },
+        {
+            "name": "Youtube",
+            "description": "Video watching and content",
+            "tags": [
+                "video",
+                "watch",
+                "watching",
+                "content",
+                "youtube",
+                "learn",
+                "entertainment"
+            ]
+        },
+        {
+            "name": "Guitar",
+            "description": "Guitar practice",
+            "tags": [
+                "guitar",
+                "music",
+                "instrument",
+                "practice",
+                "play",
+                "playing",
+                "learn",
+                "learning"
+            ]
+        },
+        {
+            "name": "Piano",
+            "description": "Piano practice",
+            "tags": [
+                "piano",
+                "music",
+                "instrument",
+                "practice",
+                "play",
+                "playing",
+                "learn",
+                "learning",
+                "keyboard"
+            ]
+        },
+        {
+            "name": "Drum",
+            "description": "Drumming practice",
+            "tags": [
+                "drum",
+                "drums",
+                "music",
+                "instrument",
+                "practice",
+                "play",
+                "playing",
+                "rhythm"
+            ]
+        },
+        {
+            "name": "MicVocal",
+            "description": "Singing and vocal practice",
+            "tags": [
+                "sing",
+                "singing",
+                "vocal",
+                "voice",
+                "practice",
+                "music",
+                "karaoke",
+                "perform"
+            ]
+        },
+        {
+            "name": "WashingMachine",
+            "description": "Laundry and washing",
+            "tags": [
+                "laundry",
+                "wash",
+                "washing",
+                "clothes",
+                "clean",
+                "cleaning",
+                "chore",
+                "chores"
+            ]
+        },
+        {
+            "name": "Shirt",
+            "description": "Folding clothes and laundry",
+            "tags": [
+                "clothes",
+                "clothing",
+                "laundry",
+                "fold",
+                "folding",
+                "organize",
+                "chore"
+            ]
+        },
+        {
+            "name": "UtensilsCrossed",
+            "description": "Cooking and meal prep",
+            "tags": [
+                "cook",
+                "cooking",
+                "meal",
+                "meals",
+                "prep",
+                "prepare",
+                "food",
+                "kitchen",
+                "chef"
+            ]
+        },
+        {
+            "name": "ChefHat",
+            "description": "Cooking and culinary",
+            "tags": [
+                "cook",
+                "cooking",
+                "chef",
+                "culinary",
+                "kitchen",
+                "food",
+                "meal",
+                "prepare"
+            ]
+        },
+        {
+            "name": "Wine",
+            "description": "Wine and drinks",
+            "tags": [
+                "wine",
+                "drink",
+                "drinking",
+                "alcohol",
+                "beverage",
+                "relax",
+                "social"
+            ]
+        },
+        {
+            "name": "Beef",
+            "description": "Meat and protein",
+            "tags": [
+                "meat",
+                "protein",
+                "beef",
+                "food",
+                "eat",
+                "eating",
+                "meal"
+            ]
+        },
+        {
+            "name": "Fish",
+            "description": "Fish and seafood",
+            "tags": [
+                "fish",
+                "seafood",
+                "protein",
+                "food",
+                "eat",
+                "eating",
+                "meal",
+                "healthy"
+            ]
+        },
+        {
+            "name": "Egg",
+            "description": "Eggs and breakfast",
+            "tags": [
+                "egg",
+                "eggs",
+                "breakfast",
+                "protein",
+                "food",
+                "eat",
+                "eating",
+                "meal"
+            ]
+        },
+        {
+            "name": "Milk",
+            "description": "Milk and dairy",
+            "tags": [
+                "milk",
+                "dairy",
+                "drink",
+                "beverage",
+                "calcium",
+                "breakfast"
+            ]
+        },
+        {
+            "name": "Carrot",
+            "description": "Vegetables and healthy eating",
+            "tags": [
+                "vegetable",
+                "vegetables",
+                "carrot",
+                "healthy",
+                "food",
+                "eat",
+                "eating",
+                "nutrition"
+            ]
+        },
+        {
+            "name": "Pizza",
+            "description": "Pizza and fast food",
+            "tags": [
+                "pizza",
+                "food",
+                "eat",
+                "eating",
+                "meal",
+                "dinner",
+                "lunch"
+            ]
+        },
+        {
+            "name": "Popcorn",
+            "description": "Snacks and movies",
+            "tags": [
+                "snack",
+                "snacks",
+                "popcorn",
+                "movie",
+                "movies",
+                "entertainment",
+                "watch"
+            ]
+        },
+        {
+            "name": "IceCream",
+            "description": "Desserts and treats",
+            "tags": [
+                "dessert",
+                "treat",
+                "treats",
+                "sweet",
+                "icecream",
+                "snack",
+                "food"
+            ]
+        },
+        {
+            "name": "Soup",
+            "description": "Soup and warm meals",
+            "tags": [
+                "soup",
+                "food",
+                "meal",
+                "eat",
+                "eating",
+                "warm",
+                "comfort"
+            ]
+        },
+        {
+            "name": "GraduationCap",
+            "description": "Education and learning",
+            "tags": [
+                "study",
+                "studying",
+                "learn",
+                "learning",
+                "education",
+                "school",
+                "university",
+                "course",
+                "graduate"
+            ]
+        },
+        {
+            "name": "Calculator",
+            "description": "Math and calculations",
+            "tags": [
+                "math",
+                "mathematics",
+                "calculate",
+                "calculation",
+                "numbers",
+                "study",
+                "learn"
+            ]
+        },
+        {
+            "name": "FlaskConical",
+            "description": "Science and experiments",
+            "tags": [
+                "science",
+                "experiment",
+                "chemistry",
+                "lab",
+                "research",
+                "study",
+                "learn"
+            ]
+        },
+        {
+            "name": "Microscope",
+            "description": "Research and science",
+            "tags": [
+                "science",
+                "research",
+                "study",
+                "lab",
+                "biology",
+                "microscope",
+                "learn"
+            ]
+        },
+        {
+            "name": "Glasses",
+            "description": "Reading and study",
+            "tags": [
+                "read",
+                "reading",
+                "study",
+                "studying",
+                "glasses",
+                "book",
+                "learn"
+            ]
+        },
+        {
+            "name": "Pencil",
+            "description": "Writing and notes",
+            "tags": [
+                "write",
+                "writing",
+                "note",
+                "notes",
+                "pencil",
+                "draw",
+                "sketch"
+            ]
+        },
+        {
+            "name": "Printer",
+            "description": "Printing and documents",
+            "tags": [
+                "print",
+                "printing",
+                "document",
+                "documents",
+                "paper",
+                "office",
+                "work"
+            ]
+        },
+        {
+            "name": "Stethoscope",
+            "description": "Medical checkups and health",
+            "tags": [
+                "medical",
+                "health",
+                "doctor",
+                "checkup",
+                "hospital",
+                "care",
+                "visit"
+            ]
+        },
+        {
+            "name": "Syringe",
+            "description": "Injections and vaccinations",
+            "tags": [
+                "medical",
+                "injection",
+                "vaccine",
+                "vaccination",
+                "health",
+                "medicine",
+                "shot"
+            ]
+        },
+        {
+            "name": "Thermometer",
+            "description": "Health monitoring",
+            "tags": [
+                "health",
+                "temperature",
+                "monitor",
+                "monitoring",
+                "sick",
+                "fever",
+                "medical"
+            ]
+        },
+        {
+            "name": "Bandage",
+            "description": "First aid and care",
+            "tags": [
+                "firstaid",
+                "aid",
+                "care",
+                "injury",
+                "bandage",
+                "health",
+                "medical"
+            ]
+        },
+        {
+            "name": "Dices",
+            "description": "Games and board games",
+            "tags": [
+                "game",
+                "games",
+                "boardgame",
+                "boardgames",
+                "play",
+                "playing",
+                "dice",
+                "fun"
+            ]
+        },
+        {
+            "name": "Plane",
+            "description": "Travel and flights",
+            "tags": [
+                "travel",
+                "traveling",
+                "flight",
+                "fly",
+                "flying",
+                "plane",
+                "airplane",
+                "trip"
+            ]
+        },
+        {
+            "name": "Train",
+            "description": "Commute and travel",
+            "tags": [
+                "travel",
+                "commute",
+                "train",
+                "transport",
+                "transportation",
+                "trip"
+            ]
+        },
+        {
+            "name": "Bus",
+            "description": "Public transport",
+            "tags": [
+                "bus",
+                "commute",
+                "transport",
+                "transportation",
+                "public",
+                "travel"
+            ]
+        },
+        {
+            "name": "Tent",
+            "description": "Camping and outdoors",
+            "tags": [
+                "camp",
+                "camping",
+                "outdoor",
+                "outdoors",
+                "tent",
+                "nature",
+                "adventure"
+            ]
+        },
+        {
+            "name": "Backpack",
+            "description": "Travel and adventure",
+            "tags": [
+                "travel",
+                "traveling",
+                "adventure",
+                "hiking",
+                "backpack",
+                "trip",
+                "pack"
+            ]
+        },
+        {
+            "name": "MapPin",
+            "description": "Location and exploration",
+            "tags": [
+                "location",
+                "place",
+                "explore",
+                "exploring",
+                "travel",
+                "map",
+                "visit"
+            ]
+        },
+        {
+            "name": "Compass",
+            "description": "Navigation and direction",
+            "tags": [
+                "navigate",
+                "navigation",
+                "direction",
+                "compass",
+                "explore",
+                "travel",
+                "hiking"
+            ]
+        },
+        {
+            "name": "Church",
+            "description": "Religion and spirituality",
+            "tags": [
+                "religion",
+                "religious",
+                "spiritual",
+                "spirituality",
+                "church",
+                "pray",
+                "prayer",
+                "worship"
+            ]
+        },
+        {
+            "name": "Baby",
+            "description": "Childcare and parenting",
+            "tags": [
+                "baby",
+                "child",
+                "childcare",
+                "parent",
+                "parenting",
+                "care",
+                "kids"
+            ]
+        },
+        {
+            "name": "ShoppingBag",
+            "description": "Wardrobe and fashion",
+            "tags": [
+                "clothes",
+                "clothing",
+                "fashion",
+                "wardrobe",
+                "dress",
+                "outfit",
+                "style",
+                "shopping"
+            ]
+        },
+        {
+            "name": "Plug",
+            "description": "Electronics and charging",
+            "tags": [
+                "charge",
+                "charging",
+                "electric",
+                "electricity",
+                "power",
+                "plug",
+                "device"
+            ]
+        },
+        {
+            "name": "Lamp",
+            "description": "Energy saving and lighting",
+            "tags": [
+                "light",
+                "lamp",
+                "save",
+                "energy",
+                "electric",
+                "lighting",
+                "bulb"
+            ]
+        },
+        {
+            "name": "Flame",
+            "description": "Fire and heating",
+            "tags": [
+                "fire",
+                "flame",
+                "heat",
+                "heating",
+                "hot",
+                "warm",
+                "candle"
+            ]
+        },
+        {
+            "name": "Snowflake",
+            "description": "Cold and winter activities",
+            "tags": [
+                "cold",
+                "winter",
+                "snow",
+                "ice",
+                "freeze",
+                "freezing",
+                "cool"
+            ]
+        },
+        {
+            "name": "Cloud",
+            "description": "Weather and mood",
+            "tags": [
+                "weather",
+                "cloud",
+                "cloudy",
+                "sky",
+                "mood",
+                "day"
+            ]
+        },
+        {
+            "name": "CloudRain",
+            "description": "Rainy day activities",
+            "tags": [
+                "rain",
+                "rainy",
+                "weather",
+                "water",
+                "cloud",
+                "indoor"
+            ]
+        },
+        {
+            "name": "Umbrella",
+            "description": "Rain protection",
+            "tags": [
+                "rain",
+                "rainy",
+                "umbrella",
+                "weather",
+                "protect",
+                "protection"
+            ]
+        },
+        {
+            "name": "Rocket",
+            "description": "Goals and ambition",
+            "tags": [
+                "goal",
+                "goals",
+                "ambition",
+                "ambitious",
+                "rocket",
+                "launch",
+                "start",
+                "boost"
+            ]
+        },
+        {
+            "name": "Medal",
+            "description": "Awards and achievements",
+            "tags": [
+                "award",
+                "achievement",
+                "medal",
+                "win",
+                "winner",
+                "success",
+                "accomplish"
+            ]
+        },
+        {
+            "name": "Flag",
+            "description": "Milestones and goals",
+            "tags": [
+                "milestone",
+                "goal",
+                "flag",
+                "marker",
+                "achievement",
+                "reach",
+                "complete"
+            ]
+        },
+        {
+            "name": "Package",
+            "description": "Deliveries and shipping",
+            "tags": [
+                "package",
+                "delivery",
+                "deliveries",
+                "ship",
+                "shipping",
+                "mail",
+                "box"
+            ]
+        },
+        {
+            "name": "Gift",
+            "description": "Gifts and presents",
+            "tags": [
+                "gift",
+                "gifts",
+                "present",
+                "presents",
+                "give",
+                "giving",
+                "buy"
+            ]
+        },
+        {
+            "name": "Cake",
+            "description": "Celebrations and birthdays",
+            "tags": [
+                "celebrate",
+                "celebration",
+                "birthday",
+                "party",
+                "cake",
+                "dessert",
+                "special"
+            ]
+        },
+        {
+            "name": "PartyPopper",
+            "description": "Celebrations and events",
+            "tags": [
+                "celebrate",
+                "celebration",
+                "party",
+                "event",
+                "fun",
+                "festive",
+                "special"
+            ]
+        },
+        {
+            "name": "Theater",
+            "description": "Movies and entertainment",
+            "tags": [
+                "movie",
+                "movies",
+                "film",
+                "cinema",
+                "theater",
+                "watch",
+                "entertainment"
+            ]
+        },
+        {
+            "name": "Tv",
+            "description": "TV and streaming",
+            "tags": [
+                "tv",
+                "television",
+                "watch",
+                "watching",
+                "stream",
+                "streaming",
+                "show",
+                "entertainment"
+            ]
+        },
+        {
+            "name": "Radio",
+            "description": "Radio and podcasts",
+            "tags": [
+                "radio",
+                "podcast",
+                "podcasts",
+                "listen",
+                "listening",
+                "audio",
+                "broadcast"
+            ]
+        },
+        {
+            "name": "Newspaper",
+            "description": "News and reading",
+            "tags": [
+                "news",
+                "newspaper",
+                "read",
+                "reading",
+                "article",
+                "articles",
+                "current"
+            ]
+        },
+        {
+            "name": "Wrench",
+            "description": "Repairs and maintenance",
+            "tags": [
+                "repair",
+                "repairs",
+                "fix",
+                "fixing",
+                "maintenance",
+                "tool",
+                "tools",
+                "work"
+            ]
+        },
+        {
+            "name": "Hammer",
+            "description": "DIY and construction",
+            "tags": [
+                "diy",
+                "build",
+                "building",
+                "construction",
+                "hammer",
+                "tool",
+                "fix",
+                "repair"
+            ]
+        },
+        {
+            "name": "Paintbrush",
+            "description": "Painting and art",
+            "tags": [
+                "paint",
+                "painting",
+                "art",
+                "artistic",
+                "brush",
+                "create",
+                "draw"
+            ]
+        },
+        {
+            "name": "ScissorsLineDashed",
+            "description": "Crafts and cutting",
+            "tags": [
+                "craft",
+                "crafts",
+                "cut",
+                "cutting",
+                "scissors",
+                "art",
+                "create"
+            ]
+        },
+        {
+            "name": "Ruler",
+            "description": "Measuring and precision",
+            "tags": [
+                "measure",
+                "measuring",
+                "ruler",
+                "precision",
+                "accurate",
+                "length",
+                "size"
             ]
         }
     ]
