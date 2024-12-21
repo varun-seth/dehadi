@@ -2,8 +2,15 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getHabit } from '@/lib/db';
 import { Card } from "@/components/ui/card";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import * as Icons from 'lucide-react';
 import { ICON_PAIRS } from '@/lib/iconRegistry';
+import { formatDistanceToNow, format } from 'date-fns';
 
 export function HabitDetail() {
     const { id } = useParams();
@@ -64,19 +71,33 @@ export function HabitDetail() {
                         )}
                     </div>
 
-                    <div className="space-y-4">
-                        <div>
-                            <h3 className="text-sm font-medium text-muted-foreground">Created</h3>
-                            <p className="mt-1">{new Date(habit.created_at).toLocaleDateString()}</p>
-                        </div>
+                    <TooltipProvider>
+                        <div className="flex justify-between items-center text-sm text-muted-foreground">
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <span className="inline-block">
+                                        Created {formatDistanceToNow(new Date(habit.created_at), { addSuffix: true })}
+                                    </span>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{format(new Date(habit.created_at), 'PPpp')}</p>
+                                </TooltipContent>
+                            </Tooltip>
 
-                        {habit.updated_at && (
-                            <div>
-                                <h3 className="text-sm font-medium text-muted-foreground">Last Updated</h3>
-                                <p className="mt-1">{new Date(habit.updated_at).toLocaleDateString()}</p>
-                            </div>
-                        )}
-                    </div>
+                            {habit.updated_at && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <span className="inline-block">
+                                            Updated {formatDistanceToNow(new Date(habit.updated_at), { addSuffix: true })}
+                                        </span>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>{format(new Date(habit.updated_at), 'PPpp')}</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
+                        </div>
+                    </TooltipProvider>
                 </Card>
             </div>
         </div>

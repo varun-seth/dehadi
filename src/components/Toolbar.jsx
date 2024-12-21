@@ -12,6 +12,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { ScoreDisplay } from './ScoreDisplay';
 import { SettingsDialog } from './SettingsDialog';
@@ -186,7 +192,7 @@ export function Toolbar() {
             {isDataView && (
                 <div className="flex items-center gap-2">
                     <Button variant="ghost" onClick={() => navigate('/actions')}>
-                        <ArrowLeft className="h-4 w-4 mr-2" />
+                        <ArrowLeft className="h-4 w-4 sm:mr-2" />
                         <span className="hidden sm:inline">Back</span>
                     </Button>
                     <Button
@@ -240,17 +246,22 @@ export function Toolbar() {
                         </Button>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => setIsSettingsOpen(true)}
-                            className="group relative"
-                        >
-                            <Settings className="h-4 w-4" />
-                            <span className="absolute -bottom-8 right-0 scale-0 transition-all group-hover:scale-100 rounded bg-secondary px-2 py-1 text-xs">
-                                Settings
-                            </span>
-                        </Button>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => setIsSettingsOpen(true)}
+                                    >
+                                        <Settings className="h-4 w-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Settings</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                     </div>
                 </>
             )}
@@ -258,7 +269,7 @@ export function Toolbar() {
                 <>
                     <div className="flex items-center gap-2">
                         <Button variant="ghost" onClick={() => navigate('/actions')}>
-                            <ChevronLeftIcon className="h-4 w-4 mr-2" />
+                            <ChevronLeftIcon className="h-4 w-4 sm:mr-2" />
                             <span className="hidden sm:inline">Back</span>
                         </Button>
                         <Button
@@ -276,16 +287,32 @@ export function Toolbar() {
                 </>
             )}
             {isHabitDetailView && (
-                <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => setIsEditHabitOpen(true)}>
-                        <Pencil className="h-4 w-4 mr-1" />
-                        Edit
-                    </Button>
-                    <Button variant="destructive" size="sm" onClick={() => setIsDeleteHabitOpen(true)}>
-                        <Trash2 className="h-4 w-4 mr-1" />
-                        Delete
-                    </Button>
-                </div>
+                <TooltipProvider>
+                    <div className="flex gap-2">
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setIsCreateHabitOpen(true)}
+                                >
+                                    <Plus className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>New Habit</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Button variant="outline" size="sm" onClick={() => setIsEditHabitOpen(true)}>
+                            <Pencil className="h-4 w-4 mr-1" />
+                            Edit
+                        </Button>
+                        <Button variant="destructive" size="sm" onClick={() => setIsDeleteHabitOpen(true)}>
+                            <Trash2 className="h-4 w-4 mr-1" />
+                            Delete
+                        </Button>
+                    </div>
+                </TooltipProvider>
             )}
             <SettingsDialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
             <HabitFormDialog
