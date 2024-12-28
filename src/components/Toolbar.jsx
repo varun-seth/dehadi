@@ -216,6 +216,7 @@ export function Toolbar() {
                                 </Button>
                             </DialogTrigger>
                             <DialogContent className="[&>button]:hidden max-w-fit p-4">
+                                <DialogTitle className="sr-only">Select Date</DialogTitle>
                                 <Calendar
                                     mode="single"
                                     selected={new Date(dateService.getCurrentDate() + 'T00:00:00')}
