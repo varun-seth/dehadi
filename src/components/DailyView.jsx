@@ -101,9 +101,7 @@ export function DailyView() {
         return <div className="text-center text-destructive p-4">Error loading habits: {habitsError}</div>;
     }
 
-    const sortedHabits = [...safeHabits].sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
-    );
+    const sortedHabits = [...safeHabits].sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
 
     const handleHabitCreated = (newHabitId) => {
         setIsCreateHabitOpen(false);

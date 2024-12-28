@@ -1,5 +1,5 @@
 const DB_NAME = 'dihadi';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 const STORES = {
   HABITS: 'habits',
@@ -12,6 +12,7 @@ const HABIT_COLUMNS = {
   DESCRIPTION: 'description',
   COLOR: 'color',
   ICON: 'icon',
+  RANK: 'rank',
   CREATED_AT: 'created_at',
   UPDATED_AT: 'updated_at'
 };
@@ -76,13 +77,14 @@ export const createHabit = async (habit) => {
   const store = tx.objectStore(STORES.HABITS);
   
   const now = new Date().toISOString();
+  const count = await store.count();
   const newHabit = {
     [HABIT_COLUMNS.ID]: generateId(),
     [HABIT_COLUMNS.CREATED_AT]: now,
     [HABIT_COLUMNS.UPDATED_AT]: now,
+    [HABIT_COLUMNS.RANK]: count + 1,
     ...habit
   };
-  
   await store.add(newHabit);
   return newHabit;
 };
@@ -174,13 +176,95 @@ export const getAllHabits = async () => {
     const store = tx.objectStore(STORES.HABITS);
     const request = store.getAll();
 
-    request.onsuccess = () => resolve(request.result || []);
+    request.onsuccess = () => {
+      let habits = request.result || [];
+      // Patch missing ranks for legacy rows
+      let changed = false;
+      habits.forEach((habit, i) => {
+        if (typeof habit[HABIT_COLUMNS.RANK] !== 'number') {
+          habit[HABIT_COLUMNS.RANK] = i + 1;
+          changed = true;
+        }
+      });
+      // Optionally persist patched ranks
+      if (changed) {
+        const tx2 = db.transaction(STORES.HABITS, 'readwrite');
+        const store2 = tx2.objectStore(STORES.HABITS);
+        habits.forEach(habit => {
+          store2.put(habit);
+        });
+      }
+      // Always return sorted by rank
+      habits.sort((a, b) => (a[HABIT_COLUMNS.RANK] ?? 0) - (b[HABIT_COLUMNS.RANK] ?? 0));
+      resolve(habits);
+    };
     request.onerror = () => reject(request.error);
-    
     tx.oncomplete = () => db.close();
     tx.onerror = () => reject(tx.error);
   });
 };
+
+// Helper to update rank for a habit
+
+
+export const updateHabitRank = async (id, newRank) => {
+  const dbInstance = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = dbInstance.transaction(STORES.HABITS, 'readwrite');
+    const store = tx.objectStore(STORES.HABITS);
+    const getRequest = store.get(id);
+    getRequest.onsuccess = () => {
+      const habit = getRequest.result;
+      if (!habit) {
+        reject(new Error('Habit not found'));
+        return;
+      }
+      habit[HABIT_COLUMNS.RANK] = newRank;
+      const putRequest = store.put(habit);
+      putRequest.onsuccess = () => resolve(habit);
+      putRequest.onerror = () => reject(putRequest.error);
+    };
+    getRequest.onerror = () => reject(getRequest.error);
+    tx.oncomplete = () => dbInstance.close();
+    tx.onerror = () => reject(tx.error);
+  });
+};
+
+// Helper to swap ranks between two habits
+export const swapHabitRanks = async (id1, id2) => {
+  const dbInstance = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = dbInstance.transaction(STORES.HABITS, 'readwrite');
+    const store = tx.objectStore(STORES.HABITS);
+    const getRequest1 = store.get(id1);
+    const getRequest2 = store.get(id2);
+    getRequest1.onsuccess = () => {
+      const habit1 = getRequest1.result;
+      getRequest2.onsuccess = () => {
+        const habit2 = getRequest2.result;
+        if (!habit1 || !habit2) {
+          reject(new Error('One or both habits not found'));
+          return;
+        }
+        const tempRank = habit1[HABIT_COLUMNS.RANK];
+        habit1[HABIT_COLUMNS.RANK] = habit2[HABIT_COLUMNS.RANK];
+        habit2[HABIT_COLUMNS.RANK] = tempRank;
+        const putRequest1 = store.put(habit1);
+        const putRequest2 = store.put(habit2);
+        putRequest1.onsuccess = () => {
+          putRequest2.onsuccess = () => resolve([habit1, habit2]);
+          putRequest2.onerror = () => reject(putRequest2.error);
+        };
+        putRequest1.onerror = () => reject(putRequest1.error);
+      };
+      getRequest2.onerror = () => reject(getRequest2.error);
+    };
+    getRequest1.onerror = () => reject(getRequest1.error);
+    tx.oncomplete = () => dbInstance.close();
+    tx.onerror = () => reject(tx.error);
+  });
+};
+
 
 // Actions operations
 export const toggleHabitForDate = async (habitId, date) => {

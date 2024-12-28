@@ -57,6 +57,15 @@ export const useHabits = () => {
     }
   };
 
+  // Drag-and-drop helpers
+  const swapHabitRanks = async (id1, id2) => {
+    await db.swapHabitRanks(id1, id2);
+    await loadHabits();
+  };
+  const updateHabitRank = async (id, newRank) => {
+    await db.updateHabitRank(id, newRank);
+    await loadHabits();
+  };
   return {
     habits,
     loading,
@@ -64,7 +73,9 @@ export const useHabits = () => {
     createHabit,
     updateHabit,
     deleteHabit,
-    refresh: loadHabits
+    refresh: loadHabits,
+    swapHabitRanks,
+    updateHabitRank
   };
 };
 
