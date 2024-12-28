@@ -134,7 +134,7 @@ export function DailyView() {
                                     isNextCompleted={isNextCompleted}
                                 />
                                 {index < sortedHabits.length - 1 && (
-                                    <div className="border-b border-border" />
+                                    <div className="border-b border-border mx-2" />
                                 )
                                 }
                             </div>

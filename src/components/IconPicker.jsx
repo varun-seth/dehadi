@@ -109,7 +109,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                 className="pl-9"
                             />
                         </div>
-                        <div className="grid grid-cols-10 gap-2 max-h-[300px] overflow-y-auto pr-5">
+                        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 max-h-[300px] overflow-y-auto pr-5">
                             {filteredIcons.length === 0 ? (
                                 <div className="col-span-10 text-center text-muted-foreground py-8">
                                     No icons found
