@@ -90,6 +90,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                 const newHabit = await createHabit(formData);
                 onOpenChange(false);
                 if (onSuccess) {
+                    window.location.reload();
                     onSuccess(newHabit.id);
                 }
                 return;

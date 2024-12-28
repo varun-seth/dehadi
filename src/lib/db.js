@@ -77,12 +77,22 @@ export const createHabit = async (habit) => {
   const store = tx.objectStore(STORES.HABITS);
   
   const now = new Date().toISOString();
-  const count = await store.count();
+  // Find max rank among all habits
+  const allHabits = await new Promise((resolve, reject) => {
+    const req = store.getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+  let maxRank = 0;
+  allHabits.forEach(h => {
+    const r = h[HABIT_COLUMNS.RANK];
+    if (typeof r === 'number' && r > maxRank) maxRank = r;
+  });
   const newHabit = {
     [HABIT_COLUMNS.ID]: generateId(),
     [HABIT_COLUMNS.CREATED_AT]: now,
     [HABIT_COLUMNS.UPDATED_AT]: now,
-    [HABIT_COLUMNS.RANK]: count + 1,
+    [HABIT_COLUMNS.RANK]: maxRank + 1,
     ...habit
   };
   await store.add(newHabit);

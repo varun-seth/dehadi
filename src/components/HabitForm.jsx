@@ -30,6 +30,7 @@ export function HabitForm() {
     const { id } = useParams();
     const { createHabit, updateHabit, loading, error } = useHabits();
     const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
+    const [isHabitLoaded, setIsHabitLoaded] = useState(!id);
     const [isIconLocked, setIsIconLocked] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -49,9 +50,13 @@ export function HabitForm() {
                     }
                 } catch (err) {
                     console.error('Failed to load habit:', err);
+                } finally {
+                    setIsHabitLoaded(true);
                 }
             };
             loadHabit();
+        } else {
+            setIsHabitLoaded(true);
         }
         setIsIconLocked(false);
     }, [id]);
@@ -107,8 +112,9 @@ export function HabitForm() {
                                 <button
                                     type="button"
                                     className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center cursor-pointer shadow-sm"
-                                    onClick={() => setIsIconPickerOpen(true)}
+                                    onClick={() => isHabitLoaded && setIsIconPickerOpen(true)}
                                     title="Click to change icon and color"
+                                    disabled={!isHabitLoaded}
                                 >
                                     {IconComponent && <IconComponent className="w-7 h-7" style={{ color: formData.color }} />}
                                 </button>

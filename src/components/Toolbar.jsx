@@ -49,9 +49,9 @@ export function Toolbar() {
     const [isEditHabitOpen, setIsEditHabitOpen] = useState(false);
     const [isDeleteHabitOpen, setIsDeleteHabitOpen] = useState(false);
 
-    const handleHabitCreated = (newHabitId) => {
+    const handleHabitCreated = () => {
         setIsCreateHabitOpen(false);
-        navigate(`/habits/${newHabitId}`);
+        navigate('/habits');
     };
 
     const handleEditSuccess = () => {
@@ -289,20 +289,6 @@ export function Toolbar() {
             {isHabitDetailView && (
                 <TooltipProvider>
                     <div className="flex gap-2">
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => setIsCreateHabitOpen(true)}
-                                >
-                                    <Plus className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>New Habit</p>
-                            </TooltipContent>
-                        </Tooltip>
                         <Button variant="outline" size="sm" onClick={() => setIsEditHabitOpen(true)}>
                             <Pencil className="h-4 w-4 mr-1" />
                             Edit

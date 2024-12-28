@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -29,6 +29,14 @@ const COLORS = [
 export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSelect }) {
     const [selectedIcon, setSelectedIcon] = useState(currentIcon);
     const [selectedColor, setSelectedColor] = useState(currentColor);
+
+    useEffect(() => {
+        setSelectedIcon(currentIcon);
+    }, [currentIcon]);
+
+    useEffect(() => {
+        setSelectedColor(currentColor);
+    }, [currentColor]);
     const [searchQuery, setSearchQuery] = useState('');
 
     const filteredIcons = useMemo(() => {
