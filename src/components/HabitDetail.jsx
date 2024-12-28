@@ -11,6 +11,7 @@ import {
 import * as Icons from 'lucide-react';
 import { ICON_PAIRS } from '@/lib/iconRegistry';
 import { formatDistanceToNow, format } from 'date-fns';
+import { subscribe, HABIT_UPDATED_EVENT } from '@/lib/bus';
 
 export function HabitDetail() {
     const { id } = useParams();
@@ -35,6 +36,12 @@ export function HabitDetail() {
 
     useEffect(() => {
         loadHabit();
+        const unsubscribe = subscribe(HABIT_UPDATED_EVENT, (payload) => {
+            if (payload.id === id) {
+                loadHabit();
+            }
+        });
+        return unsubscribe;
     }, [id]);
 
     if (loading) {

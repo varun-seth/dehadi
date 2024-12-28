@@ -5,6 +5,7 @@ import { getHabit } from '@/lib/db';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { emit, HABIT_UPDATED_EVENT } from '@/lib/bus';
 import {
     Dialog,
     DialogContent,
@@ -82,12 +83,14 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
         e.preventDefault();
         try {
             if (habitId) {
-                await updateHabit(habitId, formData);
+                const updatedHabit = await updateHabit(habitId, formData);
+                emit(HABIT_UPDATED_EVENT, { id: habitId, habit: updatedHabit });
                 if (onSuccess) {
                     onSuccess();
                 }
             } else {
                 const newHabit = await createHabit(formData);
+                emit(HABIT_UPDATED_EVENT, { id: newHabit.id, habit: newHabit });
                 onOpenChange(false);
                 if (onSuccess) {
                     window.location.reload();
@@ -119,11 +122,6 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                         <DialogTitle>
                             {habitId ? 'Edit Habit' : 'New Habit'}
                         </DialogTitle>
-                        <DialogDescription>
-                            {habitId
-                                ? 'Update your habit details below.'
-                                : 'Create a new habit to track daily.'}
-                        </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
