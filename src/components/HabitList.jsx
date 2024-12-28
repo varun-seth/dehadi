@@ -14,7 +14,7 @@ export function HabitList() {
     return (
         <div className="space-y-6">
             <div className="px-4 pt-6 space-y-4">
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="flex flex-col gap-4">
                     {habits.map((habit) => {
                         const hasPairedIcon = ICON_PAIRS[habit.icon];
                         const IconComponent = hasPairedIcon

@@ -681,20 +681,6 @@
             ]
         },
         {
-            "name": "Droplets",
-            "description": "Cleaning and washing",
-            "tags": [
-                "clean",
-                "cleaning",
-                "wash",
-                "washing",
-                "bubbles",
-                "soap",
-                "shower",
-                "water"
-            ]
-        },
-        {
             "name": "Sprout",
             "description": "Gardening and plant care",
             "tags": [
