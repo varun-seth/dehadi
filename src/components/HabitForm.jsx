@@ -5,6 +5,7 @@ import { getHabit } from '@/lib/db';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CycleConfig } from "./CycleConfig";
 import { Card } from "@/components/ui/card";
 import { IconPicker } from './IconPicker';
 import * as Icons from 'lucide-react';
@@ -37,7 +38,13 @@ export function HabitForm() {
         name: '',
         description: '',
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        icon: ICONS[0].name
+        icon: ICONS[0].name,
+        cycle: {
+            unit: 'day',
+            slots: null,
+            leap: 0,
+            base: 0
+        }
     });
 
     useEffect(() => {
@@ -46,7 +53,15 @@ export function HabitForm() {
                 try {
                     const habit = await getHabit(id);
                     if (habit) {
-                        setFormData(habit);
+                        setFormData({
+                            ...habit,
+                            cycle: habit.cycle || {
+                                unit: 'day',
+                                slots: null,
+                                leap: 0,
+                                base: 0
+                            }
+                        });
                     }
                 } catch (err) {
                     console.error('Failed to load habit:', err);
@@ -95,70 +110,41 @@ export function HabitForm() {
         : Icons[formData.icon];
 
     return (
-        <div className="space-y-6">
+        <Card className="p-4 max-w-md mx-auto mt-8">
             <div className="border-b py-4 px-4">
                 <h1 className="text-xl font-semibold">
                     {id ? 'Edit Habit' : 'New Habit'}
                 </h1>
             </div>
-
-            <div className="max-w-2xl mx-auto px-4">
-                <Card className="p-6">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="name">Name</Label>
-                            <div className="flex items-center gap-3">
-                                {/* Clickable Icon */}
-                                <button
-                                    type="button"
-                                    className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center cursor-pointer shadow-sm"
-                                    onClick={() => isHabitLoaded && setIsIconPickerOpen(true)}
-                                    title="Click to change icon and color"
-                                    disabled={!isHabitLoaded}
-                                >
-                                    {IconComponent && <IconComponent className="w-7 h-7" style={{ color: formData.color }} />}
-                                </button>
-
-                                {/* Name Input */}
-                                <Input
-                                    id="name"
-                                    className="flex-1"
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="description">Description (Optional)</Label>
-                            <Input
-                                id="description"
-                                value={formData.description}
-                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            />
-                        </div>
-
-                        <div className="flex justify-end space-x-4">
-                            <Button type="button" variant="outline" onClick={() => navigate('/habits')}>
-                                Cancel
-                            </Button>
-                            <Button type="submit" disabled={loading}>
-                                {id ? 'Update' : 'Create'} Habit
-                            </Button>
-                        </div>
-                    </form>
-
-                    {/* Icon & Color Picker Modal */}
-                    <IconPicker
-                        open={isIconPickerOpen}
-                        onOpenChange={setIsIconPickerOpen}
-                        currentIcon={formData.icon}
-                        currentColor={formData.color}
-                        onSelect={handleIconColorSelect}
-                    />
-                </Card>
-            </div>
-        </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} required />
+                <Label htmlFor="description">Description</Label>
+                <Input id="description" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
+                <Label htmlFor="color">Color</Label>
+                <div className="flex gap-2 flex-wrap">
+                    {COLORS.map(color => (
+                        <button type="button" key={color} className={`w-6 h-6 rounded-full border-2 ${formData.color === color ? 'border-black' : 'border-transparent'}`} style={{ backgroundColor: color }} onClick={() => setFormData({ ...formData, color })} />
+                    ))}
+                </div>
+                <Label htmlFor="icon">Icon</Label>
+                <button type="button" className="border rounded px-2 py-1" onClick={() => setIsIconPickerOpen(true)}>
+                    <span className="mr-2">{formData.icon}</span>
+                    {Icons[formData.icon] ? (
+                        <span className="inline-block align-middle">{React.createElement(Icons[formData.icon], { size: 20 })}</span>
+                    ) : null}
+                </button>
+                {isIconPickerOpen && (
+                    <IconPicker selectedIcon={formData.icon} onSelect={icon => { setFormData({ ...formData, icon }); setIsIconPickerOpen(false); }} onClose={() => setIsIconPickerOpen(false)} />
+                )}
+                <hr className="my-6" />
+                <CycleConfig cycle={formData.cycle} setCycle={cycle => setFormData({ ...formData, cycle })} editable={true} />
+                <div className="flex justify-end gap-2 mt-4">
+                    <Button type="submit" disabled={loading}>{id ? 'Update' : 'Create'} Habit</Button>
+                    <Button type="button" variant="outline" onClick={() => navigate('/habits')}>Cancel</Button>
+                </div>
+                {error && <div className="text-red-500 mt-2">{error}</div>}
+            </form>
+        </Card>
     );
 }

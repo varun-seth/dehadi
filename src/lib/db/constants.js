@@ -1,5 +1,5 @@
 export const DB_NAME = 'dihadi';
-export const DB_VERSION = 2;
+export const DB_VERSION = 3;
 
 export const STORES = {
   HABITS: 'habits',
@@ -14,7 +14,8 @@ export const HABIT_COLUMNS = {
   ICON: 'icon',
   RANK: 'rank',
   CREATED_AT: 'created_at',
-  UPDATED_AT: 'updated_at'
+  UPDATED_AT: 'updated_at',
+  CYCLE: 'cycle'
 };
 
 export const ACTION_COLUMNS = {

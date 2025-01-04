@@ -5,6 +5,7 @@ import { getHabit } from '@/lib/db';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CycleConfig } from "./CycleConfig";
 import { emit, HABIT_UPDATED_EVENT } from '@/lib/bus';
 import {
     Dialog,
@@ -40,7 +41,13 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
         name: '',
         description: '',
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        icon: ICONS[0].name
+        icon: ICONS[0].name,
+        cycle: {
+            unit: 'day',
+            slots: null,
+            leap: 0,
+            base: 0
+        }
     });
 
     useEffect(() => {
@@ -50,7 +57,15 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                     try {
                         const habit = await getHabit(habitId);
                         if (habit) {
-                            setFormData(habit);
+                            setFormData({
+                                ...habit,
+                                cycle: habit.cycle || {
+                                    unit: 'day',
+                                    slots: null,
+                                    leap: 0,
+                                    base: 0
+                                }
+                            });
                             setIsIconLocked(true);
                         }
                     } catch (err) {
@@ -155,6 +170,8 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                             />
                         </div>
 
+                        <hr className="my-6" />
+                        <CycleConfig cycle={formData.cycle} setCycle={cycle => setFormData({ ...formData, cycle })} editable={true} />
                         <DialogFooter>
                             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                                 Cancel

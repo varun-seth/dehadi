@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getHabit } from '@/lib/db';
 import { Card } from "@/components/ui/card";
+import { CycleConfig } from "./CycleConfig";
 import {
     Tooltip,
     TooltipContent,
@@ -77,6 +78,8 @@ export function HabitDetail() {
                             <p className="text-muted-foreground ml-11">{habit.description}</p>
                         )}
                     </div>
+
+                    <CycleConfig cycle={habit.cycle} setCycle={() => { }} editable={false} />
 
                     <TooltipProvider>
                         <div className="flex justify-between items-center text-sm text-muted-foreground">
