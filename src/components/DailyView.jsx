@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { isHabitDueOnDate } from '@/lib/cycleUtils';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useHabits } from '@/lib/hooks';
 import HabitItem from './HabitItem';
@@ -22,6 +23,7 @@ export function DailyView() {
 
     const safeHabits = Array.isArray(habits) ? habits : [];
 
+
     useEffect(() => {
         const dateParam = searchParams.get('date');
         const initialDate = dateParam || dateService.getTodayString();
@@ -44,10 +46,12 @@ export function DailyView() {
     }, [setSearchParams]);
 
     useEffect(() => {
+        const habitsForDate = safeHabits.filter(habit => isHabitDueOnDate(habit, selectedDate));
+
         const countCompletedHabits = async () => {
             let count = 0;
             const completions = {};
-            for (const habit of safeHabits) {
+            for (const habit of habitsForDate) {
                 const isCompleted = await db.isHabitCompletedForDate(habit.id, selectedDate);
                 completions[habit.id] = isCompleted;
                 if (isCompleted) count++;
@@ -59,7 +63,6 @@ export function DailyView() {
         const updateScoreDisplay = (completed, total) => {
             const newScore = { completed, total };
             setScoreState(newScore);
-
             const event = new CustomEvent('scoreUpdate', {
                 detail: newScore
             });
@@ -68,19 +71,19 @@ export function DailyView() {
 
         const handleHabitToggle = async () => {
             const completed = await countCompletedHabits();
-            updateScoreDisplay(completed, safeHabits.length);
+            updateScoreDisplay(completed, habitsForDate.length);
         };
 
         const handleRequestScoreUpdate = async () => {
             const completed = await countCompletedHabits();
-            updateScoreDisplay(completed, safeHabits.length);
+            updateScoreDisplay(completed, habitsForDate.length);
         };
 
         window.addEventListener('habitToggled', handleHabitToggle);
         window.addEventListener('requestScoreUpdate', handleRequestScoreUpdate);
 
         countCompletedHabits().then(completed => {
-            updateScoreDisplay(completed, safeHabits.length);
+            updateScoreDisplay(completed, habitsForDate.length);
         });
 
         return () => {
@@ -101,7 +104,9 @@ export function DailyView() {
         return <div className="text-center text-destructive p-4">Error loading habits: {habitsError}</div>;
     }
 
-    const sortedHabits = [...safeHabits].sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
+    // Only show habits due on selectedDate
+    const habitsForDate = safeHabits.filter(habit => isHabitDueOnDate(habit, selectedDate));
+    const sortedHabits = [...habitsForDate].sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
 
     const handleHabitCreated = () => {
         setIsCreateHabitOpen(false);

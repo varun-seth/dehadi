@@ -1,6 +1,7 @@
 
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { CycleUnit, findNextDueDate } from '@/lib/cycleUtils';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -11,45 +12,28 @@ import { HelpCircle } from 'lucide-react';
 
 
 export function CycleConfig({ cycle, setCycle, editable = true }) {
-    const help = {
-        unit: {
-            short: 'Unit sets the scale of the cycle (day/week/month/year).',
-            long: 'Unit sets the scale of the cycle. "day" means every day, "week" means specific days of the week, "month" means specific dates in a month, "year" means specific months or dates in a year.'
-        },
-        slots: {
-            short: 'Slots pick specific days/dates/months for the cycle.',
-            long: 'Slots are 0-indexed. For week: [0,2,4]=Mon,Wed,Fri. For month: [14]=15th. For year: [0]=Jan 1st, [-1]=Dec 31st. For day, slots are ignored.'
-        },
-        leap: {
-            short: 'Leap sets the skip interval (0=none, 1=skip 1, etc).',
-            long: 'Leap sets how often the cycle repeats. 0=every unit, 1=do one, skip one, etc. For example, leap=2 means do once every 3 units.'
-        },
-        base: {
-            short: 'Base aligns the cycle to a specific date.',
-            long: 'Base helps align the cycle to a particular date if leap > 0. It is used to calculate if today is the special day using epoch math.'
-        }
-    };
+    if (!cycle) return null;
+
 
     return (
         <div className="flex flex-col gap-2 mt-2 w-full max-w-md">
             <TooltipProvider>
                 <div className="flex items-center gap-2">
-                    <Label htmlFor="cycle-unit" className="min-w-[48px]">Unit</Label>
+                    <Label htmlFor="cycle-unit" className="min-w-[48px]">Repeat every</Label>
                     <Select
                         value={cycle.unit}
                         onValueChange={val => editable && setCycle({ ...cycle, unit: val, slots: null })}
                         disabled={!editable}
                     >
-                        <SelectItem value="day">Day</SelectItem>
-                        <SelectItem value="week">Week</SelectItem>
-                        <SelectItem value="month">Month</SelectItem>
-                        <SelectItem value="year">Year</SelectItem>
+                        <SelectItem value={CycleUnit.DAY}>Day</SelectItem>
+                        <SelectItem value={CycleUnit.WEEK}>Week</SelectItem>
+                        <SelectItem value={CycleUnit.MONTH}>Month</SelectItem>
                     </Select>
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
                         </TooltipTrigger>
-                        <TooltipContent>{help.unit.short}</TooltipContent>
+                        <TooltipContent>This sets the scale of the cycle. The cycle restarts at the end of this period.</TooltipContent>
                     </Tooltip>
                 </div>
 
@@ -68,34 +52,54 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                         <TooltipTrigger asChild>
                             <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
                         </TooltipTrigger>
-                        <TooltipContent>{help.leap.short}</TooltipContent>
+                        <TooltipContent>Leaping allows for resting between cycles. A value of 1 means to perform the habit every other cycle.</TooltipContent>
                     </Tooltip>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <Label htmlFor="cycle-base" className="min-w-[48px]">Base</Label>
-                    <Input
-                        id="cycle-base"
-                        type="number"
-                        min={0}
-                        value={cycle.base}
-                        onChange={e => editable && setCycle({ ...cycle, base: parseInt(e.target.value) || 0 })}
-                        disabled={!editable}
-                        className="max-w-[80px]"
-                    />
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
-                        </TooltipTrigger>
-                        <TooltipContent>{help.base.short}</TooltipContent>
-                    </Tooltip>
-                </div>
+                {cycle.leap > 0 && (
+                    <div className="flex items-center gap-2">
+                        <Label htmlFor="cycle-base" className="min-w-[48px]">Start date</Label>
+                        {(() => {
+                            // Compute all possible next dates for each base value
+                            const dateOptions = [];
+                            for (let b = 0; b <= cycle.leap; b++) {
+                                const nextDate = findNextDueDate({ ...cycle, base: b }, new Date().toISOString().slice(0, 10));
+                                dateOptions.push({ base: b, date: nextDate });
+                            }
+                            // Sort by date ascending
+                            dateOptions.sort((a, b) => a.date.localeCompare(b.date));
+                            // If current base is not in sorted order, select the earliest by default
+                            const selectedBase = dateOptions.some(opt => opt.base === cycle.base) ? cycle.base : dateOptions[0]?.base;
+                            return (
+                                <Select
+                                    value={selectedBase}
+                                    onValueChange={val => {
+                                        if (!editable) return;
+                                        setCycle({ ...cycle, base: parseInt(val) });
+                                    }}
+                                    disabled={!editable}
+                                >
+                                    {dateOptions.map(opt => (
+                                        <SelectItem key={opt.base} value={opt.base}>{opt.date}</SelectItem>
+                                    ))}
+                                </Select>
+                            );
+                        })()}
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
+                            </TooltipTrigger>
+                            <TooltipContent>Select which date to align the cycle to. This sets the offset internally.</TooltipContent>
+                        </Tooltip>
+                    </div>
+                )}
+                {/* No offset entry in UI when leap is 0 */}
 
                 {cycle.unit === 'week' && (
                     <div className="flex items-center gap-2">
                         <Label className="min-w-[48px]">Days</Label>
                         <div className="flex gap-1 flex-wrap">
-                            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, idx) => (
+                            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
                                 <Button
                                     type="button"
                                     key={day}
@@ -116,12 +120,6 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                                 >{day}</Button>
                             ))}
                         </div>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
-                            </TooltipTrigger>
-                            <TooltipContent>{help.slots.short}</TooltipContent>
-                        </Tooltip>
                     </div>
                 )}
                 {cycle.unit === 'month' && (
@@ -142,29 +140,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                             <TooltipTrigger asChild>
                                 <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
                             </TooltipTrigger>
-                            <TooltipContent>{help.slots.short}</TooltipContent>
-                        </Tooltip>
-                    </div>
-                )}
-                {cycle.unit === 'year' && (
-                    <div className="flex items-center gap-2">
-                        <Label className="min-w-[48px]">Months</Label>
-                        <Input
-                            type="text"
-                            value={cycle.slots ? cycle.slots.join(',') : ''}
-                            onChange={e => editable && setCycle({
-                                ...cycle,
-                                slots: e.target.value.split(',').map(v => parseInt(v.trim())).filter(v => !isNaN(v))
-                            })}
-                            placeholder="e.g. 0,6,-1"
-                            disabled={!editable}
-                            className="max-w-[120px]"
-                        />
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
-                            </TooltipTrigger>
-                            <TooltipContent>{help.slots.short}</TooltipContent>
+                            <TooltipContent>Specify the dates in the month to perform the habit. 0=1st, 1=2nd, ..., -1=last day of month</TooltipContent>
                         </Tooltip>
                     </div>
                 )}

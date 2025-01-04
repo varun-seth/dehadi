@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CycleConfig } from "./CycleConfig";
+import { getDefaultCycle, CycleUnit } from '@/lib/cycleUtils';
 import { emit, HABIT_UPDATED_EVENT } from '@/lib/bus';
 import {
     Dialog,
@@ -78,7 +79,8 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                     name: '',
                     description: '',
                     color: COLORS[Math.floor(Math.random() * COLORS.length)],
-                    icon: ICONS[0].name
+                    icon: ICONS[0].name,
+                    cycle: null
                 });
                 setIsIconLocked(false);
             }
@@ -171,7 +173,11 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                         </div>
 
                         <hr className="my-6" />
-                        <CycleConfig cycle={formData.cycle} setCycle={cycle => setFormData({ ...formData, cycle })} editable={true} />
+                        <CycleConfig
+                            cycle={formData.cycle ?? getDefaultCycle()}
+                            setCycle={cycle => setFormData({ ...formData, cycle })}
+                            editable={true}
+                        />
                         <DialogFooter>
                             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                                 Cancel
