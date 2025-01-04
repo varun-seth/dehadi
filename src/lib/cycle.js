@@ -47,11 +47,14 @@ export function isHabitDueOnDate(habit, dateStr) {
 }
 
 // Finds the next due date for a given cycle config, starting from today
+
+import { formatLocalDate } from './date';
+
 export function findNextDueDate(cycle, fromDateStr) {
   const maxTries = 10000;
   let date = fromDateStr ? new Date(fromDateStr + 'T00:00:00') : new Date();
   for (let i = 0; i < maxTries; i++) {
-    const dateStr = date.toISOString().slice(0, 10);
+    const dateStr = formatLocalDate(date);
     if (isHabitDueOnDate({ cycle }, dateStr)) {
       return dateStr;
     }

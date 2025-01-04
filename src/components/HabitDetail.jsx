@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getHabit } from '@/lib/db';
 import { Card } from "@/components/ui/card";
 import { CycleConfig } from "./CycleConfig";
-import { getDefaultCycle, CycleUnit } from '@/lib/cycleUtils';
+import { getDefaultCycle, CycleUnit } from '@/lib/cycle';
 import {
     Tooltip,
     TooltipContent,

@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ScoreDisplay } from './ScoreDisplay';
 import { SettingsDialog } from './SettingsDialog';
-import * as dateService from '@/lib/dateService';
+import * as dateService from '@/lib/date';
 import { getMonthlyScores } from '@/lib/db';
 import { cn } from '@/lib/utils';
 

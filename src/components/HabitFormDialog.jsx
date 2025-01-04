@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CycleConfig } from "./CycleConfig";
-import { getDefaultCycle, CycleUnit } from '@/lib/cycleUtils';
+import { getDefaultCycle, CycleUnit } from '@/lib/cycle';
 import { emit, HABIT_UPDATED_EVENT } from '@/lib/bus';
 import {
     Dialog,

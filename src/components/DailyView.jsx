@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { isHabitDueOnDate } from '@/lib/cycleUtils';
+import { isHabitDueOnDate } from '@/lib/cycle';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useHabits } from '@/lib/hooks';
 import HabitItem from './HabitItem';
 import { HabitFormDialog } from './HabitFormDialog';
 import { Button } from '@/components/ui/button';
-import * as dateService from '@/lib/dateService';
+import * as dateService from '@/lib/date';
 import * as db from '@/lib/db';
 
 export function DailyView() {
