@@ -33,7 +33,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                         <TooltipTrigger asChild>
                             <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
                         </TooltipTrigger>
-                        <TooltipContent>This sets the scale of the cycle. The cycle restarts at the end of this period.</TooltipContent>
+                        <TooltipContent>Length of each cycle.</TooltipContent>
                     </Tooltip>
                 </div>
 
@@ -68,22 +68,33 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                 {cycle.unit === 'month' && (
                     <div className="flex items-center gap-2">
                         <Label className="min-w-[48px]">Dates</Label>
-                        <Input
-                            type="text"
-                            value={cycle.slots ? cycle.slots.join(',') : ''}
-                            onChange={e => editable && setCycle({
-                                ...cycle,
-                                slots: e.target.value.split(',').map(v => parseInt(v.trim())).filter(v => !isNaN(v))
-                            })}
-                            placeholder="e.g. 0,14,-1"
-                            disabled={!editable}
-                            className="max-w-[120px]"
-                        />
+                        <div className="flex gap-1 flex-wrap">
+                            {[...Array(31)].map((_, idx) => (
+                                <Button
+                                    type="button"
+                                    key={idx}
+                                    variant={cycle.slots?.includes(idx) ? "default" : "outline"}
+                                    size="sm"
+                                    onClick={() => {
+                                        if (!editable) return;
+                                        const slots = cycle.slots || [];
+                                        setCycle({
+                                            ...cycle,
+                                            slots: slots.includes(idx)
+                                                ? slots.filter(d => d !== idx)
+                                                : [...slots, idx]
+                                        });
+                                    }}
+                                    disabled={!editable}
+                                    className="px-2"
+                                >{idx + 1}</Button>
+                            ))}
+                        </div>
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
                             </TooltipTrigger>
-                            <TooltipContent>Specify the dates in the month to perform the habit. 0=1st, 1=2nd, ..., -1=last day of month</TooltipContent>
+                            <TooltipContent>The dates in the month to perform the habit.</TooltipContent>
                         </Tooltip>
                     </div>
                 )}
@@ -103,7 +114,11 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                         <TooltipTrigger asChild>
                             <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
                         </TooltipTrigger>
-                        <TooltipContent>Number of cycles to skip between active cycles.</TooltipContent>
+                        <TooltipContent>
+                            {cycle.unit === CycleUnit.DAY && 'Number of days to skip between active days.'}
+                            {cycle.unit === CycleUnit.WEEK && 'Number of weeks to skip between active weeks.'}
+                            {cycle.unit === CycleUnit.MONTH && 'Number of months to skip between active months.'}
+                        </TooltipContent>
                     </Tooltip>
                 </div>
 
@@ -129,9 +144,10 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                                         setCycle({ ...cycle, phase: parseInt(val) });
                                     }}
                                     disabled={!editable}
+                                    className="min-w-[250px]"
                                 >
                                     {dateOptions.map(opt => (
-                                        <SelectItem key={opt.phase} value={opt.phase}>{opt.date}</SelectItem>
+                                        <SelectItem key={opt.phase} value={opt.phase} className="min-w-[250px]">{new Date(opt.date).toLocaleDateString(undefined, { dateStyle: 'full' })}</SelectItem>
                                     ))}
                                 </Select>
                             );
