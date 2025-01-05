@@ -2,22 +2,20 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import * as Icons from '@phosphor-icons/react';
 import * as db from '@/lib/db';
-import { ICON_PAIRS, DEFAULT_CHECK_ICON } from '@/lib/iconRegistry';
+import { ICON_PAIRS, DEFAULT_CHECK_ICON, DEFAULT_EMPTY_ICON } from '@/lib/iconRegistry';
 
-const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextCompleted = false }) => {
-    const hasPairedIcon = ICON_PAIRS[habit.icon];
+const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNextCompleted = false }) => {
+
+    const habitIcon = habit.icon || DEFAULT_CHECK_ICON;
+    let CompletedIconComponent = Icons[habitIcon] || Icons[DEFAULT_CHECK_ICON];
+    const hasPairedIcon = ICON_PAIRS[habitIcon];
     let IconComponent;
-    let CompletedIconComponent;
     if (hasPairedIcon) {
-        // Paired icon: use base icon for incomplete, paired icon for complete
-        const baseIconName = habit.icon;
-        const pairedIconName = ICON_PAIRS[habit.icon];
-        IconComponent = Icons[baseIconName] || Icons[DEFAULT_CHECK_ICON];
-        CompletedIconComponent = Icons[pairedIconName] || Icons[DEFAULT_CHECK_ICON];
+        const pairedIconName = ICON_PAIRS[habitIcon];
+        IconComponent = Icons[pairedIconName] || Icons[DEFAULT_EMPTY_ICON];
+
     } else {
-        // No pair: use same icon for both states
-        IconComponent = Icons[habit.icon] || Icons[DEFAULT_CHECK_ICON];
-        CompletedIconComponent = Icons[habit.icon] || Icons[DEFAULT_CHECK_ICON];
+        IconComponent = Icons[habitIcon] || Icons[DEFAULT_CHECK_ICON];
     }
 
     const [isCompleted, setIsCompleted] = useState(false);
@@ -25,7 +23,6 @@ const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextComp
 
     useEffect(() => {
         let mounted = true;
-
         const checkCompletion = async () => {
             try {
                 const completed = await db.isHabitCompletedForDate(habit.id, date);
@@ -36,9 +33,7 @@ const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextComp
                 console.error('Failed to check habit completion:', error);
             }
         };
-
         checkCompletion();
-
         return () => {
             mounted = false;
         };
@@ -46,7 +41,6 @@ const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextComp
 
     useEffect(() => {
         let mounted = true;
-
         const calculatePace = async () => {
             try {
                 const paceValue = await db.calculatePaceForHabit(habit.id);
@@ -57,18 +51,14 @@ const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextComp
                 console.error('Failed to calculate pace:', error);
             }
         };
-
         calculatePace();
-
         const handlePaceUpdate = async (event) => {
             if (event.detail.habitId === habit.id && mounted) {
                 const paceValue = await db.calculatePaceForHabit(habit.id);
                 setPace(paceValue);
             }
         };
-
         window.addEventListener('paceUpdate', handlePaceUpdate);
-
         return () => {
             mounted = false;
             window.removeEventListener('paceUpdate', handlePaceUpdate);
@@ -79,27 +69,20 @@ const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextComp
         if (e) {
             e.stopPropagation();
         }
-
         const previousState = isCompleted;
         const optimisticState = !isCompleted;
-
         setIsCompleted(optimisticState);
-
         try {
             const newState = await db.toggleHabitForDate(habit.id, date);
-
             if (newState !== optimisticState) {
                 setIsCompleted(newState);
             }
-
             const paceValue = await db.calculatePaceForHabit(habit.id);
             setPace(paceValue);
-
             const event = new CustomEvent('habitToggled', {
                 detail: { habitId: habit.id, date, completed: newState }
             });
             window.dispatchEvent(event);
-
             const paceUpdateEvent = new CustomEvent('paceUpdate', {
                 detail: { habitId: habit.id }
             });
@@ -183,6 +166,6 @@ const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextComp
     );
 });
 
-HabitItem.displayName = 'HabitItem';
+HabitActionItem.displayName = 'HabitActionItem';
 
-export default HabitItem;
+export default HabitActionItem;

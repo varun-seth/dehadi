@@ -11,7 +11,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import * as Icons from '@phosphor-icons/react';
-import { ICON_PAIRS, DEFAULT_CHECK_ICON } from '@/lib/iconRegistry';
+import { DEFAULT_CHECK_ICON } from '@/lib/iconRegistry';
 import { formatDistanceToNow, format } from 'date-fns';
 import { subscribe, HABIT_UPDATED_EVENT } from '@/lib/bus';
 
@@ -54,11 +54,8 @@ export function HabitDetail() {
         return <div className="p-4">Habit not found</div>;
     }
 
-    const hasPairedIcon = ICON_PAIRS[habit.icon];
     let IconComponent;
-    if (hasPairedIcon && Icons[ICON_PAIRS[habit.icon]]) {
-        IconComponent = Icons[ICON_PAIRS[habit.icon]];
-    } else if (Icons[habit.icon]) {
+    if (Icons[habit.icon]) {
         IconComponent = Icons[habit.icon];
     } else {
         IconComponent = Icons[DEFAULT_CHECK_ICON];

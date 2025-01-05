@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { isHabitDueOnDate } from '@/lib/cycle';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useHabits } from '@/lib/hooks';
-import HabitItem from './HabitItem';
+import HabitActionItem from './HabitActionItem';
 import { HabitFormDialog } from './HabitFormDialog';
 import { Button } from '@/components/ui/button';
 import * as dateService from '@/lib/date';
 import * as db from '@/lib/db';
 
-export function DailyView() {
+export function HabitActionList() {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState(() => {
@@ -132,7 +132,7 @@ export function DailyView() {
 
                         return (
                             <div key={habit.id}>
-                                <HabitItem
+                                <HabitActionItem
                                     habit={habit}
                                     date={selectedDate}
                                     isPrevCompleted={isPrevCompleted}

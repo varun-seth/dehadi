@@ -5,6 +5,7 @@ export const APP_ICON = 'House';
 export const ACTIONS_ICON = 'Check';
 export const HABITS_ICON = 'ListBullets';
 export const DEFAULT_CHECK_ICON = 'CheckCircle';
+export const DEFAULT_EMPTY_ICON = 'Circle';
 
 export const ICON_PAIRS = iconsMetadata.iconPairs;
 

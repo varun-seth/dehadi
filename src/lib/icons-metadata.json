@@ -1,9 +1,9 @@
 {
     "iconPairs": {
         "Square": "CheckSquare",
-        "Circle": "CircleCheck",
+        "Circle": "CheckCircle",
         "CheckSquare": "Square",
-        "CircleCheck": "Circle"
+        "CheckCircle": "Circle"
     },
     "icons": [
         {
