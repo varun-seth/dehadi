@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { CycleConfig } from "./CycleConfig";
 import { Card } from "@/components/ui/card";
 import { IconPicker } from './IconPicker';
-import * as Icons from 'lucide-react';
+import * as Icons from '@phosphor-icons/react';
 import { ICONS, ICON_PAIRS, searchIconForHabit } from '@/lib/iconRegistry';
 
 const COLORS = [

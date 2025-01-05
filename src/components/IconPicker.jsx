@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ICONS, ICON_PAIRS } from '@/lib/iconRegistry';
 import { cn } from '@/lib/utils';
-import * as Icons from 'lucide-react';
-import { Search } from 'lucide-react';
+import * as Icons from '@phosphor-icons/react';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 
 const COLORS = [
     '#ef4444', // red
@@ -100,7 +100,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                     <div className="space-y-2">
                         <h3 className="text-sm font-medium">Icon</h3>
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
                                 type="text"
                                 placeholder="Search icons..."
@@ -120,6 +120,8 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                         ? Icons[ICON_PAIRS[name]]
                                         : Icon;
 
+                                    const isValidIcon = typeof DisplayIcon === "function" || typeof DisplayIcon === "object";
+
                                     return (
                                         <button
                                             key={name}
@@ -134,8 +136,13 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                             )}
                                             onClick={() => setSelectedIcon(name)}
                                             title={name}
+                                            disabled={!isValidIcon}
                                         >
-                                            <DisplayIcon className="w-5 h-5" />
+                                            {isValidIcon ? (
+                                                <DisplayIcon className="w-5 h-5" weight="fill" />
+                                            ) : (
+                                                <span className="w-5 h-5 text-muted-foreground">?</span>
+                                            )}
                                         </button>
                                     );
                                 })

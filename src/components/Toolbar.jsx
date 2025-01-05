@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { ClipboardCheck, ChevronLeftIcon, ChevronRightIcon, Settings, PencilRuler, Plus, Pencil, Trash2, ArrowLeft } from 'lucide-react';
+import { ClipboardText, CaretLeft, CaretRight, Gear, Ruler, Plus, PencilSimple, Trash, ArrowLeft } from '@phosphor-icons/react';
 import { HabitFormDialog } from './HabitFormDialog';
 import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import {
@@ -177,7 +177,7 @@ export function Toolbar() {
                         asChild
                     >
                         <Link to="/actions" onClick={handleHomeClick}>
-                            <ClipboardCheck className="w-5 h-5" />
+                            <ClipboardText className="w-5 h-5" />
                             <span className="hidden sm:inline">Dihadi</span>
                         </Link>
                     </Button>
@@ -207,7 +207,7 @@ export function Toolbar() {
                 <>
                     <div className="flex items-center space-x-2 absolute left-1/2 -translate-x-1/2">
                         <Button variant="ghost" size="icon" onClick={handlePreviousDay}>
-                            <ChevronLeftIcon className="h-4 w-4" />
+                            <CaretLeft className="h-4 w-4" />
                         </Button>
                         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                             <DialogTrigger asChild>
@@ -233,17 +233,17 @@ export function Toolbar() {
                                 />
                                 <div className="flex items-center justify-center gap-4 pt-4 border-t">
                                     <Button variant="ghost" size="icon" onClick={handlePreviousDay}>
-                                        <ChevronLeftIcon className="h-4 w-4" />
+                                        <CaretLeft className="h-4 w-4" />
                                     </Button>
                                     <ScoreDisplay size={48} showText={true} />
                                     <Button variant="ghost" size="icon" onClick={handleNextDay}>
-                                        <ChevronRightIcon className="h-4 w-4" />
+                                        <CaretRight className="h-4 w-4" />
                                     </Button>
                                 </div>
                             </DialogContent>
                         </Dialog>
                         <Button variant="ghost" size="icon" onClick={handleNextDay}>
-                            <ChevronRightIcon className="h-4 w-4" />
+                            <CaretRight className="h-4 w-4" />
                         </Button>
                     </div>
                     <div className="flex items-center gap-2">
@@ -255,7 +255,7 @@ export function Toolbar() {
                                         size="icon"
                                         onClick={() => setIsSettingsOpen(true)}
                                     >
-                                        <Settings className="h-4 w-4" />
+                                        <Gear className="h-4 w-4" />
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
@@ -270,14 +270,14 @@ export function Toolbar() {
                 <>
                     <div className="flex items-center gap-2">
                         <Button variant="ghost" onClick={() => navigate('/actions')}>
-                            <ChevronLeftIcon className="h-4 w-4 sm:mr-2" />
+                            <CaretLeft className="h-4 w-4 sm:mr-2" />
                             <span className="hidden sm:inline">Back</span>
                         </Button>
                         <Button
                             variant="ghost"
                             className="flex items-center gap-2"
                         >
-                            <PencilRuler className="h-4 w-4" />
+                            <Ruler className="h-4 w-4" />
                             Habits
                         </Button>
                     </div>
@@ -291,11 +291,11 @@ export function Toolbar() {
                 <TooltipProvider>
                     <div className="flex gap-2">
                         <Button variant="outline" size="sm" onClick={() => setIsEditHabitOpen(true)}>
-                            <Pencil className="h-4 w-4 mr-1" />
+                            <PencilSimple className="h-4 w-4 mr-1" />
                             Edit
                         </Button>
                         <Button variant="destructive" size="sm" onClick={() => setIsDeleteHabitOpen(true)}>
-                            <Trash2 className="h-4 w-4 mr-1" />
+                            <Trash className="h-4 w-4 mr-1" />
                             Delete
                         </Button>
                     </div>
