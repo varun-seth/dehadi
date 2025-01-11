@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import * as Icons from '@phosphor-icons/react';
+import { Icons } from '@/lib/iconsSubset.jsx';
 import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 import * as db from '@/lib/db';
 import { ICON_PAIRS, DEFAULT_CHECK_ICON, DEFAULT_EMPTY_ICON, DEFAULT_CHECK_ICON_SLUG, DEFAULT_EMPTY_ICON_SLUG } from '@/lib/iconRegistry';

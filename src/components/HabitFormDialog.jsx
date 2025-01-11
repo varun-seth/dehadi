@@ -17,7 +17,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { IconPicker } from './IconPicker';
-import * as Icons from '@phosphor-icons/react';
+import { Icons } from '@/lib/iconsSubset.jsx';
 import { ICONS, searchIconForHabit, ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 
 const COLORS = [

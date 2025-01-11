@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card } from "@/components/ui/card";
 import { useHabits } from '@/lib/hooks';
-import * as Icons from '@phosphor-icons/react';
+import { Icons } from '@/lib/iconsSubset.jsx';
 import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 import { DEFAULT_CHECK_ICON } from '@/lib/iconRegistry';
 import {

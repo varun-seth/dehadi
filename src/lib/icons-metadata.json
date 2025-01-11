@@ -19,6 +19,12 @@
             ]
         },
         {
+            "name": "Circle",
+            "slug": null,
+            "description": "Not available for selection",
+            "tags": []
+        },
+        {
             "name": "CheckSquare",
             "slug": "check-square",
             "description": "General task completion",
@@ -32,6 +38,12 @@
                 "mark",
                 "finish"
             ]
+        },
+        {
+            "name": "Square",
+            "slug": null,
+            "description": "Not available for selection",
+            "tags": []
         },
         {
             "name": "Envelope",
@@ -1049,22 +1061,7 @@
             ]
         },
         {
-            "name": "WashingMachine",
-            "slug": "washing-machine",
-            "description": "Laundry and washing",
-            "tags": [
-                "laundry",
-                "wash",
-                "washing",
-                "clothes",
-                "clean",
-                "cleaning",
-                "chore",
-                "chores"
-            ]
-        },
-        {
-            "name": "Tshirt",
+            "name": "TShirt",
             "slug": "shirt",
             "description": "Folding clothes and laundry",
             "tags": [
@@ -1091,21 +1088,6 @@
                 "food",
                 "kitchen",
                 "chef"
-            ]
-        },
-        {
-            "name": "ChefHat",
-            "slug": "chef",
-            "description": "Cooking and culinary",
-            "tags": [
-                "cook",
-                "cooking",
-                "chef",
-                "culinary",
-                "kitchen",
-                "food",
-                "meal",
-                "prepare"
             ]
         },
         {
@@ -1150,19 +1132,6 @@
                 "eat",
                 "eating",
                 "meal"
-            ]
-        },
-        {
-            "name": "Milk",
-            "slug": "milk",
-            "description": "Milk and dairy",
-            "tags": [
-                "milk",
-                "dairy",
-                "drink",
-                "beverage",
-                "calcium",
-                "breakfast"
             ]
         },
         {
@@ -1223,20 +1192,6 @@
             ]
         },
         {
-            "name": "Soup",
-            "slug": "soup",
-            "description": "Soup and warm meals",
-            "tags": [
-                "soup",
-                "food",
-                "meal",
-                "eat",
-                "eating",
-                "warm",
-                "comfort"
-            ]
-        },
-        {
             "name": "GraduationCap",
             "slug": "graduation-cap",
             "description": "Education and learning",
@@ -1263,48 +1218,6 @@
                 "calculation",
                 "numbers",
                 "study",
-                "learn"
-            ]
-        },
-        {
-            "name": "FlaskConical",
-            "slug": "flask",
-            "description": "Science and experiments",
-            "tags": [
-                "science",
-                "experiment",
-                "chemistry",
-                "lab",
-                "research",
-                "study",
-                "learn"
-            ]
-        },
-        {
-            "name": "Microscope",
-            "slug": "microscope",
-            "description": "Research and science",
-            "tags": [
-                "science",
-                "research",
-                "study",
-                "lab",
-                "biology",
-                "microscope",
-                "learn"
-            ]
-        },
-        {
-            "name": "Glasses",
-            "slug": "glasses",
-            "description": "Reading and study",
-            "tags": [
-                "read",
-                "reading",
-                "study",
-                "studying",
-                "glasses",
-                "book",
                 "learn"
             ]
         },
@@ -1376,50 +1289,6 @@
                 "sick",
                 "fever",
                 "medical"
-            ]
-        },
-        {
-            "name": "Bandage",
-            "slug": "bandage",
-            "description": "First aid and care",
-            "tags": [
-                "firstaid",
-                "aid",
-                "care",
-                "injury",
-                "bandage",
-                "health",
-                "medical"
-            ]
-        },
-        {
-            "name": "Dices",
-            "slug": "dice",
-            "description": "Games and board games",
-            "tags": [
-                "game",
-                "games",
-                "boardgame",
-                "boardgames",
-                "play",
-                "playing",
-                "dice",
-                "fun"
-            ]
-        },
-        {
-            "name": "Plane",
-            "slug": "plane",
-            "description": "Travel and flights",
-            "tags": [
-                "travel",
-                "traveling",
-                "flight",
-                "fly",
-                "flying",
-                "plane",
-                "airplane",
-                "trip"
             ]
         },
         {
@@ -1743,21 +1612,6 @@
             ]
         },
         {
-            "name": "Tv",
-            "slug": "tv",
-            "description": "TV and streaming",
-            "tags": [
-                "tv",
-                "television",
-                "watch",
-                "watching",
-                "stream",
-                "streaming",
-                "show",
-                "entertainment"
-            ]
-        },
-        {
             "name": "Radio",
             "slug": "radio",
             "description": "Radio and podcasts",
@@ -1813,20 +1667,6 @@
                 "tool",
                 "fix",
                 "repair"
-            ]
-        },
-        {
-            "name": "Paintbrush",
-            "slug": "paintbrush",
-            "description": "Painting and art",
-            "tags": [
-                "paint",
-                "painting",
-                "art",
-                "artistic",
-                "brush",
-                "create",
-                "draw"
             ]
         },
         {

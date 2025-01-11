@@ -10,7 +10,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import * as Icons from '@phosphor-icons/react';
+import { Icons } from '@/lib/iconsSubset.jsx';
 import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 import { DEFAULT_CHECK_ICON } from '@/lib/iconRegistry';
 import { formatDistanceToNow, format } from 'date-fns';
