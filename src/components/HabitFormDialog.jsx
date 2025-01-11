@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { IconPicker } from './IconPicker';
 import * as Icons from '@phosphor-icons/react';
-import { ICONS, searchIconForHabit } from '@/lib/iconRegistry';
+import { ICONS, searchIconForHabit, ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 
 const COLORS = [
     '#ef4444',
@@ -42,7 +42,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
         name: '',
         description: '',
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        icon: ICONS.length > 0 ? ICONS[0].name : '',
+        icon: ICONS.length > 0 ? ICONS[0].slug : '',
         cycle: {
             unit: 'day',
             slots: null,
@@ -79,7 +79,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                     name: '',
                     description: '',
                     color: COLORS[Math.floor(Math.random() * COLORS.length)],
-                    icon: ICONS.length > 0 ? ICONS[0].name : '',
+                    icon: ICONS.length > 0 ? ICONS[0].slug : '',
                     cycle: null
                 });
                 setIsIconLocked(false);
@@ -89,9 +89,10 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
 
     useEffect(() => {
         if (formData.name && !isIconLocked && open) {
-            const suggestedIcon = searchIconForHabit(formData.name);
-            if (suggestedIcon) {
-                setFormData(prev => ({ ...prev, icon: suggestedIcon }));
+            const suggestedIconName = searchIconForHabit(formData.name);
+            const suggestedIconObj = ICONS.find(icon => icon.name === suggestedIconName);
+            if (suggestedIconObj) {
+                setFormData(prev => ({ ...prev, icon: suggestedIconObj.slug }));
             }
         }
     }, [formData.name, isIconLocked, open]);
@@ -122,11 +123,17 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
     };
 
     const handleIconColorSelect = ({ icon, color }) => {
-        setFormData({ ...formData, icon, color });
+        // icon here is either name or slug, so find slug if needed
+        let iconObj = ICONS.find(i => i.name === icon || i.slug === icon);
+        setFormData({ ...formData, icon: iconObj ? iconObj.slug : icon, color });
         setIsIconLocked(true);
     };
 
-    const IconComponent = Icons[formData.icon];
+    // Find the icon by slug, then get its name for the component
+    // Convert habit.icon (slug) to iconName using dictionary
+    const iconName = ICON_SLUG_TO_NAME[formData.icon];
+    const IconComponent = iconName ? Icons[iconName] : null;
+    // ...existing code...
 
     return (
         <>

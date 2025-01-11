@@ -63,7 +63,9 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
     }, [searchQuery]);
 
     const handleApply = () => {
-        onSelect({ icon: selectedIcon, color: selectedColor });
+        // selectedIcon is either name or slug, so always pass slug
+        let iconObj = ICONS.find(i => i.name === selectedIcon || i.slug === selectedIcon);
+        onSelect({ icon: iconObj ? iconObj.slug : selectedIcon, color: selectedColor });
         onOpenChange(false);
     };
 

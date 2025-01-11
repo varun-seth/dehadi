@@ -7,7 +7,20 @@
     },
     "icons": [
         {
+            "name": "CheckCircle",
+            "slug": "check-circle",
+            "description": "Basic habit tracking",
+            "tags": [
+                "basic",
+                "simple",
+                "round",
+                "general",
+                "default"
+            ]
+        },
+        {
             "name": "CheckSquare",
+            "slug": "check-square",
             "description": "General task completion",
             "tags": [
                 "task",
@@ -21,18 +34,8 @@
             ]
         },
         {
-            "name": "CheckCircle",
-            "description": "Basic habit tracking",
-            "tags": [
-                "basic",
-                "simple",
-                "round",
-                "general",
-                "default"
-            ]
-        },
-        {
             "name": "Envelope",
+            "slug": "mail",
             "description": "Email and communication",
             "tags": [
                 "email",
@@ -45,6 +48,7 @@
         },
         {
             "name": "User",
+            "slug": "user",
             "description": "Personal habits and self-care",
             "tags": [
                 "personal",
@@ -57,6 +61,7 @@
         },
         {
             "name": "FileText",
+            "slug": "file-text",
             "description": "Documentation and paperwork",
             "tags": [
                 "document",
@@ -69,6 +74,7 @@
         },
         {
             "name": "Alarm",
+            "slug": "alarm-clock",
             "description": "Wake up and time-based habits",
             "tags": [
                 "wake",
@@ -83,6 +89,7 @@
         },
         {
             "name": "Barbell",
+            "slug": "barbell",
             "description": "Exercise and strength training",
             "tags": [
                 "exercise",
@@ -100,6 +107,7 @@
         },
         {
             "name": "Footprints",
+            "slug": "footprints",
             "description": "Walking and steps",
             "tags": [
                 "walk",
@@ -114,6 +122,7 @@
         },
         {
             "name": "Shower",
+            "slug": "shower-head",
             "description": "Shower and hygiene",
             "tags": [
                 "shower",
@@ -127,6 +136,7 @@
         },
         {
             "name": "BookOpen",
+            "slug": "book",
             "description": "Reading and study",
             "tags": [
                 "read",
@@ -141,6 +151,7 @@
         },
         {
             "name": "Translate",
+            "slug": "translate",
             "description": "Language learning",
             "tags": [
                 "language",
@@ -154,6 +165,7 @@
         },
         {
             "name": "Brain",
+            "slug": "brain",
             "description": "Mental exercises and mindfulness",
             "tags": [
                 "think",
@@ -168,6 +180,7 @@
         },
         {
             "name": "PuzzlePiece",
+            "slug": "puzzle-piece",
             "description": "Problem-solving and games",
             "tags": [
                 "puzzle",
@@ -180,6 +193,7 @@
         },
         {
             "name": "PenNib",
+            "slug": "pen",
             "description": "Writing and journaling",
             "tags": [
                 "write",
@@ -194,6 +208,7 @@
         },
         {
             "name": "AppleLogo",
+            "slug": "apple",
             "description": "Healthy eating and fruit",
             "tags": [
                 "eat",
@@ -208,6 +223,7 @@
         },
         {
             "name": "Heart",
+            "slug": "heart",
             "description": "Health and wellness",
             "tags": [
                 "health",
@@ -221,6 +237,7 @@
         },
         {
             "name": "Users",
+            "slug": "users",
             "description": "Social activities and networking",
             "tags": [
                 "social",
@@ -235,6 +252,7 @@
         },
         {
             "name": "Phone",
+            "slug": "phone",
             "description": "Phone calls and communication",
             "tags": [
                 "call",
@@ -247,6 +265,7 @@
         },
         {
             "name": "Coffee",
+            "slug": "coffee",
             "description": "Coffee and beverages",
             "tags": [
                 "drink",
@@ -259,6 +278,7 @@
         },
         {
             "name": "Moon",
+            "slug": "moon",
             "description": "Night time and sleep routines",
             "tags": [
                 "night",
@@ -271,6 +291,7 @@
         },
         {
             "name": "Sun",
+            "slug": "sun",
             "description": "Morning and daytime activities",
             "tags": [
                 "morning",
@@ -283,6 +304,7 @@
         },
         {
             "name": "BowlFood",
+            "slug": "food",
             "description": "Meals and eating",
             "tags": [
                 "meal",
@@ -298,6 +320,7 @@
         },
         {
             "name": "Bed",
+            "slug": "bed",
             "description": "Sleep and rest",
             "tags": [
                 "sleep",
@@ -310,6 +333,7 @@
         },
         {
             "name": "MusicNotes",
+            "slug": "music",
             "description": "Music and practice",
             "tags": [
                 "music",
@@ -324,6 +348,7 @@
         },
         {
             "name": "Camera",
+            "slug": "camera",
             "description": "Photography and capturing moments",
             "tags": [
                 "photo",
@@ -338,6 +363,7 @@
         },
         {
             "name": "Drop",
+            "slug": "droplet",
             "description": "Water and hydration",
             "tags": [
                 "water",
@@ -350,6 +376,7 @@
         },
         {
             "name": "Toilet",
+            "slug": "toilet",
             "description": "lavatory",
             "tags": [
                 "bathroom",
@@ -363,6 +390,7 @@
         },
         {
             "name": "Smiley",
+            "slug": "smiley",
             "description": "Happiness and positivity",
             "tags": [
                 "happy",
@@ -376,6 +404,7 @@
         },
         {
             "name": "Bicycle",
+            "slug": "bicycle",
             "description": "Cycling and biking",
             "tags": [
                 "cycle",
@@ -387,6 +416,7 @@
         },
         {
             "name": "Clipboard",
+            "slug": "clipboard",
             "description": "Planning and organization",
             "tags": [
                 "plan",
@@ -400,6 +430,7 @@
         },
         {
             "name": "House",
+            "slug": "home",
             "description": "Home and household chores",
             "tags": [
                 "house",
@@ -412,6 +443,7 @@
         },
         {
             "name": "Leaf",
+            "slug": "leaf",
             "description": "Nature and environment",
             "tags": [
                 "nature",
@@ -425,6 +457,7 @@
         },
         {
             "name": "Chat",
+            "slug": "chat",
             "description": "Messaging and chatting",
             "tags": [
                 "message",
@@ -437,6 +470,7 @@
         },
         {
             "name": "ShoppingCart",
+            "slug": "shopping-cart",
             "description": "Shopping and groceries",
             "tags": [
                 "shop",
@@ -450,6 +484,7 @@
         },
         {
             "name": "Sparkle",
+            "slug": "sparkle",
             "description": "Creativity and inspiration",
             "tags": [
                 "creative",
@@ -463,6 +498,7 @@
         },
         {
             "name": "Target",
+            "slug": "target",
             "description": "Goals and objectives",
             "tags": [
                 "goal",
@@ -476,6 +512,7 @@
         },
         {
             "name": "Lightning",
+            "slug": "lightning",
             "description": "Energy and power",
             "tags": [
                 "energy",
@@ -489,6 +526,7 @@
         },
         {
             "name": "Wind",
+            "slug": "wind",
             "description": "Fresh air and breathing",
             "tags": [
                 "air",
@@ -501,6 +539,7 @@
         },
         {
             "name": "Trophy",
+            "slug": "trophy",
             "description": "Achievements and success",
             "tags": [
                 "achievement",
@@ -514,6 +553,7 @@
         },
         {
             "name": "Timer",
+            "slug": "timer",
             "description": "Time management and tracking",
             "tags": [
                 "time",
@@ -526,6 +566,7 @@
         },
         {
             "name": "Briefcase",
+            "slug": "briefcase",
             "description": "Work and career",
             "tags": [
                 "work",
@@ -538,6 +579,7 @@
         },
         {
             "name": "Palette",
+            "slug": "palette",
             "description": "Art and painting",
             "tags": [
                 "art",
@@ -552,6 +594,7 @@
         },
         {
             "name": "Waves",
+            "slug": "waves",
             "description": "Swimming and water activities",
             "tags": [
                 "swim",
@@ -565,6 +608,7 @@
         },
         {
             "name": "Lightbulb",
+            "slug": "lightbulb",
             "description": "Ideas and innovation",
             "tags": [
                 "idea",
@@ -578,6 +622,7 @@
         },
         {
             "name": "Laptop",
+            "slug": "laptop",
             "description": "Computer work and productivity",
             "tags": [
                 "computer",
@@ -590,6 +635,7 @@
         },
         {
             "name": "Pill",
+            "slug": "pill",
             "description": "Medicine and supplements",
             "tags": [
                 "medicine",
@@ -603,6 +649,7 @@
         },
         {
             "name": "Dog",
+            "slug": "dog",
             "description": "Pet care and animals",
             "tags": [
                 "pet",
@@ -615,6 +662,7 @@
         },
         {
             "name": "Flower",
+            "slug": "flower",
             "description": "Flowers and gardening",
             "tags": [
                 "flower",
@@ -628,6 +676,7 @@
         },
         {
             "name": "Tree",
+            "slug": "tree",
             "description": "Outdoors and nature",
             "tags": [
                 "tree",
@@ -641,6 +690,7 @@
         },
         {
             "name": "Cookie",
+            "slug": "cookie",
             "description": "Treats and baking",
             "tags": [
                 "treat",
@@ -654,6 +704,7 @@
         },
         {
             "name": "Broom",
+            "slug": "broom",
             "description": "Cleaning and tooth brushing",
             "tags": [
                 "clean",
@@ -664,6 +715,7 @@
         },
         {
             "name": "Tooth",
+            "slug": "tooth",
             "description": "Dental care and tooth brushing",
             "tags": [
                 "dental",
@@ -674,6 +726,7 @@
         },
         {
             "name": "PottedPlant",
+            "slug": "potted-plant",
             "description": "Gardening and plant care",
             "tags": [
                 "garden",
@@ -684,6 +737,7 @@
         },
         {
             "name": "PawPrint",
+            "slug": "paw-print",
             "description": "Pet care for cats and dogs",
             "tags": [
                 "pet",
@@ -699,6 +753,7 @@
         },
         {
             "name": "Bone",
+            "slug": "bone",
             "description": "Pet care and dog activities",
             "tags": [
                 "dog",
@@ -713,6 +768,7 @@
         },
         {
             "name": "Cat",
+            "slug": "cat",
             "description": "Cat care and activities",
             "tags": [
                 "pet",
@@ -726,6 +782,7 @@
         },
         {
             "name": "GameController",
+            "slug": "gamepad",
             "description": "Gaming and video games",
             "tags": [
                 "game",
@@ -741,6 +798,7 @@
         },
         {
             "name": "Sword",
+            "slug": "sword",
             "description": "Challenges",
             "tags": [
                 "sword",
@@ -753,6 +811,7 @@
         },
         {
             "name": "RocketLaunch",
+            "slug": "rocket-launch",
             "description": "Difficult tasks and mining",
             "tags": [
                 "rocket",
@@ -768,6 +827,7 @@
         },
         {
             "name": "Knife",
+            "slug": "knife",
             "description": "Cutting and precision tasks",
             "tags": [
                 "cut",
@@ -780,6 +840,7 @@
         },
         {
             "name": "Scissors",
+            "slug": "scissors",
             "description": "Grooming and haircuts",
             "tags": [
                 "groom",
@@ -794,6 +855,7 @@
         },
         {
             "name": "Trash",
+            "slug": "trash",
             "description": "Taking out trash",
             "tags": [
                 "trash",
@@ -808,6 +870,7 @@
         },
         {
             "name": "Recycle",
+            "slug": "recycle",
             "description": "Recycling and sustainability",
             "tags": [
                 "recycle",
@@ -822,6 +885,7 @@
         },
         {
             "name": "Basket",
+            "slug": "basket",
             "description": "Shopping and groceries",
             "tags": [
                 "shop",
@@ -836,6 +900,7 @@
         },
         {
             "name": "CurrencyCircleDollar",
+            "slug": "dollar",
             "description": "Finances and money tasks",
             "tags": [
                 "money",
@@ -852,6 +917,7 @@
         },
         {
             "name": "Wallet",
+            "slug": "wallet",
             "description": "Budgeting and expenses",
             "tags": [
                 "budget",
@@ -867,6 +933,7 @@
         },
         {
             "name": "PiggyBank",
+            "slug": "piggy-bank",
             "description": "Saving money",
             "tags": [
                 "save",
@@ -880,6 +947,7 @@
         },
         {
             "name": "CarProfile",
+            "slug": "car",
             "description": "Driving and car maintenance",
             "tags": [
                 "car",
@@ -893,6 +961,7 @@
         },
         {
             "name": "CallBell",
+            "slug": "call-bell",
             "description": "Service and hospitality",
             "tags": [
                 "service",
@@ -906,6 +975,7 @@
         },
         {
             "name": "DeviceMobile",
+            "slug": "mobile",
             "description": "Phone and app usage",
             "tags": [
                 "phone",
@@ -920,6 +990,7 @@
         },
         {
             "name": "Video",
+            "slug": "video",
             "description": "Video watching and content",
             "tags": [
                 "video",
@@ -933,6 +1004,7 @@
         },
         {
             "name": "Guitar",
+            "slug": "guitar",
             "description": "Guitar practice",
             "tags": [
                 "guitar",
@@ -947,6 +1019,7 @@
         },
         {
             "name": "PianoKeys",
+            "slug": "piano",
             "description": "Piano practice",
             "tags": [
                 "piano",
@@ -962,6 +1035,7 @@
         },
         {
             "name": "Microphone",
+            "slug": "microphone",
             "description": "Singing and vocal practice",
             "tags": [
                 "sing",
@@ -976,6 +1050,7 @@
         },
         {
             "name": "WashingMachine",
+            "slug": "washing-machine",
             "description": "Laundry and washing",
             "tags": [
                 "laundry",
@@ -990,6 +1065,7 @@
         },
         {
             "name": "Tshirt",
+            "slug": "shirt",
             "description": "Folding clothes and laundry",
             "tags": [
                 "clothes",
@@ -1003,6 +1079,7 @@
         },
         {
             "name": "ForkKnife",
+            "slug": "fork-knife",
             "description": "Cooking and meal prep",
             "tags": [
                 "cook",
@@ -1018,6 +1095,7 @@
         },
         {
             "name": "ChefHat",
+            "slug": "chef",
             "description": "Cooking and culinary",
             "tags": [
                 "cook",
@@ -1032,6 +1110,7 @@
         },
         {
             "name": "Wine",
+            "slug": "wine",
             "description": "Wine and drinks",
             "tags": [
                 "wine",
@@ -1045,6 +1124,7 @@
         },
         {
             "name": "Fish",
+            "slug": "fish",
             "description": "Fish and seafood",
             "tags": [
                 "fish",
@@ -1059,6 +1139,7 @@
         },
         {
             "name": "Egg",
+            "slug": "egg",
             "description": "Eggs and breakfast",
             "tags": [
                 "egg",
@@ -1073,6 +1154,7 @@
         },
         {
             "name": "Milk",
+            "slug": "milk",
             "description": "Milk and dairy",
             "tags": [
                 "milk",
@@ -1085,6 +1167,7 @@
         },
         {
             "name": "Carrot",
+            "slug": "carrot",
             "description": "Vegetables and healthy eating",
             "tags": [
                 "vegetable",
@@ -1099,6 +1182,7 @@
         },
         {
             "name": "Pizza",
+            "slug": "pizza",
             "description": "Pizza and fast food",
             "tags": [
                 "pizza",
@@ -1112,6 +1196,7 @@
         },
         {
             "name": "Popcorn",
+            "slug": "popcorn",
             "description": "Snacks and movies",
             "tags": [
                 "snack",
@@ -1125,6 +1210,7 @@
         },
         {
             "name": "IceCream",
+            "slug": "ice-cream",
             "description": "Desserts and treats",
             "tags": [
                 "dessert",
@@ -1138,6 +1224,7 @@
         },
         {
             "name": "Soup",
+            "slug": "soup",
             "description": "Soup and warm meals",
             "tags": [
                 "soup",
@@ -1151,6 +1238,7 @@
         },
         {
             "name": "GraduationCap",
+            "slug": "graduation-cap",
             "description": "Education and learning",
             "tags": [
                 "study",
@@ -1166,6 +1254,7 @@
         },
         {
             "name": "Calculator",
+            "slug": "calculator",
             "description": "Math and calculations",
             "tags": [
                 "math",
@@ -1179,6 +1268,7 @@
         },
         {
             "name": "FlaskConical",
+            "slug": "flask",
             "description": "Science and experiments",
             "tags": [
                 "science",
@@ -1192,6 +1282,7 @@
         },
         {
             "name": "Microscope",
+            "slug": "microscope",
             "description": "Research and science",
             "tags": [
                 "science",
@@ -1205,6 +1296,7 @@
         },
         {
             "name": "Glasses",
+            "slug": "glasses",
             "description": "Reading and study",
             "tags": [
                 "read",
@@ -1218,6 +1310,7 @@
         },
         {
             "name": "Pencil",
+            "slug": "pencil",
             "description": "Writing and notes",
             "tags": [
                 "write",
@@ -1231,6 +1324,7 @@
         },
         {
             "name": "Printer",
+            "slug": "printer",
             "description": "Printing and documents",
             "tags": [
                 "print",
@@ -1244,6 +1338,7 @@
         },
         {
             "name": "Stethoscope",
+            "slug": "stethoscope",
             "description": "Medical checkups and health",
             "tags": [
                 "medical",
@@ -1257,6 +1352,7 @@
         },
         {
             "name": "Syringe",
+            "slug": "syringe",
             "description": "Injections and vaccinations",
             "tags": [
                 "medical",
@@ -1270,6 +1366,7 @@
         },
         {
             "name": "Thermometer",
+            "slug": "thermometer",
             "description": "Health monitoring",
             "tags": [
                 "health",
@@ -1283,6 +1380,7 @@
         },
         {
             "name": "Bandage",
+            "slug": "bandage",
             "description": "First aid and care",
             "tags": [
                 "firstaid",
@@ -1296,6 +1394,7 @@
         },
         {
             "name": "Dices",
+            "slug": "dice",
             "description": "Games and board games",
             "tags": [
                 "game",
@@ -1310,6 +1409,7 @@
         },
         {
             "name": "Plane",
+            "slug": "plane",
             "description": "Travel and flights",
             "tags": [
                 "travel",
@@ -1324,6 +1424,7 @@
         },
         {
             "name": "Train",
+            "slug": "train",
             "description": "Commute and travel",
             "tags": [
                 "travel",
@@ -1336,6 +1437,7 @@
         },
         {
             "name": "Bus",
+            "slug": "bus",
             "description": "Public transport",
             "tags": [
                 "bus",
@@ -1348,6 +1450,7 @@
         },
         {
             "name": "Tent",
+            "slug": "tent",
             "description": "Camping and outdoors",
             "tags": [
                 "camp",
@@ -1361,6 +1464,7 @@
         },
         {
             "name": "Backpack",
+            "slug": "backpack",
             "description": "Travel and adventure",
             "tags": [
                 "travel",
@@ -1374,6 +1478,7 @@
         },
         {
             "name": "MapPin",
+            "slug": "map-pin",
             "description": "Location and exploration",
             "tags": [
                 "location",
@@ -1387,6 +1492,7 @@
         },
         {
             "name": "Compass",
+            "slug": "compass",
             "description": "Navigation and direction",
             "tags": [
                 "navigate",
@@ -1400,6 +1506,7 @@
         },
         {
             "name": "Church",
+            "slug": "church",
             "description": "Religion and spirituality",
             "tags": [
                 "religion",
@@ -1414,6 +1521,7 @@
         },
         {
             "name": "Baby",
+            "slug": "baby",
             "description": "Childcare and parenting",
             "tags": [
                 "baby",
@@ -1427,6 +1535,7 @@
         },
         {
             "name": "ShoppingBag",
+            "slug": "shopping-bag",
             "description": "Wardrobe and fashion",
             "tags": [
                 "clothes",
@@ -1441,6 +1550,7 @@
         },
         {
             "name": "Plug",
+            "slug": "plug",
             "description": "Electronics and charging",
             "tags": [
                 "charge",
@@ -1454,6 +1564,7 @@
         },
         {
             "name": "Lamp",
+            "slug": "lamp",
             "description": "Energy saving and lighting",
             "tags": [
                 "light",
@@ -1467,6 +1578,7 @@
         },
         {
             "name": "Flame",
+            "slug": "flame",
             "description": "Fire and heating",
             "tags": [
                 "fire",
@@ -1480,6 +1592,7 @@
         },
         {
             "name": "Snowflake",
+            "slug": "snowflake",
             "description": "Cold and winter activities",
             "tags": [
                 "cold",
@@ -1493,6 +1606,7 @@
         },
         {
             "name": "Cloud",
+            "slug": "cloud",
             "description": "Weather and mood",
             "tags": [
                 "weather",
@@ -1505,6 +1619,7 @@
         },
         {
             "name": "CloudRain",
+            "slug": "cloud-rain",
             "description": "Rainy day activities",
             "tags": [
                 "rain",
@@ -1517,6 +1632,7 @@
         },
         {
             "name": "Umbrella",
+            "slug": "umbrella",
             "description": "Rain protection",
             "tags": [
                 "rain",
@@ -1529,6 +1645,7 @@
         },
         {
             "name": "Rocket",
+            "slug": "rocket",
             "description": "Goals and ambition",
             "tags": [
                 "goal",
@@ -1543,6 +1660,7 @@
         },
         {
             "name": "Medal",
+            "slug": "medal",
             "description": "Awards and achievements",
             "tags": [
                 "award",
@@ -1556,6 +1674,7 @@
         },
         {
             "name": "Flag",
+            "slug": "flag",
             "description": "Milestones and goals",
             "tags": [
                 "milestone",
@@ -1569,6 +1688,7 @@
         },
         {
             "name": "Package",
+            "slug": "package",
             "description": "Deliveries and shipping",
             "tags": [
                 "package",
@@ -1582,6 +1702,7 @@
         },
         {
             "name": "Gift",
+            "slug": "gift",
             "description": "Gifts and presents",
             "tags": [
                 "gift",
@@ -1595,6 +1716,7 @@
         },
         {
             "name": "Cake",
+            "slug": "cake",
             "description": "Celebrations and birthdays",
             "tags": [
                 "celebrate",
@@ -1608,6 +1730,7 @@
         },
         {
             "name": "Confetti",
+            "slug": "confetti",
             "description": "Celebrations and events",
             "tags": [
                 "celebrate",
@@ -1621,6 +1744,7 @@
         },
         {
             "name": "Tv",
+            "slug": "tv",
             "description": "TV and streaming",
             "tags": [
                 "tv",
@@ -1635,6 +1759,7 @@
         },
         {
             "name": "Radio",
+            "slug": "radio",
             "description": "Radio and podcasts",
             "tags": [
                 "radio",
@@ -1648,6 +1773,7 @@
         },
         {
             "name": "Newspaper",
+            "slug": "newspaper",
             "description": "News and reading",
             "tags": [
                 "news",
@@ -1661,6 +1787,7 @@
         },
         {
             "name": "Wrench",
+            "slug": "wrench",
             "description": "Repairs and maintenance",
             "tags": [
                 "repair",
@@ -1675,6 +1802,7 @@
         },
         {
             "name": "Hammer",
+            "slug": "hammer",
             "description": "DIY and construction",
             "tags": [
                 "diy",
@@ -1689,6 +1817,7 @@
         },
         {
             "name": "Paintbrush",
+            "slug": "paintbrush",
             "description": "Painting and art",
             "tags": [
                 "paint",
@@ -1702,6 +1831,7 @@
         },
         {
             "name": "FileDashed",
+            "slug": "file-dashed",
             "description": "Crafts and cutting",
             "tags": [
                 "craft",
@@ -1715,6 +1845,7 @@
         },
         {
             "name": "Ruler",
+            "slug": "ruler",
             "description": "Measuring and precision",
             "tags": [
                 "measure",
