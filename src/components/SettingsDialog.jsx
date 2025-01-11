@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sun, Moon, Monitor, Ruler, Database } from '@phosphor-icons/react';
+import { Sun, Moon, Monitor, Wrench, Database } from '@phosphor-icons/react';
 import {
     Dialog,
     DialogContent,
@@ -79,7 +79,7 @@ export function SettingsDialog({ open, onOpenChange }) {
                             className="flex flex-col gap-3 h-auto py-6"
                             onClick={handleNavigateToHabits}
                         >
-                            <Ruler className="h-8 w-8" />
+                            <Wrench className="h-8 w-8" />
                             <span className="text-sm font-medium">Edit Habits</span>
                         </Button>
                         <Button

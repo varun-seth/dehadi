@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { ClipboardText, CaretLeft, CaretRight, Gear, Ruler, Plus, PencilSimple, Trash, ArrowLeft } from '@phosphor-icons/react';
+import { ClipboardText, CaretLeft, CaretRight, Gear, Wrench, Plus, PencilSimple, Trash, ArrowLeft, Database } from '@phosphor-icons/react';
 import { HabitFormDialog } from './HabitFormDialog';
 import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import {
@@ -199,6 +199,7 @@ export function Toolbar() {
                         variant="ghost"
                         className="flex items-center gap-2"
                     >
+                        <Database className="h-4 w-4" />
                         <span>Manage Data</span>
                     </Button>
                 </div>
@@ -277,7 +278,7 @@ export function Toolbar() {
                             variant="ghost"
                             className="flex items-center gap-2"
                         >
-                            <Ruler className="h-4 w-4" />
+                            <Wrench className="h-4 w-4" />
                             Habits
                         </Button>
                     </div>

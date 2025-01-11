@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ICONS, ICON_PAIRS } from '@/lib/iconRegistry';
+import { ICONS } from '@/lib/iconRegistry';
 import { cn } from '@/lib/utils';
 import * as Icons from '@phosphor-icons/react';
 import { MagnifyingGlass } from '@phosphor-icons/react';
@@ -116,9 +116,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                 </div>
                             ) : (
                                 filteredIcons.map(({ name, component: Icon }) => {
-                                    const DisplayIcon = ICON_PAIRS[name]
-                                        ? Icons[ICON_PAIRS[name]]
-                                        : Icon;
+                                    const DisplayIcon = Icon;
 
                                     const isValidIcon = typeof DisplayIcon === "function" || typeof DisplayIcon === "object";
 

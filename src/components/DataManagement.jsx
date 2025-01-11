@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Download, Upload } from '@phosphor-icons/react';
+import { FileArrowDown, SpinnerGap } from '@phosphor-icons/react';
 import { Button } from "@/components/ui/button";
 import { exportAllData, importAllData, getTotalHabitsCount, getTotalActionsCount } from '@/lib/db';
 import { ImportStatsDialog } from '@/components/ImportStatsDialog';
@@ -42,7 +42,7 @@ export function DataManagement() {
             const link = document.createElement('a');
             link.href = url;
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
-            link.download = `dihadi-export-${timestamp}.json`;
+            link.download = `dihadi-${timestamp}.json`;
             document.body.appendChild(link);
             link.click();
 
@@ -97,21 +97,23 @@ export function DataManagement() {
                         className="flex flex-col gap-3 h-auto py-6"
                         onClick={handleExportData}
                     >
-                        <Download className="h-8 w-8" />
-                        <span className="text-sm font-medium">Export Data</span>
+                        <FileArrowDown className="h-8 w-8" />
+                        <span className="text-sm font-medium">Download Backup</span>
                     </Button>
                     <Button
                         variant="outline"
                         className="flex flex-col gap-3 h-auto py-6"
                         onClick={handleImportData}
                     >
-                        <Upload className="h-8 w-8" />
-                        <span className="text-sm font-medium">Import Data</span>
+                        <SpinnerGap className="h-8 w-8" />
+                        <span className="text-sm font-medium">Restore</span>
                     </Button>
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                    You can export all your data and import it into a new device. Make sure to try importing it in incognito in the current device to make sure that the exported data has all the records.
+                    You can download all your data into a file and keep it as backup. You can also restore a new device by uploading the backup file.
+                    Since this application works entirely offline, it is your responsibility to keep backups of your data.
+                    Make sure to try importing it in incognito in the current device to confirm that the exported data has all the records.
                 </p>
 
                 <input

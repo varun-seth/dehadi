@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { IconPicker } from './IconPicker';
 import * as Icons from '@phosphor-icons/react';
-import { ICONS, ICON_PAIRS, searchIconForHabit } from '@/lib/iconRegistry';
+import { ICONS, searchIconForHabit } from '@/lib/iconRegistry';
 
 const COLORS = [
     '#ef4444',
@@ -126,10 +126,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
         setIsIconLocked(true);
     };
 
-    const hasPairedIcon = ICON_PAIRS[formData.icon];
-    const IconComponent = hasPairedIcon
-        ? Icons[ICON_PAIRS[formData.icon]]
-        : Icons[formData.icon];
+    const IconComponent = Icons[formData.icon];
 
     return (
         <>
