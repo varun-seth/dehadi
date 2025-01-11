@@ -11,6 +11,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import * as Icons from '@phosphor-icons/react';
+import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 import { DEFAULT_CHECK_ICON } from '@/lib/iconRegistry';
 import { formatDistanceToNow, format } from 'date-fns';
 import { subscribe, HABIT_UPDATED_EVENT } from '@/lib/bus';
@@ -55,8 +56,10 @@ export function HabitDetail() {
     }
 
     let IconComponent;
-    if (Icons[habit.icon]) {
-        IconComponent = Icons[habit.icon];
+    // Convert habit.icon (slug) to iconName
+    const iconName = ICON_SLUG_TO_NAME[habit.icon];
+    if (iconName && Icons[iconName]) {
+        IconComponent = Icons[iconName];
     } else {
         IconComponent = Icons[DEFAULT_CHECK_ICON];
     }

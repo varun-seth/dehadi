@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Card } from "@/components/ui/card";
 import { useHabits } from '@/lib/hooks';
 import * as Icons from '@phosphor-icons/react';
+import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 import { DEFAULT_CHECK_ICON } from '@/lib/iconRegistry';
 import {
     DndContext,
@@ -90,9 +91,11 @@ export function HabitList() {
 
 function SortableHabitItem({ habit }) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: habit.id });
+    // Convert habit.icon (slug) to iconName
     let IconComponent;
-    if (Icons[habit.icon]) {
-        IconComponent = Icons[habit.icon];
+    const iconName = ICON_SLUG_TO_NAME[habit.icon];
+    if (iconName && Icons[iconName]) {
+        IconComponent = Icons[iconName];
     } else {
         IconComponent = Icons[DEFAULT_CHECK_ICON];
     }

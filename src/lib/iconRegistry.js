@@ -1,10 +1,27 @@
 import * as Icons from '@phosphor-icons/react';
 import iconsMetadata from './icons-metadata.json';
 
+// Check for unique slugs in iconsMetadata.icons
+const slugSet = new Set();
+const duplicateSlugs = [];
+for (const icon of iconsMetadata.icons) {
+    if (slugSet.has(icon.slug)) {
+        duplicateSlugs.push(icon.slug);
+    }
+    slugSet.add(icon.slug);
+}
+if (duplicateSlugs.length > 0) {
+    throw new Error(
+        `Duplicate icon slugs found: ${duplicateSlugs.join(', ')}`
+    );
+}
+
 export const APP_ICON = 'House';
 export const ACTIONS_ICON = 'Check';
 export const HABITS_ICON = 'ListBullets';
+export const DEFAULT_CHECK_ICON_SLUG = 'check-circle';
 export const DEFAULT_CHECK_ICON = 'CheckCircle';
+export const DEFAULT_EMPTY_ICON_SLUG = 'circle';
 export const DEFAULT_EMPTY_ICON = 'Circle';
 
 export const ICON_PAIRS = iconsMetadata.iconPairs;
@@ -16,6 +33,13 @@ export const ICONS = iconsMetadata.icons
             component: Icons[icon.name],
         };
     });
+    
+// Icon slug is stable
+// Icon Name may change if we switch icon sets (like from Phosphor to FontAwesome etc)
+export const ICON_SLUG_TO_NAME = {};
+for (const icon of ICONS) {
+    ICON_SLUG_TO_NAME[icon.slug] = icon.name;
+}
 
 export function searchIconForHabit(habitName) {
     if (!habitName || typeof habitName !== 'string') {

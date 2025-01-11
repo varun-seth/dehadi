@@ -1,21 +1,23 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import * as Icons from '@phosphor-icons/react';
+import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 import * as db from '@/lib/db';
-import { ICON_PAIRS, DEFAULT_CHECK_ICON, DEFAULT_EMPTY_ICON } from '@/lib/iconRegistry';
+import { ICON_PAIRS, DEFAULT_CHECK_ICON, DEFAULT_EMPTY_ICON, DEFAULT_CHECK_ICON_SLUG, DEFAULT_EMPTY_ICON_SLUG } from '@/lib/iconRegistry';
 
 const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNextCompleted = false }) => {
-
-    const habitIcon = habit.icon || DEFAULT_CHECK_ICON;
-    let CompletedIconComponent = Icons[habitIcon] || Icons[DEFAULT_CHECK_ICON];
-    const hasPairedIcon = ICON_PAIRS[habitIcon];
+    // Convert habit.icon (slug) to iconName
+    const habitIconSlug = habit.icon || DEFAULT_CHECK_ICON_SLUG;
+    const habitIconName = ICON_SLUG_TO_NAME[habitIconSlug] || DEFAULT_CHECK_ICON;
+    let CompletedIconComponent = Icons[habitIconName] || Icons[DEFAULT_CHECK_ICON];
+    const hasPairedIcon = ICON_PAIRS[habitIconName];
     let IconComponent;
     if (hasPairedIcon) {
-        const pairedIconName = ICON_PAIRS[habitIcon];
-        IconComponent = Icons[pairedIconName] || Icons[DEFAULT_EMPTY_ICON];
-
+        const pairedIconName = ICON_PAIRS[habitIconName];
+        const pairedIconRealName = ICON_SLUG_TO_NAME[pairedIconName] || pairedIconName;
+        IconComponent = Icons[pairedIconRealName] || Icons[DEFAULT_EMPTY_ICON];
     } else {
-        IconComponent = Icons[habitIcon] || Icons[DEFAULT_CHECK_ICON];
+        IconComponent = Icons[habitIconName] || Icons[DEFAULT_CHECK_ICON];
     }
 
     const [isCompleted, setIsCompleted] = useState(false);
