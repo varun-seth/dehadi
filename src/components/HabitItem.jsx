@@ -1,20 +1,24 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import * as Icons from 'lucide-react';
+import * as Icons from '@phosphor-icons/react';
 import * as db from '@/lib/db';
-import { ICON_PAIRS } from './HabitForm';
+import { ICON_PAIRS, DEFAULT_CHECK_ICON } from '@/lib/iconRegistry';
 
 const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextCompleted = false }) => {
     const hasPairedIcon = ICON_PAIRS[habit.icon];
-    const isCheckIcon = habit.icon === 'Check';
-
-    const IconComponent = isCheckIcon
-        ? Icons.Square
-        : Icons[habit.icon];
-
-    const CompletedIconComponent = hasPairedIcon
-        ? Icons[ICON_PAIRS[habit.icon]]
-        : Icons[habit.icon];
+    let IconComponent;
+    let CompletedIconComponent;
+    if (hasPairedIcon) {
+        // Paired icon: use base icon for incomplete, paired icon for complete
+        const baseIconName = habit.icon;
+        const pairedIconName = ICON_PAIRS[habit.icon];
+        IconComponent = Icons[baseIconName] || Icons[DEFAULT_CHECK_ICON];
+        CompletedIconComponent = Icons[pairedIconName] || Icons[DEFAULT_CHECK_ICON];
+    } else {
+        // No pair: use same icon for both states
+        IconComponent = Icons[habit.icon] || Icons[DEFAULT_CHECK_ICON];
+        CompletedIconComponent = Icons[habit.icon] || Icons[DEFAULT_CHECK_ICON];
+    }
 
     const [isCompleted, setIsCompleted] = useState(false);
     const [pace, setPace] = useState(null);
@@ -139,6 +143,7 @@ const HabitItem = React.memo(({ habit, date, isPrevCompleted = false, isNextComp
                                     "w-6 h-6 transition-all duration-300 ease-out",
                                     "text-background"
                                 )}
+                                weight="fill"
                             />
                         ) : (
                             <IconComponent

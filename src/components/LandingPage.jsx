@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ClipboardCheck } from 'lucide-react';
+import { ClipboardText } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 
 export function LandingPage() {
@@ -8,7 +8,7 @@ export function LandingPage() {
             <div className="max-w-3xl w-full space-y-12 flex flex-col items-center">
                 <div className="flex flex-col md:flex-row md:items-center gap-8">
                     <div className="flex justify-center flex-shrink-0">
-                        <ClipboardCheck className="w-32 h-32 md:w-40 md:h-40 text-primary" />
+                        <ClipboardText className="w-32 h-32 md:w-40 md:h-40 text-primary" />
                     </div>
                     <div className="text-center md:text-left space-y-3">
                         <h1 className="text-5xl md:text-6xl font-bold tracking-tight">Dihadi</h1>

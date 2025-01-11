@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
 import { cn } from "@/lib/utils"
-import { ChevronDown } from "lucide-react"
+import { CaretDown } from "@phosphor-icons/react"
 
 const Select = React.forwardRef(
     ({ className, ...props }, ref) => (
@@ -15,7 +15,7 @@ const Select = React.forwardRef(
             >
                 <SelectPrimitive.Value />
                 <SelectPrimitive.Icon>
-                    <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
+                    <CaretDown className="ml-2 h-4 w-4 opacity-50" />
                 </SelectPrimitive.Icon>
             </SelectPrimitive.Trigger>
             <SelectPrimitive.Content

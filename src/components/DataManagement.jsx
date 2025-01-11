@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Download, Upload } from 'lucide-react';
+import { Download, Upload } from '@phosphor-icons/react';
 import { Button } from "@/components/ui/button";
 import { exportAllData, importAllData, getTotalHabitsCount, getTotalActionsCount } from '@/lib/db';
 import { ImportStatsDialog } from '@/components/ImportStatsDialog';

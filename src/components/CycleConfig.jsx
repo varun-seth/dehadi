@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Select, SelectItem } from '@/components/ui/select.jsx';
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
-import { HelpCircle } from 'lucide-react';
+import { Question } from '@phosphor-icons/react';
 
 
 
@@ -31,7 +31,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                     </Select>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
+                            <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><Question size={18} /></span>
                         </TooltipTrigger>
                         <TooltipContent>Length of each cycle.</TooltipContent>
                     </Tooltip>
@@ -92,7 +92,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                         </div>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
+                                <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><Question size={18} /></span>
                             </TooltipTrigger>
                             <TooltipContent>The dates in the month to perform the habit.</TooltipContent>
                         </Tooltip>
@@ -112,7 +112,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                     />
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
+                            <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><Question size={18} /></span>
                         </TooltipTrigger>
                         <TooltipContent>
                             {cycle.unit === CycleUnit.DAY && 'Number of days to skip between active days.'}
@@ -154,7 +154,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                         })()}
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
+                                <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><Question size={18} /></span>
                             </TooltipTrigger>
                             <TooltipContent>Sets which date to align the cycle to (choices are 1 greater than the rest value).</TooltipContent>
                         </Tooltip>

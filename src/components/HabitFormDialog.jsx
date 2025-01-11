@@ -17,7 +17,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { IconPicker } from './IconPicker';
-import * as Icons from 'lucide-react';
+import * as Icons from '@phosphor-icons/react';
 import { ICONS, ICON_PAIRS, searchIconForHabit } from '@/lib/iconRegistry';
 
 const COLORS = [
@@ -42,7 +42,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
         name: '',
         description: '',
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        icon: ICONS[0].name,
+        icon: ICONS.length > 0 ? ICONS[0].name : '',
         cycle: {
             unit: 'day',
             slots: null,
@@ -79,7 +79,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                     name: '',
                     description: '',
                     color: COLORS[Math.floor(Math.random() * COLORS.length)],
-                    icon: ICONS[0].name,
+                    icon: ICONS.length > 0 ? ICONS[0].name : '',
                     cycle: null
                 });
                 setIsIconLocked(false);
