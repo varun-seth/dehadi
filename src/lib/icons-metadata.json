@@ -1,11 +1,13 @@
 {
+    "comment/iconPairs": "icon pairs are used for matching different icon styles for checkboxes (empty vs checked)",
     "iconPairs": {
         "Square": "CheckSquare",
         "Circle": "CheckCircle",
         "CheckSquare": "Square",
         "CheckCircle": "Circle"
     },
-    "icons": [
+    "comment/userIcons": "user icons are meant for the users to select. The entire list can be deleted to reduce the bundle size",
+    "userIcons": [
         {
             "name": "CheckCircle",
             "slug": "check-circle",

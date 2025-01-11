@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { IconPicker } from './IconPicker';
 import { Icons } from '@/lib/iconsSubset.jsx';
-import { ICONS, searchIconForHabit, ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
+import { USER_ICONS, searchIconForHabit, ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 
 const COLORS = [
     '#ef4444',
@@ -42,7 +42,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
         name: '',
         description: '',
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        icon: ICONS.length > 0 ? ICONS[0].slug : '',
+        icon: USER_ICONS.length > 0 ? USER_ICONS[0].slug : '',
         cycle: {
             unit: 'day',
             slots: null,
@@ -79,7 +79,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                     name: '',
                     description: '',
                     color: COLORS[Math.floor(Math.random() * COLORS.length)],
-                    icon: ICONS.length > 0 ? ICONS[0].slug : '',
+                    icon: USER_ICONS.length > 0 ? USER_ICONS[0].slug : '',
                     cycle: null
                 });
                 setIsIconLocked(false);
@@ -90,7 +90,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
     useEffect(() => {
         if (formData.name && !isIconLocked && open) {
             const suggestedIconName = searchIconForHabit(formData.name);
-            const suggestedIconObj = ICONS.find(icon => icon.name === suggestedIconName);
+            const suggestedIconObj = USER_ICONS.find(icon => icon.name === suggestedIconName);
             if (suggestedIconObj) {
                 setFormData(prev => ({ ...prev, icon: suggestedIconObj.slug }));
             }
@@ -124,7 +124,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
 
     const handleIconColorSelect = ({ icon, color }) => {
         // icon here is either name or slug, so find slug if needed
-        let iconObj = ICONS.find(i => i.name === icon || i.slug === icon);
+        let iconObj = USER_ICONS.find(i => i.name === icon || i.slug === icon);
         setFormData({ ...formData, icon: iconObj ? iconObj.slug : icon, color });
         setIsIconLocked(true);
     };
