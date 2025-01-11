@@ -42,8 +42,8 @@ export function HabitForm() {
         cycle: {
             unit: 'day',
             slots: null,
-            leap: 0,
-            base: 0
+            rest: 0,
+            phase: 0
         }
     });
 
@@ -58,8 +58,8 @@ export function HabitForm() {
                             cycle: habit.cycle || {
                                 unit: 'day',
                                 slots: null,
-                                leap: 0,
-                                base: 0
+                                rest: 0,
+                                phase: 0
                             }
                         });
                     }
@@ -138,7 +138,16 @@ export function HabitForm() {
                     <IconPicker selectedIcon={formData.icon} onSelect={icon => { setFormData({ ...formData, icon }); setIsIconPickerOpen(false); }} onClose={() => setIsIconPickerOpen(false)} />
                 )}
                 <hr className="my-6" />
-                <CycleConfig cycle={formData.cycle} setCycle={cycle => setFormData({ ...formData, cycle })} editable={true} />
+                <CycleConfig
+                    cycle={{
+                        unit: formData.cycle?.unit ?? 'day',
+                        slots: formData.cycle?.slots ?? null,
+                        rest: formData.cycle?.rest ? formData.cycle.rest : 0,
+                        phase: formData.cycle?.phase ? formData.cycle.phase : 0
+                    }}
+                    setCycle={cycle => setFormData({ ...formData, cycle })}
+                    editable={true}
+                />
                 <div className="flex justify-end gap-2 mt-4">
                     <Button type="submit" disabled={loading}>{id ? 'Update' : 'Create'} Habit</Button>
                     <Button type="button" variant="outline" onClick={() => navigate('/habits')}>Cancel</Button>

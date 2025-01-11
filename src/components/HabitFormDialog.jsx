@@ -46,8 +46,8 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
         cycle: {
             unit: 'day',
             slots: null,
-            leap: 0,
-            base: 0
+            rest: 0,
+            phase: 0
         }
     });
 
@@ -63,8 +63,8 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                                 cycle: habit.cycle || {
                                     unit: 'day',
                                     slots: null,
-                                    leap: 0,
-                                    base: 0
+                                    rest: 0,
+                                    phase: 0
                                 }
                             });
                             setIsIconLocked(true);
