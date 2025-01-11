@@ -3,8 +3,8 @@ export function getDefaultCycle() {
   return {
     unit: CycleUnit.DAY,
     slots: null,
-    leap: 0,
-    base: 0
+  rest: 0,
+    phase: 0
   };
 }
 // Enum for cycle units
@@ -17,31 +17,31 @@ export const CycleUnit = Object.freeze({
 // Returns true if the habit should be done on the given date
 export function isHabitDueOnDate(habit, dateStr) {
   if (!habit || !habit.cycle) return true;
-  const { unit, slots, leap = 0, base = 0 } = habit.cycle;
+  const { unit, slots, rest = 0, phase = 0 } = habit.cycle;
   const date = new Date(dateStr + 'T00:00:00');
   // Epoch reference: 1970-01-01
   const epoch = new Date('1970-01-01T00:00:00');
   if (unit === CycleUnit.DAY) {
-    if (leap === 0) return true;
+    if (rest === 0) return true;
     // Epoch days since 1970-01-01
     const epochDays = Math.floor((date - epoch) / (1000 * 60 * 60 * 24));
-    return (epochDays % (leap + 1)) === base;
+  return (epochDays % (rest + 1)) === phase;
   }
   if (unit === CycleUnit.WEEK) {
     const weekday = date.getDay(); // 0=Sun, 1=Mon, ...
     if (Array.isArray(slots) && slots.length > 0 && !slots.includes(weekday)) return false;
-    if (leap === 0) return true;
+    if (rest === 0) return true;
     // Epoch weeks since 1970-01-01
     const epochWeeks = Math.floor((date - epoch) / (1000 * 60 * 60 * 24 * 7));
-    return (epochWeeks % (leap + 1)) === base;
+  return (epochWeeks % (rest + 1)) === phase;
   }
   if (unit === CycleUnit.MONTH) {
     const dayOfMonth = date.getDate() - 1; // 0-indexed
     if (Array.isArray(slots) && slots.length > 0 && !slots.includes(dayOfMonth)) return false;
-    if (leap === 0) return true;
+    if (rest === 0) return true;
     // Epoch months since 1970-01-01
     const epochMonths = (date.getFullYear() - 1970) * 12 + date.getMonth();
-    return (epochMonths % (leap + 1)) === base;
+  return (epochMonths % (rest + 1)) === phase;
   }
   return true;
 }

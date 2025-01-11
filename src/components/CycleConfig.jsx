@@ -89,13 +89,13 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                 )}
 
                 <div className="flex items-center gap-2">
-                    <Label htmlFor="cycle-leap" className="min-w-[48px]">Leap</Label>
+                    <Label htmlFor="cycle-rest" className="min-w-[48px]">Rest</Label>
                     <Input
-                        id="cycle-leap"
+                        id="cycle-rest"
                         type="number"
                         min={0}
-                        value={cycle.leap}
-                        onChange={e => editable && setCycle({ ...cycle, leap: parseInt(e.target.value) || 0 })}
+                        value={cycle.rest}
+                        onChange={e => editable && setCycle({ ...cycle, rest: parseInt(e.target.value) || 0 })}
                         disabled={!editable}
                         className="max-w-[80px]"
                     />
@@ -103,35 +103,35 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                         <TooltipTrigger asChild>
                             <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
                         </TooltipTrigger>
-                        <TooltipContent>Leaping allows for resting between cycles. A value of 1 means to perform the habit every other cycle.</TooltipContent>
+                        <TooltipContent>Number of cycles to skip between active cycles.</TooltipContent>
                     </Tooltip>
                 </div>
 
-                {cycle.leap > 0 && (
+                {cycle.rest > 0 && (
                     <div className="flex items-center gap-2">
-                        <Label htmlFor="cycle-base" className="min-w-[48px]">Start date</Label>
+                        <Label htmlFor="cycle-phase" className="min-w-[48px]">Phase</Label>
                         {(() => {
-                            // Compute all possible next dates for each base value
+                            // Compute all possible next dates for each phase value
                             const dateOptions = [];
-                            for (let b = 0; b <= cycle.leap; b++) {
-                                const nextDate = findNextDueDate({ ...cycle, base: b }, new Date().toISOString().slice(0, 10));
-                                dateOptions.push({ base: b, date: nextDate });
+                            for (let p = 0; p <= cycle.rest; p++) {
+                                const nextDate = findNextDueDate({ ...cycle, phase: p }, new Date().toISOString().slice(0, 10));
+                                dateOptions.push({ phase: p, date: nextDate });
                             }
                             // Sort by date ascending
                             dateOptions.sort((a, b) => a.date.localeCompare(b.date));
-                            // If current base is not in sorted order, select the earliest by default
-                            const selectedBase = dateOptions.some(opt => opt.base === cycle.base) ? cycle.base : dateOptions[0]?.base;
+                            // If current phase is not in sorted order, select the earliest by default
+                            const selectedPhase = dateOptions.some(opt => opt.phase === cycle.phase) ? cycle.phase : dateOptions[0]?.phase;
                             return (
                                 <Select
-                                    value={selectedBase}
+                                    value={selectedPhase}
                                     onValueChange={val => {
                                         if (!editable) return;
-                                        setCycle({ ...cycle, base: parseInt(val) });
+                                        setCycle({ ...cycle, phase: parseInt(val) });
                                     }}
                                     disabled={!editable}
                                 >
                                     {dateOptions.map(opt => (
-                                        <SelectItem key={opt.base} value={opt.base}>{opt.date}</SelectItem>
+                                        <SelectItem key={opt.phase} value={opt.phase}>{opt.date}</SelectItem>
                                     ))}
                                 </Select>
                             );
@@ -140,7 +140,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                             <TooltipTrigger asChild>
                                 <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><HelpCircle size={18} /></span>
                             </TooltipTrigger>
-                            <TooltipContent>Select which date to align the cycle to. This sets the offset internally.</TooltipContent>
+                            <TooltipContent>Sets which date to align the cycle to (choices are 1 greater than the rest value).</TooltipContent>
                         </Tooltip>
                     </div>
                 )}
