@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ICONS } from '@/lib/iconRegistry';
 import { cn } from '@/lib/utils';
-import * as Icons from '@phosphor-icons/react';
+import { Icons } from '@/lib/iconsSubset.jsx';
 import { MagnifyingGlass } from '@phosphor-icons/react';
 
 const COLORS = [

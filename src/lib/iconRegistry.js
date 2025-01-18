@@ -1,10 +1,14 @@
-import * as Icons from '@phosphor-icons/react';
 import iconsMetadata from './icons-metadata.json';
+import { Icons } from './iconsSubset.jsx';
+
+// Icons is now imported from iconsSubset.jsx
 
 // Check for unique slugs in iconsMetadata.icons
 const slugSet = new Set();
 const duplicateSlugs = [];
+
 for (const icon of iconsMetadata.icons) {
+    if (icon.slug == null) continue;
     if (slugSet.has(icon.slug)) {
         duplicateSlugs.push(icon.slug);
     }
@@ -27,12 +31,16 @@ export const DEFAULT_EMPTY_ICON = 'Circle';
 export const ICON_PAIRS = iconsMetadata.iconPairs;
 
 export const ICONS = iconsMetadata.icons
-    .map(icon => {
-        return {
-            ...icon,
-            component: Icons[icon.name],
-        };
-    });
+    .filter(icon => icon.slug != null)
+    .map(icon => ({
+        ...icon,
+        component: Icons[icon.name],
+    }));
+// Dynamically import a phosphor icon by name
+export async function getPhosphorIcon(iconName) {
+    const module = await import('@phosphor-icons/react');
+    return module[iconName];
+}
     
 // Icon slug is stable
 // Icon Name may change if we switch icon sets (like from Phosphor to FontAwesome etc)
