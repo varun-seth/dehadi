@@ -21,6 +21,9 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 export function HabitList() {
+    React.useEffect(() => {
+        document.title = `${import.meta.env.VITE_APP_TITLE} - Habits`;
+    }, []);
     const { habits, swapHabitRanks } = useHabits();
     const [items, setItems] = React.useState([]);
     const listContainerRef = React.useRef(null);

@@ -6,8 +6,14 @@ import { LandingPage } from '@/components/LandingPage';
 import { DataManagement } from '@/components/DataManagement';
 import { Toolbar } from '@/components/Toolbar';
 
+import { useEffect } from 'react';
 function RootRoute() {
+    const appTitle = import.meta.env.VITE_APP_TITLE;
     const hash = window.location.hash;
+
+    useEffect(() => {
+        document.title = appTitle;
+    }, [appTitle]);
 
     if (hash === '#/' || hash === '#') {
         return <Navigate to="/actions" replace />;
