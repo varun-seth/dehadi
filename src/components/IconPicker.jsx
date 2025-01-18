@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { USER_ICONS } from '@/lib/iconRegistry';
+import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/lib/iconsSubset.jsx';
 import { MagnifyingGlass } from '@phosphor-icons/react';
@@ -29,11 +30,19 @@ const COLORS = [
 ];
 
 export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSelect }) {
-    const [selectedIcon, setSelectedIcon] = useState(currentIcon);
+
+
+    function getIconName(icon) {
+        if (!icon) return '';
+        if (ICON_SLUG_TO_NAME[icon]) return ICON_SLUG_TO_NAME[icon];
+        return icon;
+    }
+
+    const [selectedIcon, setSelectedIcon] = useState(getIconName(currentIcon));
     const [selectedColor, setSelectedColor] = useState(currentColor);
 
     useEffect(() => {
-        setSelectedIcon(currentIcon);
+        setSelectedIcon(getIconName(currentIcon));
     }, [currentIcon]);
 
     useEffect(() => {
