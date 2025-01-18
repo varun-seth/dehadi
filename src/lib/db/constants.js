@@ -1,4 +1,5 @@
-export const DB_NAME = 'dihadi';
+const appSlug = import.meta.env.VITE_APP_SLUG;
+export const DB_NAME = appSlug;
 export const DB_VERSION = 3;
 
 export const STORES = {

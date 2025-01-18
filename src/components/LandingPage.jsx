@@ -3,6 +3,7 @@ import { ClipboardText } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 
 export function LandingPage() {
+    const appTitle = import.meta.env.VITE_APP_TITLE;
     return (
         <div className="h-full flex flex-col items-center justify-center px-4">
             <div className="max-w-3xl w-full space-y-12 flex flex-col items-center">
@@ -11,7 +12,7 @@ export function LandingPage() {
                         <ClipboardText className="w-32 h-32 md:w-40 md:h-40 text-primary" />
                     </div>
                     <div className="text-center md:text-left space-y-3">
-                        <h1 className="text-5xl md:text-6xl font-bold tracking-tight">Dihadi</h1>
+                        <h1 className="text-5xl md:text-6xl font-bold tracking-tight">{appTitle}</h1>
                         <p className="text-xl md:text-2xl text-muted-foreground">
                             Your Daily Habit Tracker
                         </p>
@@ -28,7 +29,7 @@ export function LandingPage() {
                 <div className="flex justify-center">
                     <Button className="px-12 py-6 text-lg" size="lg" asChild>
                         <Link to="/actions">
-                            Start using Dihadi
+                            Start using {appTitle}
                         </Link>
                     </Button>
                 </div>

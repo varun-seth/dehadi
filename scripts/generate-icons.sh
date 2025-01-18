@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Generate PWA icons for Dihadi app
 # This script fetches an SVG icon and converts it to various sizes
 
 set -e
