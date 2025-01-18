@@ -3,11 +3,11 @@ import { Icons } from './iconsSubset.jsx';
 
 // Icons is now imported from iconsSubset.jsx
 
-// Check for unique slugs in iconsMetadata.icons
+// Check for unique slugs in iconsMetadata.userIcons
 const slugSet = new Set();
 const duplicateSlugs = [];
 
-for (const icon of iconsMetadata.icons) {
+for (const icon of iconsMetadata.userIcons) {
     if (icon.slug == null) continue;
     if (slugSet.has(icon.slug)) {
         duplicateSlugs.push(icon.slug);
@@ -30,7 +30,7 @@ export const DEFAULT_EMPTY_ICON = 'Circle';
 
 export const ICON_PAIRS = iconsMetadata.iconPairs;
 
-export const ICONS = iconsMetadata.icons
+export const USER_ICONS = iconsMetadata.userIcons
     .filter(icon => icon.slug != null)
     .map(icon => ({
         ...icon,
@@ -45,13 +45,13 @@ export async function getPhosphorIcon(iconName) {
 // Icon slug is stable
 // Icon Name may change if we switch icon sets (like from Phosphor to FontAwesome etc)
 export const ICON_SLUG_TO_NAME = {};
-for (const icon of ICONS) {
+for (const icon of USER_ICONS) {
     ICON_SLUG_TO_NAME[icon.slug] = icon.name;
 }
 
 export function searchIconForHabit(habitName) {
     if (!habitName || typeof habitName !== 'string') {
-        return ICONS[0].name;
+        return USER_ICONS[0].name;
     }
 
     const searchTerms = habitName
@@ -62,7 +62,7 @@ export function searchIconForHabit(habitName) {
     const exactMatches = new Array();
     
     for (const term of searchTerms) {
-        for (const icon of ICONS) {
+        for (const icon of USER_ICONS) {
             if (icon.tags.some(tag => tag.toLowerCase() === term)) {
                 exactMatches.push(icon.name);
             }
@@ -76,13 +76,13 @@ export function searchIconForHabit(habitName) {
     const partialMatches = new Array();
     
     for (const term of searchTerms) {
-        for (const icon of ICONS) {
+        for (const icon of USER_ICONS) {
             if (icon.name.toLowerCase().includes(term)) {
                 partialMatches.push(icon.name);
             }
         }
 
-        for (const icon of ICONS) {
+        for (const icon of USER_ICONS) {
             if (icon.tags.some(tag => tag.toLowerCase().includes(term))) {
                 partialMatches.push(icon.name);
             }
@@ -93,5 +93,5 @@ export function searchIconForHabit(habitName) {
         return partialMatches[Math.floor(Math.random() * partialMatches.length)];
     }
     
-    return ICONS[0].name;
+    return USER_ICONS[0].name;
 }

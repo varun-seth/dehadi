@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ICONS } from '@/lib/iconRegistry';
+import { USER_ICONS } from '@/lib/iconRegistry';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/lib/iconsSubset.jsx';
 import { MagnifyingGlass } from '@phosphor-icons/react';
@@ -41,12 +41,12 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
 
     const filteredIcons = useMemo(() => {
         if (!searchQuery.trim()) {
-            return ICONS;
+            return USER_ICONS;
         }
 
         const searchTerm = searchQuery.toLowerCase().trim();
 
-        const exactMatches = ICONS.filter(icon =>
+        const exactMatches = USER_ICONS.filter(icon =>
             icon.tags.some(tag => tag.toLowerCase() === searchTerm)
         );
 
@@ -54,7 +54,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
             return exactMatches;
         }
 
-        const partialMatches = ICONS.filter(icon =>
+        const partialMatches = USER_ICONS.filter(icon =>
             icon.name.toLowerCase().includes(searchTerm) ||
             icon.tags.some(tag => tag.toLowerCase().includes(searchTerm))
         );
@@ -64,7 +64,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
 
     const handleApply = () => {
         // selectedIcon is either name or slug, so always pass slug
-        let iconObj = ICONS.find(i => i.name === selectedIcon || i.slug === selectedIcon);
+        let iconObj = USER_ICONS.find(i => i.name === selectedIcon || i.slug === selectedIcon);
         onSelect({ icon: iconObj ? iconObj.slug : selectedIcon, color: selectedColor });
         onOpenChange(false);
     };
@@ -139,7 +139,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                             disabled={!isValidIcon}
                                         >
                                             {isValidIcon ? (
-                                                <DisplayIcon className="w-5 h-5" weight="fill" />
+                                                <DisplayIcon className="w-5 h-5" />
                                             ) : (
                                                 <span className="w-5 h-5 text-muted-foreground">?</span>
                                             )}

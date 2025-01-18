@@ -6,7 +6,7 @@ const metadataPath = path.join(__dirname, '../src/lib/icons-metadata.json');
 const outputPath = path.join(__dirname, '../src/lib/iconsSubset.jsx');
 
 const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
-const iconNames = metadata.icons.map(icon => icon.name);
+const iconNames = metadata.userIcons.map(icon => icon.name);
 
 const importLines = iconNames.map(name => `import { ${name} } from '@phosphor-icons/react';`).join('\n');
 const exportLines = [
