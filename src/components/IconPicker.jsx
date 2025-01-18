@@ -1,4 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import {
     Dialog,
     DialogContent,
@@ -63,7 +65,6 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
     }, [searchQuery]);
 
     const handleApply = () => {
-        // selectedIcon is either name or slug, so always pass slug
         let iconObj = USER_ICONS.find(i => i.name === selectedIcon || i.slug === selectedIcon);
         onSelect({ icon: iconObj ? iconObj.slug : selectedIcon, color: selectedColor });
         onOpenChange(false);
@@ -99,7 +100,7 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                     </div>
 
                     {/* Icon Selection */}
-                    <div className="space-y-2">
+                    <div className="space-y-2"><TooltipProvider>
                         <h3 className="text-sm font-medium">Icon</h3>
                         <div className="relative">
                             <MagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -111,20 +112,18 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                 className="pl-9"
                             />
                         </div>
+
                         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 max-h-[300px] overflow-y-auto pr-5">
                             {filteredIcons.length === 0 ? (
                                 <div className="col-span-10 text-center text-muted-foreground py-8">
                                     No icons found
                                 </div>
                             ) : (
-                                filteredIcons.map(({ name, component: Icon }) => {
+                                filteredIcons.map(({ name, component: Icon, description }) => {
                                     const DisplayIcon = Icon;
-
                                     const isValidIcon = typeof DisplayIcon === "function" || typeof DisplayIcon === "object";
-
                                     return (
-                                        <button
-                                            key={name}
+                                        <Tooltip key={name}><TooltipTrigger asChild><button
                                             type="button"
                                             className={cn(
                                                 "w-full aspect-square rounded flex items-center justify-center p-1.5",
@@ -135,7 +134,6 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                                 "hover:bg-accent"
                                             )}
                                             onClick={() => setSelectedIcon(name)}
-                                            title={name}
                                             disabled={!isValidIcon}
                                         >
                                             {isValidIcon ? (
@@ -143,12 +141,13 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                             ) : (
                                                 <span className="w-5 h-5 text-muted-foreground">?</span>
                                             )}
-                                        </button>
+                                        </button></TooltipTrigger><TooltipContent>{description}</TooltipContent></Tooltip>
                                     );
                                 })
                             )}
                         </div>
-                    </div>
+
+                    </TooltipProvider></div>
                 </div>
 
                 <div className="flex justify-end space-x-2 pt-4">
