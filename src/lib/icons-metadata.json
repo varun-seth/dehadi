@@ -11,13 +11,11 @@
         {
             "name": "CheckCircle",
             "slug": "check-circle",
-            "description": "Basic habit tracking",
+            "description": "Circular checkbox",
             "tags": [
-                "basic",
-                "simple",
-                "round",
-                "general",
-                "default"
+                "check",
+                "checkbox",
+                "done"
             ]
         },
         {
@@ -29,16 +27,11 @@
         {
             "name": "CheckSquare",
             "slug": "check-square",
-            "description": "General task completion",
+            "description": "Square checkbox",
             "tags": [
-                "task",
-                "complete",
-                "done",
-                "todo",
-                "checklist",
-                "tick",
-                "mark",
-                "finish"
+                "check",
+                "checkbox",
+                "done"
             ]
         },
         {
@@ -46,45 +39,6 @@
             "slug": null,
             "description": "Not available for selection",
             "tags": []
-        },
-        {
-            "name": "Envelope",
-            "slug": "mail",
-            "description": "Email and communication",
-            "tags": [
-                "email",
-                "message",
-                "inbox",
-                "letter",
-                "communication",
-                "correspondence"
-            ]
-        },
-        {
-            "name": "User",
-            "slug": "user",
-            "description": "Personal habits and self-care",
-            "tags": [
-                "personal",
-                "self",
-                "me",
-                "individual",
-                "profile",
-                "person"
-            ]
-        },
-        {
-            "name": "FileText",
-            "slug": "file-text",
-            "description": "Documentation and paperwork",
-            "tags": [
-                "document",
-                "paper",
-                "paperwork",
-                "filing",
-                "organize",
-                "admin"
-            ]
         },
         {
             "name": "Alarm",
@@ -99,6 +53,32 @@
                 "clock",
                 "schedule",
                 "reminder"
+            ]
+        },
+        {
+            "name": "Tooth",
+            "slug": "tooth",
+            "description": "Dental care",
+            "tags": [
+                "brush",
+                "toothbrush",
+                "dental",
+                "tooth",
+                "teeth",
+                "hygiene"
+            ]
+        },
+        {
+            "name": "Drop",
+            "slug": "droplet",
+            "description": "Water and hydration",
+            "tags": [
+                "water",
+                "hydrate",
+                "drink",
+                "hydration",
+                "fluid",
+                "liquid"
             ]
         },
         {
@@ -135,46 +115,17 @@
             ]
         },
         {
-            "name": "Shower",
-            "slug": "shower-head",
-            "description": "Shower and hygiene",
+            "name": "Heart",
+            "slug": "heart",
+            "description": "Health and love",
             "tags": [
-                "shower",
-                "bath",
-                "clean",
-                "hygiene",
-                "wash",
-                "bathing",
-                "cleanse"
-            ]
-        },
-        {
-            "name": "BookOpen",
-            "slug": "book",
-            "description": "Reading and study",
-            "tags": [
-                "read",
-                "reading",
-                "book",
-                "study",
-                "learn",
-                "education",
-                "literature",
-                "novel"
-            ]
-        },
-        {
-            "name": "Translate",
-            "slug": "translate",
-            "description": "Language learning",
-            "tags": [
-                "language",
-                "learn",
-                "translate",
-                "foreign",
-                "speak",
-                "linguistic",
-                "vocabulary"
+                "health",
+                "wellness",
+                "care",
+                "love",
+                "cardio",
+                "heartbeat",
+                "vital"
             ]
         },
         {
@@ -193,16 +144,162 @@
             ]
         },
         {
-            "name": "PuzzlePiece",
-            "slug": "puzzle-piece",
-            "description": "Problem-solving and games",
+            "name": "Toilet",
+            "slug": "toilet",
+            "description": "Lavatory",
             "tags": [
-                "puzzle",
-                "game",
-                "solve",
-                "problem",
-                "logic",
-                "jigsaw"
+                "bathroom",
+                "toilet",
+                "hygiene",
+                "restroom",
+                "washroom",
+                "loo",
+                "potty",
+                "poop",
+                "lavatory"
+            ]
+        },
+        {
+            "name": "Shower",
+            "slug": "shower-head",
+            "description": "Shower and hygiene",
+            "tags": [
+                "shower",
+                "bath",
+                "clean",
+                "hygiene",
+                "wash",
+                "bathing",
+                "cleanse"
+            ]
+        },
+        {
+            "name": "TShirt",
+            "slug": "shirt",
+            "description": "Clothing",
+            "tags": [
+                "dress",
+                "ready",
+                "clothes",
+                "clothing",
+                "laundry",
+                "fold"
+            ]
+        },
+        {
+            "name": "ForkKnife",
+            "slug": "fork-knife",
+            "description": "Cooking and meal prep",
+            "tags": [
+                "cook",
+                "cooking",
+                "meal",
+                "meals",
+                "prep",
+                "prepare",
+                "food",
+                "kitchen",
+                "chef"
+            ]
+        },
+        {
+            "name": "BowlFood",
+            "slug": "food",
+            "description": "Meals and eating",
+            "tags": [
+                "meal",
+                "eat",
+                "food",
+                "dining",
+                "lunch",
+                "dinner",
+                "breakfast",
+                "cook",
+                "cooking"
+            ]
+        },
+        {
+            "name": "Carrot",
+            "slug": "carrot",
+            "description": "Vegetables and healthy eating",
+            "tags": [
+                "vegetable",
+                "vegetables",
+                "carrot",
+                "healthy",
+                "food",
+                "eat",
+                "eating",
+                "nutrition"
+            ]
+        },
+        {
+            "name": "AppleLogo",
+            "slug": "apple",
+            "description": "Fruit",
+            "tags": [
+                "eat",
+                "food",
+                "fruit",
+                "healthy",
+                "nutrition",
+                "diet",
+                "health"
+            ]
+        },
+        {
+            "name": "Coffee",
+            "slug": "coffee",
+            "description": "Coffee and beverages",
+            "tags": [
+                "drink",
+                "beverage",
+                "caffeine",
+                "coffee",
+                "tea"
+            ]
+        },
+        {
+            "name": "Lightning",
+            "slug": "lightning",
+            "description": "Energy and power",
+            "tags": [
+                "energy",
+                "power",
+                "boost",
+                "lightning",
+                "quick",
+                "protein",
+                "speed"
+            ]
+        },
+        {
+            "name": "Pill",
+            "slug": "pill",
+            "description": "Medicine and supplements",
+            "tags": [
+                "medicine",
+                "medication",
+                "pills",
+                "supplement",
+                "vitamin",
+                "drug",
+                "health"
+            ]
+        },
+        {
+            "name": "BookOpen",
+            "slug": "book",
+            "description": "Reading and study",
+            "tags": [
+                "read",
+                "reading",
+                "book",
+                "study",
+                "learn",
+                "education",
+                "literature",
+                "novel"
             ]
         },
         {
@@ -221,32 +318,85 @@
             ]
         },
         {
-            "name": "AppleLogo",
-            "slug": "apple",
-            "description": "Healthy eating and fruit",
+            "name": "FileText",
+            "slug": "file-text",
+            "description": "Documentation and paperwork",
             "tags": [
-                "eat",
-                "food",
-                "fruit",
-                "healthy",
-                "nutrition",
-                "diet",
-                "health",
-                "vegetable"
+                "document",
+                "paper",
+                "paperwork",
+                "filing",
+                "organize",
+                "admin"
             ]
         },
         {
-            "name": "Heart",
-            "slug": "heart",
-            "description": "Health and wellness",
+            "name": "Translate",
+            "slug": "translate",
+            "description": "Language learning",
             "tags": [
-                "health",
-                "wellness",
-                "care",
-                "love",
-                "cardio",
-                "heartbeat",
-                "vital"
+                "language",
+                "learn",
+                "translate",
+                "foreign",
+                "speak",
+                "linguistic",
+                "vocabulary"
+            ]
+        },
+        {
+            "name": "PuzzlePiece",
+            "slug": "puzzle-piece",
+            "description": "Problem-solving and games",
+            "tags": [
+                "puzzle",
+                "game",
+                "solve",
+                "problem",
+                "logic",
+                "jigsaw"
+            ]
+        },
+        {
+            "name": "Envelope",
+            "slug": "mail",
+            "description": "Email and communication",
+            "tags": [
+                "email",
+                "message",
+                "inbox",
+                "letter",
+                "communication",
+                "correspondence"
+            ]
+        },
+        {
+            "name": "Scissors",
+            "slug": "scissors",
+            "description": "Grooming and haircuts",
+            "tags": [
+                "groom",
+                "grooming",
+                "hair",
+                "haircut",
+                "cut",
+                "cutting",
+                "trim",
+                "barber"
+            ]
+        },
+        {
+            "name": "User",
+            "slug": "user",
+            "description": "Personal habits and self-care",
+            "tags": [
+                "personal",
+                "self",
+                "me",
+                "individual",
+                "profile",
+                "grooming",
+                "person"
             ]
         },
         {
@@ -275,74 +425,6 @@
                 "contact",
                 "communicate",
                 "talk"
-            ]
-        },
-        {
-            "name": "Coffee",
-            "slug": "coffee",
-            "description": "Coffee and beverages",
-            "tags": [
-                "drink",
-                "beverage",
-                "caffeine",
-                "tea",
-                "morning",
-                "break"
-            ]
-        },
-        {
-            "name": "Moon",
-            "slug": "moon",
-            "description": "Night time and sleep routines",
-            "tags": [
-                "night",
-                "evening",
-                "sleep",
-                "bedtime",
-                "dark",
-                "nighttime"
-            ]
-        },
-        {
-            "name": "Sun",
-            "slug": "sun",
-            "description": "Morning and daytime activities",
-            "tags": [
-                "morning",
-                "day",
-                "daytime",
-                "sunshine",
-                "bright",
-                "light"
-            ]
-        },
-        {
-            "name": "BowlFood",
-            "slug": "food",
-            "description": "Meals and eating",
-            "tags": [
-                "meal",
-                "eat",
-                "food",
-                "dining",
-                "lunch",
-                "dinner",
-                "breakfast",
-                "cook",
-                "cooking"
-            ]
-        },
-        {
-            "name": "Bed",
-            "slug": "bed",
-            "description": "Sleep and rest",
-            "tags": [
-                "sleep",
-                "rest",
-                "nap",
-                "sleeping",
-                "bedtime",
-                "retire"
             ]
         },
         {
@@ -376,33 +458,6 @@
             ]
         },
         {
-            "name": "Drop",
-            "slug": "droplet",
-            "description": "Water and hydration",
-            "tags": [
-                "water",
-                "hydrate",
-                "drink",
-                "hydration",
-                "fluid",
-                "liquid"
-            ]
-        },
-        {
-            "name": "Toilet",
-            "slug": "toilet",
-            "description": "lavatory",
-            "tags": [
-                "bathroom",
-                "toilet",
-                "hygiene",
-                "restroom",
-                "washroom",
-                "loo",
-                "lavatory"
-            ]
-        },
-        {
             "name": "Smiley",
             "slug": "smiley",
             "description": "Happiness and positivity",
@@ -417,32 +472,6 @@
             ]
         },
         {
-            "name": "Bicycle",
-            "slug": "bicycle",
-            "description": "Cycling and biking",
-            "tags": [
-                "cycle",
-                "cycling",
-                "bicycle",
-                "biking",
-                "pedal"
-            ]
-        },
-        {
-            "name": "Clipboard",
-            "slug": "clipboard",
-            "description": "Planning and organization",
-            "tags": [
-                "plan",
-                "planning",
-                "organize",
-                "list",
-                "schedule",
-                "agenda",
-                "tasks"
-            ]
-        },
-        {
             "name": "House",
             "slug": "home",
             "description": "Home and household chores",
@@ -453,6 +482,32 @@
                 "household",
                 "domestic",
                 "tidy"
+            ]
+        },
+        {
+            "name": "Broom",
+            "slug": "broom",
+            "description": "Cleaning and tidying",
+            "tags": [
+                "clean",
+                "brush",
+                "sweep",
+                "broom"
+            ]
+        },
+        {
+            "name": "Trash",
+            "slug": "trash",
+            "description": "Taking out trash",
+            "tags": [
+                "trash",
+                "garbage",
+                "waste",
+                "chore",
+                "chores",
+                "dispose",
+                "cleanup",
+                "clean"
             ]
         },
         {
@@ -470,19 +525,6 @@
             ]
         },
         {
-            "name": "Chat",
-            "slug": "chat",
-            "description": "Messaging and chatting",
-            "tags": [
-                "message",
-                "chat",
-                "text",
-                "messaging",
-                "conversation",
-                "communicate"
-            ]
-        },
-        {
             "name": "ShoppingCart",
             "slug": "shopping-cart",
             "description": "Shopping and groceries",
@@ -494,88 +536,6 @@
                 "groceries",
                 "store",
                 "market"
-            ]
-        },
-        {
-            "name": "Sparkle",
-            "slug": "sparkle",
-            "description": "Creativity and inspiration",
-            "tags": [
-                "creative",
-                "creativity",
-                "inspire",
-                "inspiration",
-                "art",
-                "magic",
-                "shine"
-            ]
-        },
-        {
-            "name": "Target",
-            "slug": "target",
-            "description": "Goals and objectives",
-            "tags": [
-                "goal",
-                "goals",
-                "objective",
-                "aim",
-                "focus",
-                "achievement",
-                "purpose"
-            ]
-        },
-        {
-            "name": "Lightning",
-            "slug": "lightning",
-            "description": "Energy and power",
-            "tags": [
-                "energy",
-                "power",
-                "boost",
-                "lightning",
-                "fast",
-                "quick",
-                "speed"
-            ]
-        },
-        {
-            "name": "Wind",
-            "slug": "wind",
-            "description": "Fresh air and breathing",
-            "tags": [
-                "air",
-                "breathe",
-                "breathing",
-                "fresh",
-                "ventilate",
-                "breeze"
-            ]
-        },
-        {
-            "name": "Trophy",
-            "slug": "trophy",
-            "description": "Achievements and success",
-            "tags": [
-                "achievement",
-                "success",
-                "win",
-                "victory",
-                "accomplish",
-                "award",
-                "prize"
-            ]
-        },
-        {
-            "name": "Timer",
-            "slug": "timer",
-            "description": "Time management and tracking",
-            "tags": [
-                "time",
-                "timing",
-                "track",
-                "duration",
-                "stopwatch",
-                "countdown"
             ]
         },
         {
@@ -621,177 +581,16 @@
             ]
         },
         {
-            "name": "Lightbulb",
-            "slug": "lightbulb",
-            "description": "Ideas and innovation",
-            "tags": [
-                "idea",
-                "ideas",
-                "think",
-                "innovation",
-                "creative",
-                "brainstorm",
-                "insight"
-            ]
-        },
-        {
-            "name": "Laptop",
-            "slug": "laptop",
-            "description": "Computer work and productivity",
-            "tags": [
-                "computer",
-                "work",
-                "productivity",
-                "desktop",
-                "screen",
-                "online"
-            ]
-        },
-        {
-            "name": "Pill",
-            "slug": "pill",
-            "description": "Medicine and supplements",
-            "tags": [
-                "medicine",
-                "medication",
-                "pills",
-                "supplement",
-                "vitamin",
-                "drug",
-                "health"
-            ]
-        },
-        {
-            "name": "Dog",
-            "slug": "dog",
-            "description": "Pet care and animals",
-            "tags": [
-                "pet",
-                "pets",
-                "animal",
-                "animals",
-                "puppy",
-                "care"
-            ]
-        },
-        {
-            "name": "Flower",
-            "slug": "flower",
-            "description": "Flowers and gardening",
-            "tags": [
-                "flower",
-                "flowers",
-                "garden",
-                "gardening",
-                "bloom",
-                "plant",
-                "nature"
-            ]
-        },
-        {
-            "name": "Tree",
-            "slug": "tree",
-            "description": "Outdoors and nature",
-            "tags": [
-                "tree",
-                "trees",
-                "outdoor",
-                "outdoors",
-                "nature",
-                "forest",
-                "woods"
-            ]
-        },
-        {
-            "name": "Cookie",
-            "slug": "cookie",
-            "description": "Treats and baking",
-            "tags": [
-                "treat",
-                "bake",
-                "baking",
-                "dessert",
-                "sweet",
-                "snack",
-                "food"
-            ]
-        },
-        {
-            "name": "Broom",
-            "slug": "broom",
-            "description": "Cleaning and tooth brushing",
-            "tags": [
-                "clean",
-                "brush",
-                "sweep",
-                "broom"
-            ]
-        },
-        {
-            "name": "Tooth",
-            "slug": "tooth",
-            "description": "Dental care and tooth brushing",
-            "tags": [
-                "dental",
-                "tooth",
-                "teeth",
-                "hygiene"
-            ]
-        },
-        {
-            "name": "PottedPlant",
-            "slug": "potted-plant",
-            "description": "Gardening and plant care",
-            "tags": [
-                "garden",
-                "plant",
-                "water",
-                "grow"
-            ]
-        },
-        {
             "name": "PawPrint",
             "slug": "paw-print",
-            "description": "Pet care for cats and dogs",
+            "description": "Pet care",
             "tags": [
                 "pet",
                 "pets",
                 "animal",
                 "animals",
                 "dog",
-                "cat",
-                "care",
-                "walk",
-                "feed"
-            ]
-        },
-        {
-            "name": "Bone",
-            "slug": "bone",
-            "description": "Pet care and dog activities",
-            "tags": [
-                "dog",
-                "dogs",
-                "pet",
-                "puppy",
-                "care",
-                "feed",
-                "walk",
-                "play"
-            ]
-        },
-        {
-            "name": "Cat",
-            "slug": "cat",
-            "description": "Cat care and activities",
-            "tags": [
-                "pet",
-                "cat",
-                "cats",
-                "kitten",
-                "care",
-                "feed",
-                "animal"
+                "cat"
             ]
         },
         {
@@ -808,108 +607,6 @@
                 "entertainment",
                 "fun",
                 "relax"
-            ]
-        },
-        {
-            "name": "Sword",
-            "slug": "sword",
-            "description": "Challenges",
-            "tags": [
-                "sword",
-                "challenge",
-                "compete",
-                "competition",
-                "battle",
-                "fight"
-            ]
-        },
-        {
-            "name": "RocketLaunch",
-            "slug": "rocket-launch",
-            "description": "Difficult tasks and mining",
-            "tags": [
-                "rocket",
-                "difficult",
-                "hard",
-                "tough",
-                "challenge",
-                "challenging",
-                "work",
-                "grind",
-                "mine"
-            ]
-        },
-        {
-            "name": "Knife",
-            "slug": "knife",
-            "description": "Cutting and precision tasks",
-            "tags": [
-                "cut",
-                "cutting",
-                "slice",
-                "precision",
-                "sharp",
-                "tool"
-            ]
-        },
-        {
-            "name": "Scissors",
-            "slug": "scissors",
-            "description": "Grooming and haircuts",
-            "tags": [
-                "groom",
-                "grooming",
-                "hair",
-                "haircut",
-                "cut",
-                "cutting",
-                "trim",
-                "barber"
-            ]
-        },
-        {
-            "name": "Trash",
-            "slug": "trash",
-            "description": "Taking out trash",
-            "tags": [
-                "trash",
-                "garbage",
-                "waste",
-                "chore",
-                "chores",
-                "dispose",
-                "cleanup",
-                "clean"
-            ]
-        },
-        {
-            "name": "Recycle",
-            "slug": "recycle",
-            "description": "Recycling and sustainability",
-            "tags": [
-                "recycle",
-                "recycling",
-                "trash",
-                "garbage",
-                "waste",
-                "environment",
-                "sustainable",
-                "green"
-            ]
-        },
-        {
-            "name": "Basket",
-            "slug": "basket",
-            "description": "Shopping and groceries",
-            "tags": [
-                "shop",
-                "shopping",
-                "store",
-                "groceries",
-                "market",
-                "supermarket",
-                "buy",
-                "purchase"
             ]
         },
         {
@@ -930,33 +627,15 @@
             ]
         },
         {
-            "name": "Wallet",
-            "slug": "wallet",
-            "description": "Budgeting and expenses",
+            "name": "Bicycle",
+            "slug": "bicycle",
+            "description": "Cycling and biking",
             "tags": [
-                "budget",
-                "budgeting",
-                "expense",
-                "expenses",
-                "money",
-                "finance",
-                "spend",
-                "spending",
-                "track"
-            ]
-        },
-        {
-            "name": "PiggyBank",
-            "slug": "piggy-bank",
-            "description": "Saving money",
-            "tags": [
-                "save",
-                "saving",
-                "savings",
-                "money",
-                "finance",
-                "invest",
-                "investment"
+                "cycle",
+                "cycling",
+                "bicycle",
+                "biking",
+                "pedal"
             ]
         },
         {
@@ -974,35 +653,6 @@
             ]
         },
         {
-            "name": "CallBell",
-            "slug": "call-bell",
-            "description": "Service and hospitality",
-            "tags": [
-                "service",
-                "help",
-                "assist",
-                "hospitality",
-                "bell",
-                "call",
-                "attention"
-            ]
-        },
-        {
-            "name": "DeviceMobile",
-            "slug": "mobile",
-            "description": "Phone and app usage",
-            "tags": [
-                "phone",
-                "smartphone",
-                "mobile",
-                "app",
-                "apps",
-                "device",
-                "screen",
-                "usage"
-            ]
-        },
-        {
             "name": "Video",
             "slug": "video",
             "description": "Video watching and content",
@@ -1017,345 +667,13 @@
             ]
         },
         {
-            "name": "Guitar",
-            "slug": "guitar",
-            "description": "Guitar practice",
-            "tags": [
-                "guitar",
-                "music",
-                "instrument",
-                "practice",
-                "play",
-                "playing",
-                "learn",
-                "learning"
-            ]
-        },
-        {
-            "name": "PianoKeys",
-            "slug": "piano",
-            "description": "Piano practice",
-            "tags": [
-                "piano",
-                "music",
-                "instrument",
-                "practice",
-                "play",
-                "playing",
-                "learn",
-                "learning",
-                "keyboard"
-            ]
-        },
-        {
-            "name": "Microphone",
-            "slug": "microphone",
-            "description": "Singing and vocal practice",
-            "tags": [
-                "sing",
-                "singing",
-                "vocal",
-                "voice",
-                "practice",
-                "music",
-                "karaoke",
-                "perform"
-            ]
-        },
-        {
-            "name": "TShirt",
-            "slug": "shirt",
-            "description": "Folding clothes and laundry",
-            "tags": [
-                "clothes",
-                "clothing",
-                "laundry",
-                "fold",
-                "folding",
-                "organize",
-                "chore"
-            ]
-        },
-        {
-            "name": "ForkKnife",
-            "slug": "fork-knife",
-            "description": "Cooking and meal prep",
-            "tags": [
-                "cook",
-                "cooking",
-                "meal",
-                "meals",
-                "prep",
-                "prepare",
-                "food",
-                "kitchen",
-                "chef"
-            ]
-        },
-        {
-            "name": "Wine",
-            "slug": "wine",
-            "description": "Wine and drinks",
-            "tags": [
-                "wine",
-                "drink",
-                "drinking",
-                "alcohol",
-                "beverage",
-                "relax",
-                "social"
-            ]
-        },
-        {
-            "name": "Fish",
-            "slug": "fish",
-            "description": "Fish and seafood",
-            "tags": [
-                "fish",
-                "seafood",
-                "protein",
-                "food",
-                "eat",
-                "eating",
-                "meal",
-                "healthy"
-            ]
-        },
-        {
-            "name": "Egg",
-            "slug": "egg",
-            "description": "Eggs and breakfast",
-            "tags": [
-                "egg",
-                "eggs",
-                "breakfast",
-                "protein",
-                "food",
-                "eat",
-                "eating",
-                "meal"
-            ]
-        },
-        {
-            "name": "Carrot",
-            "slug": "carrot",
-            "description": "Vegetables and healthy eating",
-            "tags": [
-                "vegetable",
-                "vegetables",
-                "carrot",
-                "healthy",
-                "food",
-                "eat",
-                "eating",
-                "nutrition"
-            ]
-        },
-        {
-            "name": "Pizza",
-            "slug": "pizza",
-            "description": "Pizza and fast food",
-            "tags": [
-                "pizza",
-                "food",
-                "eat",
-                "eating",
-                "meal",
-                "dinner",
-                "lunch"
-            ]
-        },
-        {
-            "name": "Popcorn",
-            "slug": "popcorn",
-            "description": "Snacks and movies",
-            "tags": [
-                "snack",
-                "snacks",
-                "popcorn",
-                "movie",
-                "movies",
-                "entertainment",
-                "watch"
-            ]
-        },
-        {
-            "name": "IceCream",
-            "slug": "ice-cream",
-            "description": "Desserts and treats",
-            "tags": [
-                "dessert",
-                "treat",
-                "treats",
-                "sweet",
-                "icecream",
-                "snack",
-                "food"
-            ]
-        },
-        {
-            "name": "GraduationCap",
-            "slug": "graduation-cap",
-            "description": "Education and learning",
-            "tags": [
-                "study",
-                "studying",
-                "learn",
-                "learning",
-                "education",
-                "school",
-                "university",
-                "course",
-                "graduate"
-            ]
-        },
-        {
-            "name": "Calculator",
-            "slug": "calculator",
-            "description": "Math and calculations",
-            "tags": [
-                "math",
-                "mathematics",
-                "calculate",
-                "calculation",
-                "numbers",
-                "study",
-                "learn"
-            ]
-        },
-        {
-            "name": "Pencil",
-            "slug": "pencil",
-            "description": "Writing and notes",
-            "tags": [
-                "write",
-                "writing",
-                "note",
-                "notes",
-                "pencil",
-                "draw",
-                "sketch"
-            ]
-        },
-        {
-            "name": "Printer",
-            "slug": "printer",
-            "description": "Printing and documents",
-            "tags": [
-                "print",
-                "printing",
-                "document",
-                "documents",
-                "paper",
-                "office",
-                "work"
-            ]
-        },
-        {
-            "name": "Stethoscope",
-            "slug": "stethoscope",
-            "description": "Medical checkups and health",
-            "tags": [
-                "medical",
-                "health",
-                "doctor",
-                "checkup",
-                "hospital",
-                "care",
-                "visit"
-            ]
-        },
-        {
-            "name": "Syringe",
-            "slug": "syringe",
-            "description": "Injections and vaccinations",
-            "tags": [
-                "medical",
-                "injection",
-                "vaccine",
-                "vaccination",
-                "health",
-                "medicine",
-                "shot"
-            ]
-        },
-        {
-            "name": "Thermometer",
-            "slug": "thermometer",
-            "description": "Health monitoring",
-            "tags": [
-                "health",
-                "temperature",
-                "monitor",
-                "monitoring",
-                "sick",
-                "fever",
-                "medical"
-            ]
-        },
-        {
-            "name": "Train",
-            "slug": "train",
-            "description": "Commute and travel",
-            "tags": [
-                "travel",
-                "commute",
-                "train",
-                "transport",
-                "transportation",
-                "trip"
-            ]
-        },
-        {
-            "name": "Bus",
-            "slug": "bus",
-            "description": "Public transport",
-            "tags": [
-                "bus",
-                "commute",
-                "transport",
-                "transportation",
-                "public",
-                "travel"
-            ]
-        },
-        {
-            "name": "Tent",
-            "slug": "tent",
-            "description": "Camping and outdoors",
-            "tags": [
-                "camp",
-                "camping",
-                "outdoor",
-                "outdoors",
-                "tent",
-                "nature",
-                "adventure"
-            ]
-        },
-        {
-            "name": "Backpack",
-            "slug": "backpack",
-            "description": "Travel and adventure",
-            "tags": [
-                "travel",
-                "traveling",
-                "adventure",
-                "hiking",
-                "backpack",
-                "trip",
-                "pack"
-            ]
-        },
-        {
             "name": "MapPin",
             "slug": "map-pin",
             "description": "Location and exploration",
             "tags": [
                 "location",
+                "commute",
                 "place",
-                "explore",
-                "exploring",
                 "travel",
                 "map",
                 "visit"
@@ -1371,23 +689,7 @@
                 "direction",
                 "compass",
                 "explore",
-                "travel",
                 "hiking"
-            ]
-        },
-        {
-            "name": "Church",
-            "slug": "church",
-            "description": "Religion and spirituality",
-            "tags": [
-                "religion",
-                "religious",
-                "spiritual",
-                "spirituality",
-                "church",
-                "pray",
-                "prayer",
-                "worship"
             ]
         },
         {
@@ -1405,27 +707,11 @@
             ]
         },
         {
-            "name": "ShoppingBag",
-            "slug": "shopping-bag",
-            "description": "Wardrobe and fashion",
-            "tags": [
-                "clothes",
-                "clothing",
-                "fashion",
-                "wardrobe",
-                "dress",
-                "outfit",
-                "style",
-                "shopping"
-            ]
-        },
-        {
             "name": "Plug",
             "slug": "plug",
             "description": "Electronics and charging",
             "tags": [
                 "charge",
-                "charging",
                 "electric",
                 "electricity",
                 "power",
@@ -1436,7 +722,7 @@
         {
             "name": "Lamp",
             "slug": "lamp",
-            "description": "Energy saving and lighting",
+            "description": "Lighting",
             "tags": [
                 "light",
                 "lamp",
@@ -1445,60 +731,6 @@
                 "electric",
                 "lighting",
                 "bulb"
-            ]
-        },
-        {
-            "name": "Flame",
-            "slug": "flame",
-            "description": "Fire and heating",
-            "tags": [
-                "fire",
-                "flame",
-                "heat",
-                "heating",
-                "hot",
-                "warm",
-                "candle"
-            ]
-        },
-        {
-            "name": "Snowflake",
-            "slug": "snowflake",
-            "description": "Cold and winter activities",
-            "tags": [
-                "cold",
-                "winter",
-                "snow",
-                "ice",
-                "freeze",
-                "freezing",
-                "cool"
-            ]
-        },
-        {
-            "name": "Cloud",
-            "slug": "cloud",
-            "description": "Weather and mood",
-            "tags": [
-                "weather",
-                "cloud",
-                "cloudy",
-                "sky",
-                "mood",
-                "day"
-            ]
-        },
-        {
-            "name": "CloudRain",
-            "slug": "cloud-rain",
-            "description": "Rainy day activities",
-            "tags": [
-                "rain",
-                "rainy",
-                "weather",
-                "water",
-                "cloud",
-                "indoor"
             ]
         },
         {
@@ -1512,148 +744,6 @@
                 "weather",
                 "protect",
                 "protection"
-            ]
-        },
-        {
-            "name": "Rocket",
-            "slug": "rocket",
-            "description": "Goals and ambition",
-            "tags": [
-                "goal",
-                "goals",
-                "ambition",
-                "ambitious",
-                "rocket",
-                "launch",
-                "start",
-                "boost"
-            ]
-        },
-        {
-            "name": "Medal",
-            "slug": "medal",
-            "description": "Awards and achievements",
-            "tags": [
-                "award",
-                "achievement",
-                "medal",
-                "win",
-                "winner",
-                "success",
-                "accomplish"
-            ]
-        },
-        {
-            "name": "Flag",
-            "slug": "flag",
-            "description": "Milestones and goals",
-            "tags": [
-                "milestone",
-                "goal",
-                "flag",
-                "marker",
-                "achievement",
-                "reach",
-                "complete"
-            ]
-        },
-        {
-            "name": "Package",
-            "slug": "package",
-            "description": "Deliveries and shipping",
-            "tags": [
-                "package",
-                "delivery",
-                "deliveries",
-                "ship",
-                "shipping",
-                "mail",
-                "box"
-            ]
-        },
-        {
-            "name": "Gift",
-            "slug": "gift",
-            "description": "Gifts and presents",
-            "tags": [
-                "gift",
-                "gifts",
-                "present",
-                "presents",
-                "give",
-                "giving",
-                "buy"
-            ]
-        },
-        {
-            "name": "Cake",
-            "slug": "cake",
-            "description": "Celebrations and birthdays",
-            "tags": [
-                "celebrate",
-                "celebration",
-                "birthday",
-                "party",
-                "cake",
-                "dessert",
-                "special"
-            ]
-        },
-        {
-            "name": "Confetti",
-            "slug": "confetti",
-            "description": "Celebrations and events",
-            "tags": [
-                "celebrate",
-                "celebration",
-                "party",
-                "event",
-                "fun",
-                "festive",
-                "special"
-            ]
-        },
-        {
-            "name": "Radio",
-            "slug": "radio",
-            "description": "Radio and podcasts",
-            "tags": [
-                "radio",
-                "podcast",
-                "podcasts",
-                "listen",
-                "listening",
-                "audio",
-                "broadcast"
-            ]
-        },
-        {
-            "name": "Newspaper",
-            "slug": "newspaper",
-            "description": "News and reading",
-            "tags": [
-                "news",
-                "newspaper",
-                "read",
-                "reading",
-                "article",
-                "articles",
-                "current"
-            ]
-        },
-        {
-            "name": "Wrench",
-            "slug": "wrench",
-            "description": "Repairs and maintenance",
-            "tags": [
-                "repair",
-                "repairs",
-                "fix",
-                "fixing",
-                "maintenance",
-                "tool",
-                "tools",
-                "work"
             ]
         },
         {
@@ -1672,31 +762,42 @@
             ]
         },
         {
-            "name": "FileDashed",
-            "slug": "file-dashed",
-            "description": "Crafts and cutting",
+            "name": "Moon",
+            "slug": "moon",
+            "description": "Night time and sleep routines",
             "tags": [
-                "craft",
-                "crafts",
-                "cut",
-                "cutting",
-                "scissors",
-                "art",
-                "create"
+                "night",
+                "evening",
+                "sleep",
+                "bedtime",
+                "dark",
+                "nighttime"
             ]
         },
         {
-            "name": "Ruler",
-            "slug": "ruler",
-            "description": "Measuring and precision",
+            "name": "Sun",
+            "slug": "sun",
+            "description": "Morning and daytime activities",
             "tags": [
-                "measure",
-                "measuring",
-                "ruler",
-                "precision",
-                "accurate",
-                "length",
-                "size"
+                "morning",
+                "day",
+                "daytime",
+                "sunshine",
+                "bright",
+                "light"
+            ]
+        },
+        {
+            "name": "Bed",
+            "slug": "bed",
+            "description": "Sleep and rest",
+            "tags": [
+                "sleep",
+                "rest",
+                "nap",
+                "sleeping",
+                "bedtime",
+                "retire"
             ]
         }
     ]
