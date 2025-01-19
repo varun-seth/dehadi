@@ -3,10 +3,19 @@ import { isHabitDueOnDate } from '@/lib/cycle';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useHabits } from '@/lib/hooks';
 import HabitActionItem from './HabitActionItem';
+
 import { HabitFormDialog } from './HabitFormDialog';
 import { Button } from '@/components/ui/button';
 import * as dateService from '@/lib/date';
 import * as db from '@/lib/db';
+
+const appSlug = import.meta.env.VITE_APP_SLUG;
+const VIEW_KEY = `${appSlug}.habitView`;
+const VIEW_MODES = {
+    CARD: 'card',
+    LIST: 'list',
+    TILE: 'tile',
+};
 
 export function HabitActionList() {
     useEffect(() => {
@@ -21,6 +30,21 @@ export function HabitActionList() {
     const [scoreState, setScoreState] = useState({ completed: 0, total: 0 });
     const [isCreateHabitOpen, setIsCreateHabitOpen] = useState(false);
     const [habitCompletions, setHabitCompletions] = useState({});
+    const [habitView, setHabitView] = useState(() => {
+        return localStorage.getItem(VIEW_KEY) || VIEW_MODES.CARD;
+    });
+
+    useEffect(() => {
+        const handleViewChange = (event) => {
+            if (event.detail && event.detail.view) {
+                setHabitView(event.detail.view);
+            }
+        };
+        window.addEventListener('habitViewChange', handleViewChange);
+        return () => {
+            window.removeEventListener('habitViewChange', handleViewChange);
+        };
+    }, []);
 
     const { habits = [], loading: habitsLoading, error: habitsError } = useHabits();
 
@@ -126,6 +150,28 @@ export function HabitActionList() {
                         Create Habit
                     </Button>
                 </div>
+            ) : habitView === VIEW_MODES.CARD ? (
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {sortedHabits.map((habit) => (
+                        <HabitActionItem
+                            key={habit.id}
+                            habit={habit}
+                            date={selectedDate}
+                            cardMode={true}
+                        />
+                    ))}
+                </div>
+            ) : habitView === VIEW_MODES.TILE ? (
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
+                    {sortedHabits.map((habit) => (
+                        <HabitActionItem
+                            key={habit.id}
+                            habit={habit}
+                            date={selectedDate}
+                            tileMode={true}
+                        />
+                    ))}
+                </div>
             ) : (
                 <div className="flex flex-col">
                     {sortedHabits.map((habit, index) => {
@@ -143,8 +189,7 @@ export function HabitActionList() {
                                 />
                                 {index < sortedHabits.length - 1 && (
                                     <div className="border-b border-border mx-2" />
-                                )
-                                }
+                                )}
                             </div>
                         );
                     })}

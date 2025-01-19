@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sun, Moon, Monitor, Wrench, Database } from '@phosphor-icons/react';
+import { Sun, Moon, Monitor, Wrench, Database, SquaresFour, List, GridNine } from '@phosphor-icons/react';
 import {
     Dialog,
     DialogContent,
@@ -18,6 +19,13 @@ const THEMES = {
     SYSTEM: 'system'
 };
 
+const VIEW_KEY = `${appSlug}.habitView`;
+const VIEW_MODES = {
+    CARD: 'card',
+    LIST: 'list',
+    TILE: 'tile',
+};
+
 export function SettingsDialog({ open, onOpenChange }) {
     const appVersion = import.meta.env.VITE_APP_VERSION;
     const appTitle = import.meta.env.VITE_APP_TITLE;
@@ -25,6 +33,14 @@ export function SettingsDialog({ open, onOpenChange }) {
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem(THEME_KEY) || THEMES.SYSTEM;
     });
+    const [habitView, setHabitView] = useState(() => {
+        return localStorage.getItem(VIEW_KEY) || VIEW_MODES.CARD;
+    });
+    const handleViewChange = (newView) => {
+        setHabitView(newView);
+        localStorage.setItem(VIEW_KEY, newView);
+        window.dispatchEvent(new CustomEvent('habitViewChange', { detail: { view: newView } }));
+    };
 
     useEffect(() => {
         const applyTheme = (selectedTheme) => {
@@ -121,6 +137,35 @@ export function SettingsDialog({ open, onOpenChange }) {
                             >
                                 <Monitor className="h-5 w-5" />
                                 <span className="text-xs">System</span>
+                            </Button>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className="text-sm font-medium mb-3">Actions View</h3>
+                        <div className="grid grid-cols-3 gap-2">
+                            <Button
+                                variant={habitView === VIEW_MODES.CARD ? "default" : "outline"}
+                                className="flex flex-col gap-2 h-auto py-3"
+                                onClick={() => handleViewChange(VIEW_MODES.CARD)}
+                            >
+                                <SquaresFour className="h-5 w-5" />
+                                <span className="text-xs">Card</span>
+                            </Button>
+                            <Button
+                                variant={habitView === VIEW_MODES.TILE ? "default" : "outline"}
+                                className="flex flex-col gap-2 h-auto py-3"
+                                onClick={() => handleViewChange(VIEW_MODES.TILE)}
+                            >
+                                <GridNine className="h-5 w-5" />
+                                <span className="text-xs">Tile</span>
+                            </Button>
+                            <Button
+                                variant={habitView === VIEW_MODES.LIST ? "default" : "outline"}
+                                className="flex flex-col gap-2 h-auto py-3"
+                                onClick={() => handleViewChange(VIEW_MODES.LIST)}
+                            >
+                                <List className="h-5 w-5" />
+                                <span className="text-xs">List</span>
                             </Button>
                         </div>
                     </div>
