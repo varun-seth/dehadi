@@ -8,14 +8,9 @@ import { HabitFormDialog } from './HabitFormDialog';
 import { Button } from '@/components/ui/button';
 import * as dateService from '@/lib/date';
 import * as db from '@/lib/db';
+import { settingsService } from '@/lib/settings';
 
-const appSlug = import.meta.env.VITE_APP_SLUG;
-const VIEW_KEY = `${appSlug}.habitView`;
-const VIEW_MODES = {
-    CARD: 'card',
-    LIST: 'list',
-    TILE: 'tile',
-};
+
 
 export function HabitActionList() {
     useEffect(() => {
@@ -30,9 +25,10 @@ export function HabitActionList() {
     const [scoreState, setScoreState] = useState({ completed: 0, total: 0 });
     const [isCreateHabitOpen, setIsCreateHabitOpen] = useState(false);
     const [habitCompletions, setHabitCompletions] = useState({});
-    const [habitView, setHabitView] = useState(() => {
-        return localStorage.getItem(VIEW_KEY) || VIEW_MODES.CARD;
-    });
+    const [habitView, setHabitView] = useState(settingsService.getViewMode());
+    useEffect(() => {
+        setHabitView(settingsService.getViewMode());
+    }, []);
 
     useEffect(() => {
         const handleViewChange = (event) => {
@@ -150,7 +146,7 @@ export function HabitActionList() {
                         Create Habit
                     </Button>
                 </div>
-            ) : habitView === VIEW_MODES.CARD ? (
+            ) : habitView === settingsService.VIEW_MODES.CARD ? (
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {sortedHabits.map((habit) => (
                         <HabitActionItem
@@ -161,7 +157,7 @@ export function HabitActionList() {
                         />
                     ))}
                 </div>
-            ) : habitView === VIEW_MODES.TILE ? (
+            ) : habitView === settingsService.VIEW_MODES.TILE ? (
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
                     {sortedHabits.map((habit) => (
                         <HabitActionItem
