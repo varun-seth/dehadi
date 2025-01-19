@@ -9,6 +9,9 @@ import * as dateService from '@/lib/date';
 import * as db from '@/lib/db';
 
 export function HabitActionList() {
+    useEffect(() => {
+        document.title = `${import.meta.env.VITE_APP_TITLE} - Home`;
+    }, []);
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState(() => {

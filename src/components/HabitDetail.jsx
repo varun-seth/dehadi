@@ -22,6 +22,14 @@ export function HabitDetail() {
     const [habit, setHabit] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        if (habit && habit.name) {
+            document.title = `${import.meta.env.VITE_APP_TITLE} - Habit - ${habit.name}`;
+        } else {
+            document.title = `${import.meta.env.VITE_APP_TITLE} - Habit`;
+        }
+    }, [habit]);
+
     const loadHabit = async () => {
         try {
             const habitData = await getHabit(id);

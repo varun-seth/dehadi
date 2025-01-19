@@ -5,6 +5,9 @@ import { exportAllData, importAllData, getTotalHabitsCount, getTotalActionsCount
 import { ImportStatsDialog } from '@/components/ImportStatsDialog';
 
 export function DataManagement() {
+    useEffect(() => {
+        document.title = `${import.meta.env.VITE_APP_TITLE} - Manage Data`;
+    }, []);
     const appTitle = import.meta.env.VITE_APP_TITLE;
     const fileInputRef = useRef(null);
     const [habitsCount, setHabitsCount] = useState(0);
