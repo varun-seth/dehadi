@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/lib/iconsSubset.jsx';
 import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
@@ -22,6 +22,9 @@ const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNe
 
     const [isCompleted, setIsCompleted] = useState(false);
     const [pace, setPace] = useState(null);
+    const [showPaceTile, setShowPaceTile] = useState(false);
+    const [fadePaceTile, setFadePaceTile] = useState(false);
+    const paceTimeoutRef = useRef(null);
 
     useEffect(() => {
         let mounted = true;
@@ -89,11 +92,25 @@ const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNe
                 detail: { habitId: habit.id }
             });
             window.dispatchEvent(paceUpdateEvent);
+            if (tileMode) {
+                if (paceTimeoutRef.current) {
+                    clearTimeout(paceTimeoutRef.current);
+                }
+                setShowPaceTile(true);
+                setFadePaceTile(false);
+                paceTimeoutRef.current = setTimeout(() => {
+                    setFadePaceTile(true);
+                    setTimeout(() => {
+                        setShowPaceTile(false);
+                        setFadePaceTile(false);
+                    }, 500);
+                }, 5000);
+            }
         } catch (error) {
             setIsCompleted(previousState);
             console.error('Failed to toggle habit:', error);
         }
-    }, [habit.id, date, isCompleted]);
+    }, [habit.id, date, isCompleted, tileMode]);
 
     const habitColor = habit.color || '#838383ff';
 
@@ -177,13 +194,17 @@ const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNe
                 tabIndex={0}
                 aria-pressed={isCompleted}
             >
-                <div
-                    className={cn("absolute top-2 right-2 text-xs font-semibold rounded-md px-2 py-1"
-                        , isCompleted ? "bg-background/20 text-background" : "bg-muted text-muted-foreground"
-                    )}
-                >
-                    {pace !== null ? `${pace}%` : ''}
-                </div>
+                {showPaceTile && (
+                    <div
+                        className={cn(
+                            "absolute top-2 right-2 text-xs font-semibold rounded-md px-2 py-1 transition-opacity duration-500",
+                            isCompleted ? "bg-background/20 text-background" : "bg-muted text-muted-foreground",
+                            fadePaceTile ? "opacity-0" : "opacity-100"
+                        )}
+                    >
+                        {pace !== null ? `${pace}%` : ''}
+                    </div>
+                )}
                 <div className="flex-1 flex flex-col items-center justify-center w-full">
                     {habit.icon && IconComponent && (
                         <div
