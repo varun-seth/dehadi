@@ -9,7 +9,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-const THEME_KEY = 'dihadi-theme';
+const appSlug = import.meta.env.VITE_APP_SLUG;
+
+const THEME_KEY = `${appSlug}.theme`;
 const THEMES = {
     LIGHT: 'light',
     DARK: 'dark',
@@ -17,6 +19,8 @@ const THEMES = {
 };
 
 export function SettingsDialog({ open, onOpenChange }) {
+    const appVersion = import.meta.env.VITE_APP_VERSION;
+    const appTitle = import.meta.env.VITE_APP_TITLE;
     const navigate = useNavigate();
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem(THEME_KEY) || THEMES.SYSTEM;
@@ -122,7 +126,7 @@ export function SettingsDialog({ open, onOpenChange }) {
                     </div>
                     <div className="pt-4 border-t">
                         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                            <span>Dihadi is a habit tracking app</span>
+                            <span>{appTitle} is a habit tracking app</span>
                             <Button
                                 variant="link"
                                 size="sm"
@@ -131,6 +135,9 @@ export function SettingsDialog({ open, onOpenChange }) {
                             >
                                 home page
                             </Button>
+                        </div>
+                        <div className="flex items-center justify-center text-xs text-muted-foreground mt-2">
+                            <span>Version: {appVersion}</span>
                         </div>
                     </div>
                 </div>

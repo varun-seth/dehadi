@@ -1,8 +1,9 @@
-# Dihadi
+# Karma
 
-Dihadi is an acronym for "Diurnal Habitual Directive" - a complex title for a simple habit tracking app.
+Karma is a simple habit tracking app.
 
-Also, "Dihadi" in hindi stands for "day work", although it is used in the context of daily wage labor.
+The aim is to encourage you to do some small things here and there, and build consistency over time.
+
 
 This app uses modern libraries like React, Vite, TailwindCSS + Shadcn UI.
 

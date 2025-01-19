@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path'
+import path from 'path';
 import { VitePWA } from 'vite-plugin-pwa';
+const pkg = require('./package.json');
 
 
 export default defineConfig({
@@ -17,8 +18,8 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       
       manifest: {
-        name: 'Dihadi - Daily Habit Tracker',
-        short_name: 'Dihadi',
+        name: pkg.title,
+        short_name: pkg.title,
         description: 'Track your daily habits and build consistency',
         theme_color: '#000000',
         background_color: '#ffffff',
@@ -90,6 +91,11 @@ export default defineConfig({
       }
     })
   ],
+  define: {
+  'import.meta.env.VITE_APP_VERSION': JSON.stringify(pkg.version),
+  'import.meta.env.VITE_APP_TITLE': JSON.stringify(pkg.title),
+  'import.meta.env.VITE_APP_SLUG': JSON.stringify(pkg.name)
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

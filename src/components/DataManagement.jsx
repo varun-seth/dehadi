@@ -5,6 +5,7 @@ import { exportAllData, importAllData, getTotalHabitsCount, getTotalActionsCount
 import { ImportStatsDialog } from '@/components/ImportStatsDialog';
 
 export function DataManagement() {
+    const appTitle = import.meta.env.VITE_APP_TITLE;
     const fileInputRef = useRef(null);
     const [habitsCount, setHabitsCount] = useState(0);
     const [actionsCount, setActionsCount] = useState(0);
@@ -41,8 +42,8 @@ export function DataManagement() {
 
             const link = document.createElement('a');
             link.href = url;
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
-            link.download = `dihadi-${timestamp}.json`;
+            const isoDate = new Date().toISOString().slice(0, 10);
+            link.download = `${appTitle}-${isoDate}.json`;
             document.body.appendChild(link);
             link.click();
 

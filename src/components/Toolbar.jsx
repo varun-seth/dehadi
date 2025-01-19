@@ -30,6 +30,7 @@ import { cn } from '@/lib/utils';
  * Uses date service for state management - no props from children
  */
 export function Toolbar() {
+    const appTitle = import.meta.env.VITE_APP_TITLE;
     const location = useLocation();
     const navigate = useNavigate();
     const dateTextRef = useRef(null);
@@ -178,7 +179,7 @@ export function Toolbar() {
                     >
                         <Link to="/actions" onClick={handleHomeClick}>
                             <ClipboardText className="w-5 h-5" />
-                            <span className="hidden sm:inline">Dihadi</span>
+                            <span className="hidden sm:inline">{appTitle}</span>
                         </Link>
                     </Button>
                 </div>
