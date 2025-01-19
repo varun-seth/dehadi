@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { ClipboardText, CaretLeft, CaretRight, Gear, Wrench, Plus, PencilSimple, Trash, ArrowLeft, Database } from '@phosphor-icons/react';
+import { ClipboardText, CaretLeft, CaretRight, Gear, Wrench, Plus, PencilSimple, Trash, Database } from '@phosphor-icons/react';
 import { HabitFormDialog } from './HabitFormDialog';
 import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import {
@@ -185,14 +185,14 @@ export function Toolbar() {
             )}
             {isHabitDetailView && (
                 <Button variant="ghost" onClick={() => navigate('/habits')}>
-                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    <CaretLeft className="h-4 w-4 mr-2" />
                     All Habits
                 </Button>
             )}
             {isDataView && (
                 <div className="flex items-center gap-2">
                     <Button variant="ghost" onClick={() => navigate('/actions')}>
-                        <ArrowLeft className="h-4 w-4 sm:mr-2" />
+                        <CaretLeft className="h-4 w-4 sm:mr-2" />
                         <span className="hidden sm:inline">Back</span>
                     </Button>
                     <Button
