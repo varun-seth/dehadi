@@ -9,57 +9,38 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { settingsService } from '@/lib/settings';
 
-const appSlug = import.meta.env.VITE_APP_SLUG;
-
-const THEME_KEY = `${appSlug}.theme`;
-const THEMES = {
-    LIGHT: 'light',
-    DARK: 'dark',
-    SYSTEM: 'system'
-};
-
-const VIEW_KEY = `${appSlug}.habitView`;
-const VIEW_MODES = {
-    CARD: 'card',
-    LIST: 'list',
-    TILE: 'tile',
-};
 
 export function SettingsDialog({ open, onOpenChange }) {
     const appVersion = import.meta.env.VITE_APP_VERSION;
     const appTitle = import.meta.env.VITE_APP_TITLE;
     const navigate = useNavigate();
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem(THEME_KEY) || THEMES.SYSTEM;
-    });
-    const [habitView, setHabitView] = useState(() => {
-        return localStorage.getItem(VIEW_KEY) || VIEW_MODES.CARD;
-    });
+    const [theme, setTheme] = useState(() => settingsService.getTheme());
+    const [habitView, setHabitView] = useState(() => settingsService.getViewMode());
     const handleViewChange = (newView) => {
         setHabitView(newView);
-        localStorage.setItem(VIEW_KEY, newView);
+        settingsService.setViewMode(newView);
         window.dispatchEvent(new CustomEvent('habitViewChange', { detail: { view: newView } }));
     };
 
     useEffect(() => {
         const applyTheme = (selectedTheme) => {
             const root = document.documentElement;
-
-            if (selectedTheme === THEMES.SYSTEM) {
+            if (selectedTheme === settingsService.THEMES.SYSTEM) {
                 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-                    ? THEMES.DARK
-                    : THEMES.LIGHT;
-                root.classList.toggle('dark', systemTheme === THEMES.DARK);
+                    ? settingsService.THEMES.DARK
+                    : settingsService.THEMES.LIGHT;
+                root.classList.toggle('dark', systemTheme === settingsService.THEMES.DARK);
             } else {
-                root.classList.toggle('dark', selectedTheme === THEMES.DARK);
+                root.classList.toggle('dark', selectedTheme === settingsService.THEMES.DARK);
             }
         };
 
         applyTheme(theme);
-        localStorage.setItem(THEME_KEY, theme);
+        settingsService.setTheme(theme);
 
-        if (theme === THEMES.SYSTEM) {
+        if (theme === settingsService.THEMES.SYSTEM) {
             const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
             const handler = () => applyTheme(theme);
             mediaQuery.addEventListener('change', handler);
@@ -115,28 +96,28 @@ export function SettingsDialog({ open, onOpenChange }) {
                         <h3 className="text-sm font-medium mb-3">Theme</h3>
                         <div className="grid grid-cols-3 gap-2">
                             <Button
-                                variant={theme === THEMES.LIGHT ? "default" : "outline"}
+                                variant={theme === settingsService.THEMES.LIGHT ? "default" : "outline"}
                                 className="flex flex-col gap-2 h-auto py-3"
-                                onClick={() => handleThemeChange(THEMES.LIGHT)}
+                                onClick={() => handleThemeChange(settingsService.THEMES.LIGHT)}
                             >
                                 <Sun className="h-5 w-5" />
                                 <span className="text-xs">Light</span>
                             </Button>
                             <Button
-                                variant={theme === THEMES.DARK ? "default" : "outline"}
+                                variant={theme === settingsService.THEMES.SYSTEM ? "default" : "outline"}
                                 className="flex flex-col gap-2 h-auto py-3"
-                                onClick={() => handleThemeChange(THEMES.DARK)}
-                            >
-                                <Moon className="h-5 w-5" />
-                                <span className="text-xs">Dark</span>
-                            </Button>
-                            <Button
-                                variant={theme === THEMES.SYSTEM ? "default" : "outline"}
-                                className="flex flex-col gap-2 h-auto py-3"
-                                onClick={() => handleThemeChange(THEMES.SYSTEM)}
+                                onClick={() => handleThemeChange(settingsService.THEMES.SYSTEM)}
                             >
                                 <Monitor className="h-5 w-5" />
                                 <span className="text-xs">System</span>
+                            </Button>
+                            <Button
+                                variant={theme === settingsService.THEMES.DARK ? "default" : "outline"}
+                                className="flex flex-col gap-2 h-auto py-3"
+                                onClick={() => handleThemeChange(settingsService.THEMES.DARK)}
+                            >
+                                <Moon className="h-5 w-5" />
+                                <span className="text-xs">Dark</span>
                             </Button>
                         </div>
                     </div>
@@ -144,25 +125,25 @@ export function SettingsDialog({ open, onOpenChange }) {
                         <h3 className="text-sm font-medium mb-3">Actions View</h3>
                         <div className="grid grid-cols-3 gap-2">
                             <Button
-                                variant={habitView === VIEW_MODES.CARD ? "default" : "outline"}
+                                variant={habitView === settingsService.VIEW_MODES.CARD ? "default" : "outline"}
                                 className="flex flex-col gap-2 h-auto py-3"
-                                onClick={() => handleViewChange(VIEW_MODES.CARD)}
+                                onClick={() => handleViewChange(settingsService.VIEW_MODES.CARD)}
                             >
                                 <SquaresFour className="h-5 w-5" />
                                 <span className="text-xs">Card</span>
                             </Button>
                             <Button
-                                variant={habitView === VIEW_MODES.TILE ? "default" : "outline"}
+                                variant={habitView === settingsService.VIEW_MODES.TILE ? "default" : "outline"}
                                 className="flex flex-col gap-2 h-auto py-3"
-                                onClick={() => handleViewChange(VIEW_MODES.TILE)}
+                                onClick={() => handleViewChange(settingsService.VIEW_MODES.TILE)}
                             >
                                 <GridNine className="h-5 w-5" />
                                 <span className="text-xs">Tile</span>
                             </Button>
                             <Button
-                                variant={habitView === VIEW_MODES.LIST ? "default" : "outline"}
+                                variant={habitView === settingsService.VIEW_MODES.LIST ? "default" : "outline"}
                                 className="flex flex-col gap-2 h-auto py-3"
-                                onClick={() => handleViewChange(VIEW_MODES.LIST)}
+                                onClick={() => handleViewChange(settingsService.VIEW_MODES.LIST)}
                             >
                                 <List className="h-5 w-5" />
                                 <span className="text-xs">List</span>
