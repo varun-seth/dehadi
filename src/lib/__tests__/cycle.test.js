@@ -39,7 +39,11 @@ describe('isHabitDueOnDate', () => {
 		{ habit: { cycle: { unit: cycle.CycleUnit.MONTH, slots: [0], } }, date: '2025-01-02', expected: false },
 		{ habit: { cycle: { unit: cycle.CycleUnit.MONTH, slots: [0], rest: 1, phase: 1 } }, date: '2025-01-01', expected: false },
 		{ habit: { cycle: { unit: cycle.CycleUnit.MONTH, slots: [0], rest: 1, phase: 1 } }, date: '2025-02-01', expected: true },
-		// { habit: { cycle: { unit: cycle.CycleUnit.MONTH, slots: [0], phase: 1 } }, date: '2025-02-01', expected: true },
+		// Monthly with negative slots: -1 = last day
+		{ habit: { cycle: { unit: cycle.CycleUnit.MONTH, slots: [-1], } }, date: '2025-01-31', expected: true }, // Last day of January
+		{ habit: { cycle: { unit: cycle.CycleUnit.MONTH, slots: [-1], } }, date: '2025-01-30', expected: false },
+		{ habit: { cycle: { unit: cycle.CycleUnit.MONTH, slots: [-1], } }, date: '2025-02-28', expected: true }, // Last day of February 2025
+		{ habit: { cycle: { unit: cycle.CycleUnit.MONTH, slots: [-1], } }, date: '2025-02-27', expected: false },
 		// No habit or cycle
 		{ habit: null, date: '2025-01-01', expected: true },
 		{ habit: {}, date: '2025-01-01', expected: true },
