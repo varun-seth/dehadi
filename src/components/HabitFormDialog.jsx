@@ -18,20 +18,8 @@ import {
 } from "@/components/ui/dialog";
 import { IconPicker } from './IconPicker';
 import { Icons } from '@/lib/iconsSubset.jsx';
-import { USER_ICONS, searchIconForHabit, ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
+import { USER_ICONS, searchIconForHabit, ICON_SLUG_TO_NAME, getInitialColor } from '@/lib/iconRegistry';
 
-const COLORS = [
-    '#ef4444',
-    '#f97316',
-    '#f59e0b',
-    '#84cc16',
-    '#10b981',
-    '#06b6d4',
-    '#3b82f6',
-    '#6366f1',
-    '#8b5cf6',
-    '#d946ef',
-];
 
 export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess }) {
     const { createHabit, updateHabit, loading } = useHabits();
@@ -41,7 +29,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        color: getInitialColor(),
         icon: USER_ICONS.length > 0 ? USER_ICONS[0].slug : '',
         cycle: {
             unit: 'day',
@@ -78,7 +66,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                 setFormData({
                     name: '',
                     description: '',
-                    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    color: getInitialColor(),
                     icon: USER_ICONS.length > 0 ? USER_ICONS[0].slug : '',
                     cycle: null
                 });
@@ -187,7 +175,7 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                                 Cancel
                             </Button>
                             <Button type="submit" disabled={loading}>
-                                {habitId ? 'Update' : 'Create'} Habit
+                                Save
                             </Button>
                         </DialogFooter>
                     </form>
