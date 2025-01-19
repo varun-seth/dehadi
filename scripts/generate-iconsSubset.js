@@ -1,29 +1,45 @@
-// This script reads icons-metadata.json and generates src/lib/iconsSubset.jsx
+// This script reads SVGs from public/phosphor-svg/ and generates src/lib/iconsSubset.jsx
+// Each SVG is converted to a React component and exported in a map for dynamic usage
+
 const fs = require('fs');
 const path = require('path');
 
-const metadataPath = path.join(__dirname, '../src/lib/icons-metadata.json');
+const svgDir = path.join(__dirname, '../public/phosphor-svg');
 const outputPath = path.join(__dirname, '../src/lib/iconsSubset.jsx');
 
-const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
-const iconNames = metadata.userIcons.map(icon => icon.name);
+function toPascalCase(str) {
+  return str
+    .replace(/(^\w|[-_]\w)/g, m => m.replace(/[-_]/, '').toUpperCase());
+}
 
-const importLines = iconNames.map(name => `import { ${name} } from '@phosphor-icons/react';`).join('\n');
-const exportLines = [
-  'export const Icons = {',
-  ...iconNames.map(name => `  ${JSON.stringify(name)}: ${name},`),
-  '};',
-  '',
-  'export default Icons;',
-];
+const files = fs.readdirSync(svgDir).filter(f => f.endsWith('.svg'));
+const components = [];
+const exportMap = [];
+
+for (const file of files) {
+  const svgContent = fs.readFileSync(path.join(svgDir, file), 'utf8');
+  // Remove XML declaration if present
+  const cleaned = svgContent.replace(/<\?xml[^>]*>/, '').trim();
+  // Get base name (e.g. check-circle-bold.svg -> CheckCircle)
+  const base = file.replace(/-bold\.svg$/, '').replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+  const componentName = toPascalCase(base);
+  components.push(`export function ${componentName}(props) { return (${cleaned.replace('<svg', '<svg {...props}')} ); }`);
+  exportMap.push(`  ${JSON.stringify(componentName)}: ${componentName},`);
+}
 
 const fileContent = [
   '// AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.',
-  importLines,
+  "import React from 'react';",
   '',
-  ...exportLines,
+  ...components,
+  '',
+  'export const Icons = {',
+  ...exportMap,
+  '};',
+  '',
+  'export default Icons;',
   '',
 ].join('\n');
 
 fs.writeFileSync(outputPath, fileContent);
-console.log('iconsSubset.jsx generated with', iconNames.length, 'icons.');
+console.log('React icon components generated:', files.length);
