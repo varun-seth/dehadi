@@ -1,9 +1,13 @@
 import { openDB } from './openDB.js';
 import { STORES, HABIT_COLUMNS } from './constants.js';
 
-const generateId = () => {
-  return Math.floor(Math.random() * 9e19).toString().padStart(20, '0');
-};
+export function generateId() {
+    const words = new Uint32Array(2);
+    crypto.getRandomValues(words);
+    const value = (BigInt(words[0]) << 32n) | BigInt(words[1]);
+    return value.toString().padStart(20, '0');
+  
+}
 
 export const createHabit = async (habit) => {
   const db = await openDB();

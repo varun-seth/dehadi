@@ -10,24 +10,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { USER_ICONS } from '@/lib/iconRegistry';
-import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
+import { USER_ICONS, ICON_SLUG_TO_NAME, COLORS } from '@/lib/iconRegistry';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/lib/iconsSubset.jsx';
 import { MagnifyingGlass } from '@phosphor-icons/react';
-
-const COLORS = [
-    '#ef4444', // red
-    '#f97316', // orange
-    '#f59e0b', // amber
-    '#84cc16', // lime
-    '#10b981', // emerald
-    '#06b6d4', // cyan
-    '#3b82f6', // blue
-    '#6366f1', // indigo
-    '#8b5cf6', // violet
-    '#d946ef', // fuchsia
-];
 
 export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSelect }) {
 

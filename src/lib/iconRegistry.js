@@ -1,3 +1,31 @@
+// Central color palette for habits and icon pickers
+export const COLORS = [
+    '#3b82f6',
+    '#06b6d4',
+    '#10b981',
+    '#84cc16',
+    '#f59e0b',
+    '#f97316',
+    '#ef4444',
+    '#d946ef',
+    '#8b5cf6',
+    '#6366f1',
+];
+
+export function getInitialColor(habitId = null) {
+    if (habitId == null) {
+        return COLORS[Math.floor(Math.random() * COLORS.length)];
+    }
+  try {
+    // Ensure BigInt conversion works even if input is number or string
+    const id = BigInt(habitId);
+    const index = Number(id % BigInt(COLORS.length));
+    return COLORS[index];
+  } catch (e) {
+    return COLORS[0];
+  }
+}
+
 import iconsMetadata from './icons-metadata.json';
 import { Icons } from './iconsSubset.jsx';
 
