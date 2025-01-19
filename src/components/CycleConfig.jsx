@@ -89,6 +89,24 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                                     className="px-2"
                                 >{idx + 1}</Button>
                             ))}
+                            <Button
+                                type="button"
+                                key={-1}
+                                variant={cycle.slots?.includes(-1) ? "default" : "outline"}
+                                size="sm"
+                                onClick={() => {
+                                    if (!editable) return;
+                                    const slots = cycle.slots || [];
+                                    setCycle({
+                                        ...cycle,
+                                        slots: slots.includes(-1)
+                                            ? slots.filter(d => d !== -1)
+                                            : [...slots, -1]
+                                    });
+                                }}
+                                disabled={!editable}
+                                className="px-2"
+                            >Last Day</Button>
                         </div>
                         <Tooltip>
                             <TooltipTrigger asChild>

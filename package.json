@@ -7,6 +7,7 @@
         "dev": "vite",
         "build": "npm run generate-iconsSubset && npm run generate-icons && vite build",
         "preview": "vite preview",
+        "test": "vitest run",
         "generate-icons": "bash scripts/generate-icons.sh",
         "generate-iconsSubset": "node scripts/generate-iconsSubset.js"
     },

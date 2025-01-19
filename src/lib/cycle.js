@@ -3,7 +3,7 @@ export function getDefaultCycle() {
   return {
     unit: CycleUnit.DAY,
     slots: null,
-  rest: 0,
+    rest: 0,
     phase: 0
   };
 }
@@ -25,7 +25,7 @@ export function isHabitDueOnDate(habit, dateStr) {
     if (rest === 0) return true;
     // Epoch days since 1970-01-01
     const epochDays = Math.floor((date - epoch) / (1000 * 60 * 60 * 24));
-  return (epochDays % (rest + 1)) === phase;
+    return (epochDays % (rest + 1)) === phase;
   }
   if (unit === CycleUnit.WEEK) {
     const weekday = date.getDay(); // 0=Sun, 1=Mon, ...
@@ -33,15 +33,28 @@ export function isHabitDueOnDate(habit, dateStr) {
     if (rest === 0) return true;
     // Epoch weeks since 1970-01-01
     const epochWeeks = Math.floor((date - epoch) / (1000 * 60 * 60 * 24 * 7));
-  return (epochWeeks % (rest + 1)) === phase;
+    return (epochWeeks % (rest + 1)) === phase;
   }
   if (unit === CycleUnit.MONTH) {
-    const dayOfMonth = date.getDate() - 1; // 0-indexed
-    if (Array.isArray(slots) && slots.length > 0 && !slots.includes(dayOfMonth)) return false;
+    const dayOfMonth = date.getDate(); // 1 to 31
+    if (Array.isArray(slots) && slots.length > 0) {
+      let matches = false;
+      for (const slot of slots) {
+        if (slot >= 0) {
+          if (slot + 1 === dayOfMonth) matches = true;
+        } else {
+          // negative: -1 = last day, -2 = second last, etc.
+          const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+          const targetDay = lastDay + slot + 1;
+          if (targetDay === dayOfMonth) matches = true;
+        }
+      }
+      if (!matches) return false;
+    }
     if (rest === 0) return true;
     // Epoch months since 1970-01-01
     const epochMonths = (date.getFullYear() - 1970) * 12 + date.getMonth();
-  return (epochMonths % (rest + 1)) === phase;
+    return (epochMonths % (rest + 1)) === phase;
   }
   return true;
 }
