@@ -42,6 +42,7 @@
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.0",
         "@vitejs/plugin-react": "3.1.0",
+        "fantasticon": "^3.0.0",
         "jsdom": "^27.0.0",
         "shadcn": "^3.3.1",
         "sharp": "^0.34.4",

@@ -30,11 +30,24 @@ export const DEFAULT_EMPTY_ICON = 'Circle';
 
 export const ICON_PAIRS = iconsMetadata.iconPairs;
 
+import React from 'react';
+export function getFontIconComponent(iconName) {
+    return function FontIcon(props) {
+        return React.createElement(
+            'i',
+            {
+                className: `ph ph-${iconName.toLowerCase().replace(/([A-Z])/g, '-$1').replace(/^-/, '')}`,
+                ...props
+            }
+        );
+    };
+}
+
 export const USER_ICONS = iconsMetadata.userIcons
     .filter(icon => icon.slug != null)
     .map(icon => ({
         ...icon,
-        component: Icons[icon.name],
+        component: getFontIconComponent(icon.name),
     }));
 // Dynamically import a phosphor icon by name
 export async function getPhosphorIcon(iconName) {

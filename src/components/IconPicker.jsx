@@ -117,35 +117,24 @@ export function IconPicker({ open, onOpenChange, currentIcon, currentColor, onSe
                                     No icons found
                                 </div>
                             ) : (
-                                filteredIcons.map(({ name, component: Icon }) => {
-                                    const DisplayIcon = Icon;
-
-                                    const isValidIcon = typeof DisplayIcon === "function" || typeof DisplayIcon === "object";
-
-                                    return (
-                                        <button
-                                            key={name}
-                                            type="button"
-                                            className={cn(
-                                                "w-full aspect-square rounded flex items-center justify-center p-1.5",
-                                                "border-2",
-                                                selectedIcon === name
-                                                    ? "border-primary"
-                                                    : "border-muted",
-                                                "hover:bg-accent"
-                                            )}
-                                            onClick={() => setSelectedIcon(name)}
-                                            title={name}
-                                            disabled={!isValidIcon}
-                                        >
-                                            {isValidIcon ? (
-                                                <DisplayIcon className="w-5 h-5" />
-                                            ) : (
-                                                <span className="w-5 h-5 text-muted-foreground">?</span>
-                                            )}
-                                        </button>
-                                    );
-                                })
+                                filteredIcons.map(({ name, component: Icon }) => (
+                                    <button
+                                        key={name}
+                                        type="button"
+                                        className={cn(
+                                            "w-full aspect-square rounded flex items-center justify-center p-1.5",
+                                            "border-2",
+                                            selectedIcon === name
+                                                ? "border-primary"
+                                                : "border-muted",
+                                            "hover:bg-accent"
+                                        )}
+                                        onClick={() => setSelectedIcon(name)}
+                                        title={name}
+                                    >
+                                        <Icon className="w-5 h-5" />
+                                    </button>
+                                ))
                             )}
                         </div>
                     </div>
