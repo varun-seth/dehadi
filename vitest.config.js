@@ -7,6 +7,9 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/setupTests.js',
+    env: {
+      VITE_APP_SLUG: 'karma-test'
+    },
     coverage: {
       reporter: ['text', 'json', 'html'],
     },

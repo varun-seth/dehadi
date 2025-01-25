@@ -7,7 +7,10 @@ const areObjectsEqual = (obj1, obj2) => {
   const keys2 = Object.keys(obj2).sort();
   if (keys1.length !== keys2.length) return false;
   for (const key of keys1) {
-    if (obj1[key] !== obj2[key]) return false;
+    if (key === 'created_at' || key === 'updated_at' || key === 'rank') continue;
+    if (key === 'cycle') {
+      if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) return false;
+    } else if (obj1[key] !== obj2[key]) return false;
   }
   return true;
 };
