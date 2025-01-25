@@ -1,4 +1,4 @@
-import { openDB } from './openDB.js';
+import { db, executeWithRetry } from './dbManager.js';
 import { STORES, HABIT_COLUMNS, ACTION_COLUMNS } from './constants.js';
 
 const areObjectsEqual = (obj1, obj2) => {
@@ -16,31 +16,15 @@ const areObjectsEqual = (obj1, obj2) => {
 };
 
 export const exportAllData = async () => {
-  const db = await openDB();
-  return new Promise(async (resolve, reject) => {
-    try {
-      const habitsTx = db.transaction(STORES.HABITS, 'readonly');
-      const habitsStore = habitsTx.objectStore(STORES.HABITS);
-      const habitsRequest = habitsStore.getAll();
-      habitsRequest.onsuccess = async () => {
-        const habits = habitsRequest.result || [];
-        const actionsTx = db.transaction(STORES.ACTIONS, 'readonly');
-        const actionsStore = actionsTx.objectStore(STORES.ACTIONS);
-        const actionsRequest = actionsStore.getAll();
-        actionsRequest.onsuccess = () => {
-          const actions = actionsRequest.result || [];
-          const exportData = {
-            habits,
-            actions
-          };
-          resolve(exportData);
-        };
-        actionsRequest.onerror = () => reject(actionsRequest.error);
-      };
-      habitsRequest.onerror = () => reject(habitsRequest.error);
-    } catch (error) {
-      reject(error);
-    }
+  return await executeWithRetry(async () => {
+    const [habits, actions] = await Promise.all([
+      db.habits.toArray(),
+      db.actions.toArray()
+    ]);
+    return {
+      habits,
+      actions
+    };
   });
 };
 
@@ -52,83 +36,59 @@ export const importAllData = async (importData) => {
   if (!Array.isArray(habits) || !Array.isArray(actions)) {
     throw new Error('Invalid import data: habits and actions must be arrays');
   }
-  const db = await openDB();
-  return new Promise(async (resolve, reject) => {
-    try {
-      const tx = db.transaction([STORES.HABITS, STORES.ACTIONS], 'readwrite');
-      const habitsStore = tx.objectStore(STORES.HABITS);
-      const actionsStore = tx.objectStore(STORES.ACTIONS);
+
+  return await executeWithRetry(async () => {
+    return await db.transaction('rw', db.habits, db.actions, async () => {
       let habitsCreated = 0;
       let habitsUpdated = 0;
       let habitsExisted = 0;
       let actionsCreated = 0;
       let actionsUpdated = 0;
       let actionsExisted = 0;
+
       for (const habit of habits) {
         if (!habit[HABIT_COLUMNS.ID]) {
           continue;
         }
-        const existingHabitRequest = habitsStore.get(habit[HABIT_COLUMNS.ID]);
-        await new Promise((res, rej) => {
-          existingHabitRequest.onsuccess = async () => {
-            const existingHabit = existingHabitRequest.result;
-            if (existingHabit) {
-              if (areObjectsEqual(existingHabit, habit)) {
-                habitsExisted++;
-                res();
-                return;
-              }
-              habitsUpdated++;
-            } else {
-              habitsCreated++;
-            }
-            const putRequest = habitsStore.put(habit);
-            putRequest.onsuccess = () => res();
-            putRequest.onerror = () => rej(putRequest.error);
-          };
-          existingHabitRequest.onerror = () => rej(existingHabitRequest.error);
-        });
+        const existingHabit = await db.habits.get(habit[HABIT_COLUMNS.ID]);
+        if (existingHabit) {
+          if (areObjectsEqual(existingHabit, habit)) {
+            habitsExisted++;
+            continue;
+          }
+          habitsUpdated++;
+        } else {
+          habitsCreated++;
+        }
+        await db.habits.put(habit);
       }
+
       for (const action of actions) {
         if (!action[ACTION_COLUMNS.HABIT_ID] || !action[ACTION_COLUMNS.CREATED_AT]) {
           continue;
         }
         const actionKey = [action[ACTION_COLUMNS.HABIT_ID], action[ACTION_COLUMNS.CREATED_AT]];
-        const existingActionRequest = actionsStore.get(actionKey);
-        await new Promise((res, rej) => {
-          existingActionRequest.onsuccess = async () => {
-            const existingAction = existingActionRequest.result;
-            if (existingAction) {
-              if (areObjectsEqual(existingAction, action)) {
-                actionsExisted++;
-                res();
-                return;
-              }
-              actionsUpdated++;
-            } else {
-              actionsCreated++;
-            }
-            const putRequest = actionsStore.put(action);
-            putRequest.onsuccess = () => res();
-            putRequest.onerror = () => rej(putRequest.error);
-          };
-          existingActionRequest.onerror = () => rej(existingActionRequest.error);
-        });
+        const existingAction = await db.actions.get(actionKey);
+        if (existingAction) {
+          if (areObjectsEqual(existingAction, action)) {
+            actionsExisted++;
+            continue;
+          }
+          actionsUpdated++;
+        } else {
+          actionsCreated++;
+        }
+        await db.actions.put(action);
       }
-      tx.oncomplete = () => {
-        db.close();
-        resolve({
-          habitsCreated,
-          habitsUpdated,
-          habitsExisted,
-          actionsCreated,
-          actionsUpdated,
-          actionsExisted
-        });
+
+      return {
+        habitsCreated,
+        habitsUpdated,
+        habitsExisted,
+        actionsCreated,
+        actionsUpdated,
+        actionsExisted
       };
-      tx.onerror = () => reject(tx.error);
-    } catch (error) {
-      reject(error);
-    }
+    });
   });
 };

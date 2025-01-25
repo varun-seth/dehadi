@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { STORES } from '../constants.js';
-import { openDB } from '../openDB.js';
 import { createHabit } from '../habits.js';
 import { toggleHabitForDate } from '../actions.js';
 import { getTotalHabitsCount, getTotalActionsCount } from '../meta.js';

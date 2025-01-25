@@ -4,17 +4,9 @@ import { generateId } from '../habits.js';
 
 export const clearDB = async () => {
     const db = await openDB();
-    const tx = db.transaction([STORES.HABITS, STORES.ACTIONS], 'readwrite');
-    const habitStore = tx.objectStore(STORES.HABITS);
-    const actionStore = tx.objectStore(STORES.ACTIONS);
-    habitStore.clear();
-    actionStore.clear();
-    return new Promise((resolve, reject) => {
-        tx.oncomplete = () => {
-            db.close();
-            resolve();
-        };
-        tx.onerror = reject;
+    await db.transaction('rw', [STORES.HABITS, STORES.ACTIONS], async () => {
+        await db.table(STORES.HABITS).clear();
+        await db.table(STORES.ACTIONS).clear();
     });
 };
 

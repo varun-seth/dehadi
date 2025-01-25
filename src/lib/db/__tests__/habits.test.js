@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { DB_NAME, STORES } from '../constants.js';
-import { openDB } from '../openDB.js';
 import {
     generateId,
     createHabit,

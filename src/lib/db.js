@@ -1,6 +1,5 @@
 
 export * from './db/constants.js';
-export * from './db/openDB.js';
 export * from './db/habits.js';
 export * from './db/actions.js';
 export * from './db/stats.js';
