@@ -7,6 +7,7 @@ import { DataManagement } from '@/components/DataManagement';
 import { Toolbar } from '@/components/Toolbar';
 
 import { useEffect } from 'react';
+import { useDropboxSync } from '@/lib/dropboxSync';
 function RootRoute() {
     const appTitle = import.meta.env.VITE_APP_TITLE;
     const hash = window.location.hash;
@@ -23,6 +24,8 @@ function RootRoute() {
 }
 
 export default function App() {
+    const { dropboxConnected, lastSyncTime, setDropboxConnected, updateLastSyncTime } = useDropboxSync();
+
     return (
         <Router>
             <div className="flex flex-col h-screen bg-background">
@@ -33,7 +36,7 @@ export default function App() {
                         <Route path="/actions" element={<div className="container mx-auto pb-8"><HabitActionList /></div>} />
                         <Route path="/habits" element={<div className="container mx-auto pb-8"><HabitList /></div>} />
                         <Route path="/habits/:id" element={<div className="container mx-auto pb-8"><HabitDetail /></div>} />
-                        <Route path="/data" element={<div className="container mx-auto pb-8"><DataManagement /></div>} />
+                        <Route path="/data" element={<div className="container mx-auto pb-8"><DataManagement dropboxConnected={dropboxConnected} lastSyncTime={lastSyncTime} onDropboxStatusChange={setDropboxConnected} onSyncTimeUpdate={updateLastSyncTime} /></div>} />
                     </Routes>
                 </main>
             </div>

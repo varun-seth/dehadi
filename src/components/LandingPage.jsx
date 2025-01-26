@@ -36,7 +36,7 @@ export function LandingPage() {
 
                 <div className="text-center space-y-3 text-sm text-muted-foreground">
                     <p>
-                        <strong>Privacy first:</strong> All your data is stored locally on your device. No account required, no cloud sync, no tracking.
+                        <strong>Privacy first:</strong> All your data is stored locally on your device. No account required, no tracking. Optional cloud backup available via Dropbox.
                     </p>
                     <p>
                         <strong>Free forever:</strong> Open source and completely free. Install as a PWA for offline usage.
