@@ -75,11 +75,11 @@ const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNe
             e.stopPropagation();
         }
         const previousState = isCompleted;
-        const optimisticState = !isCompleted;
-        setIsCompleted(optimisticState);
+        const desiredState = !isCompleted;
+        setIsCompleted(desiredState);
         try {
-            const newState = await db.toggleHabitForDate(habit.id, date);
-            if (newState !== optimisticState) {
+            const newState = await db.toggleHabitForDate(habit.id, date, desiredState);
+            if (newState !== desiredState) {
                 setIsCompleted(newState);
             }
             const paceValue = await db.calculatePaceForHabit(habit.id);

@@ -24,7 +24,7 @@ describe('stats db functions', () => {
         const habit = await createHabit(createMockHabitData());
 
         // Add action on TEST_DATE (2025-01-01)
-        await toggleHabitForDate(habit.id, TEST_DATE);
+        await toggleHabitForDate(habit.id, TEST_DATE, true);
 
         const scoresWithAction = await getMonthlyScores(year, month);
         expect(scoresWithAction[TEST_DATE]).toBe(100); // 1 out of 1 habit completed
@@ -35,7 +35,7 @@ describe('stats db functions', () => {
 
         // Add action for habit2 on another date
         const anotherDate = '2025-01-15';
-        await toggleHabitForDate(habit2.id, anotherDate);
+        await toggleHabitForDate(habit2.id, anotherDate, true);
 
         const scoresWithTwo = await getMonthlyScores(year, month);
         expect(scoresWithTwo[TEST_DATE]).toBe(50); // 1 out of 2 habits
@@ -51,7 +51,7 @@ describe('stats db functions', () => {
         expect(pace).toBe(0);
 
         // Add action on TEST_DATE
-        await toggleHabitForDate(habit.id, TEST_DATE);
+        await toggleHabitForDate(habit.id, TEST_DATE, true);
 
         const paceWithAction = await calculatePaceForHabit(habit.id);
         expect(paceWithAction).toBeGreaterThan(0);
@@ -59,7 +59,7 @@ describe('stats db functions', () => {
 
         // Add another action on a different date
         const anotherDate = '2025-01-02';
-        await toggleHabitForDate(habit.id, anotherDate);
+        await toggleHabitForDate(habit.id, anotherDate, true);
 
         const paceWithTwo = await calculatePaceForHabit(habit.id);
         expect(paceWithTwo).toBeGreaterThan(0);

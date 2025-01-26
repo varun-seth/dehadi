@@ -1,22 +1,29 @@
 import { db, executeWithRetry } from './dbManager.js';
 import { STORES, ACTION_COLUMNS, INDEXES } from './constants.js';
 
-export const toggleHabitForDate = async (habitId, date) => {
+export const toggleHabitForDate = async (habitId, date, completed) => {
+  if (completed !== true && completed !== false) {
+    throw new Error("completed must be true or false");
+  }
   return await executeWithRetry(async () => {
     return await db.transaction('rw', db.actions, async () => {
       const existingActions = await db.actions.where('[date+habit_id]').equals([date, habitId]).toArray();
-      if (existingActions.length > 0) {
-        await db.actions.where('[date+habit_id]').equals([date, habitId]).delete();
-        return false;
-      } else {
-        const now = new Date().toISOString();
-        const action = {
-          [ACTION_COLUMNS.HABIT_ID]: habitId,
-          [ACTION_COLUMNS.CREATED_AT]: now,
-          [ACTION_COLUMNS.DATE]: date
-        };
-        await db.actions.add(action);
+      if (completed) {
+        if (existingActions.length === 0) {
+          const now = new Date().toISOString();
+          const action = {
+            [ACTION_COLUMNS.HABIT_ID]: habitId,
+            [ACTION_COLUMNS.CREATED_AT]: now,
+            [ACTION_COLUMNS.DATE]: date
+          };
+          await db.actions.add(action);
+        }
         return true;
+      } else {
+        if (existingActions.length > 0) {
+          await db.actions.where('[date+habit_id]').equals([date, habitId]).delete();
+        }
+        return false;
       }
     });
   });
@@ -29,11 +36,7 @@ export const getActionsForDate = async (date) => {
   });
 };
 
-export const getActionsBetweenDates = async (startDate, endDate) => {
-  return await executeWithRetry(async () => {
-    return await db.actions.where(ACTION_COLUMNS.DATE).between(startDate, endDate).toArray();
-  });
-};
+
 
 export const isHabitCompletedForDate = async (habitId, date) => {
   return await executeWithRetry(async () => {

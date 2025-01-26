@@ -13,18 +13,18 @@ describe('actions db functions', () => {
         await clearDB();
     }, 10000);
 
-    it('toggleHabitForDate adds action if not exists and returns true', async () => {
+    it('toggleHabitForDate adds action when completed=true and returns true', async () => {
         const habit = await createHabit(createMockHabitData());
-        const result = await toggleHabitForDate(habit.id, TEST_DATE);
+        const result = await toggleHabitForDate(habit.id, TEST_DATE, true);
         expect(result).toBe(true);
         const completed = await isHabitCompletedForDate(habit.id, TEST_DATE);
         expect(completed).toBe(true);
     });
 
-    it('toggleHabitForDate removes action if exists and returns false', async () => {
+    it('toggleHabitForDate removes action when completed=false and returns false', async () => {
         const habit = await createHabit(createMockHabitData());
-        await toggleHabitForDate(habit.id, TEST_DATE); // add
-        const result = await toggleHabitForDate(habit.id, TEST_DATE); // remove
+        await toggleHabitForDate(habit.id, TEST_DATE, true); // add
+        const result = await toggleHabitForDate(habit.id, TEST_DATE, false); // remove
         expect(result).toBe(false);
         const completed = await isHabitCompletedForDate(habit.id, TEST_DATE);
         expect(completed).toBe(false);
@@ -33,8 +33,8 @@ describe('actions db functions', () => {
     it('getActionsForDate returns actions for the date', async () => {
         const habit1 = await createHabit(createMockHabitData());
         const habit2 = await createHabit(createMockHabitData());
-        await toggleHabitForDate(habit1.id, TEST_DATE);
-        await toggleHabitForDate(habit2.id, TEST_DATE);
+        await toggleHabitForDate(habit1.id, TEST_DATE, true);
+        await toggleHabitForDate(habit2.id, TEST_DATE, true);
         const actions = await getActionsForDate(TEST_DATE);
         expect(actions).toHaveLength(2);
         expect(actions).toContainEqual([habit1.id, expect.any(String)]);
@@ -48,7 +48,7 @@ describe('actions db functions', () => {
 
     it('isHabitCompletedForDate returns true if action exists', async () => {
         const habit = await createHabit(createMockHabitData());
-        await toggleHabitForDate(habit.id, TEST_DATE);
+        await toggleHabitForDate(habit.id, TEST_DATE, true);
         const completed = await isHabitCompletedForDate(habit.id, TEST_DATE);
         expect(completed).toBe(true);
     });

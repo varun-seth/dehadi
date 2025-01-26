@@ -105,13 +105,13 @@ export const useHabitActions = (date) => {
     }
   }, [date, loadActions]);
 
-  const toggleHabit = useCallback(async (habitId) => {
+  const toggleHabit = useCallback(async (habitId, desiredState) => {
     try {
-      console.log('Toggling habit:', habitId, 'for date:', date);
-      const isCompleted = await db.toggleHabitForDate(habitId, date);
-      console.log('Toggle result:', isCompleted);
+      console.log('Setting habit:', habitId, 'for date:', date, 'to:', desiredState);
+      const newState = await db.toggleHabitForDate(habitId, date, desiredState);
+      console.log('Set result:', newState);
       await loadActions();
-      return isCompleted;
+      return newState;
     } catch (err) {
       setError(err.message);
       throw err;

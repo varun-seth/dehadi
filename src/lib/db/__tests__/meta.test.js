@@ -31,16 +31,16 @@ describe('meta db functions', () => {
         const habit1 = await createHabit(createMockHabitData());
         const habit2 = await createHabit(createMockHabitData());
 
-        await toggleHabitForDate(habit1.id, TEST_DATE);
+        await toggleHabitForDate(habit1.id, TEST_DATE, true);
         count = await getTotalActionsCount();
         expect(count).toBe(1);
 
-        await toggleHabitForDate(habit2.id, TEST_DATE);
+        await toggleHabitForDate(habit2.id, TEST_DATE, true);
         count = await getTotalActionsCount();
         expect(count).toBe(2);
 
         // Toggle again to remove
-        await toggleHabitForDate(habit1.id, TEST_DATE);
+        await toggleHabitForDate(habit1.id, TEST_DATE, false);
         count = await getTotalActionsCount();
         expect(count).toBe(1);
     });

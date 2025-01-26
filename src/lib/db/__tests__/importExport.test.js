@@ -21,8 +21,8 @@ describe('importExport db functions', () => {
         const habit1 = await createHabit(createMockHabitData());
         const habit2 = await createHabit(createMockHabitData());
 
-        await toggleHabitForDate(habit1.id, TEST_DATE);
-        await toggleHabitForDate(habit2.id, '2025-01-02');
+        await toggleHabitForDate(habit1.id, TEST_DATE, true);
+        await toggleHabitForDate(habit2.id, '2025-01-02', true);
 
         const data = await exportAllData();
         expect(data.habits).toHaveLength(2);
