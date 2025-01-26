@@ -24,7 +24,7 @@ function RootRoute() {
 }
 
 export default function App() {
-    const { dropboxConnected, lastSyncTime, setDropboxConnected, updateLastSyncTime } = useDropboxSync();
+    const { dropboxConnected, lastSyncTime, setDropboxConnected, updateLastSyncTime, silentSync } = useDropboxSync();
 
     return (
         <Router>
@@ -36,7 +36,7 @@ export default function App() {
                         <Route path="/actions" element={<div className="container mx-auto pb-8"><HabitActionList /></div>} />
                         <Route path="/habits" element={<div className="container mx-auto pb-8"><HabitList /></div>} />
                         <Route path="/habits/:id" element={<div className="container mx-auto pb-8"><HabitDetail /></div>} />
-                        <Route path="/data" element={<div className="container mx-auto pb-8"><DataManagement dropboxConnected={dropboxConnected} lastSyncTime={lastSyncTime} onDropboxStatusChange={setDropboxConnected} onSyncTimeUpdate={updateLastSyncTime} /></div>} />
+                        <Route path="/data" element={<div className="container mx-auto pb-8"><DataManagement dropboxConnected={dropboxConnected} lastSyncTime={lastSyncTime} onDropboxStatusChange={setDropboxConnected} onSyncTimeUpdate={updateLastSyncTime} silentSync={silentSync} /></div>} />
                     </Routes>
                 </main>
             </div>

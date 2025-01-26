@@ -6,9 +6,9 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/comp
 import { exportAllData, importAllData, getTotalHabitsCount, getTotalActionsCount } from '@/lib/db';
 import { ImportStatsDialog } from '@/components/ImportStatsDialog';
 import dropboxService from '@/lib/dropboxService';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, format } from 'date-fns';
 
-export function DataManagement({ dropboxConnected, lastSyncTime, onDropboxStatusChange, onSyncTimeUpdate }) {
+export function DataManagement({ dropboxConnected, lastSyncTime, onDropboxStatusChange, onSyncTimeUpdate, silentSync }) {
     useEffect(() => {
         document.title = `${import.meta.env.VITE_APP_TITLE} - Manage Data`;
     }, []);
@@ -24,6 +24,7 @@ export function DataManagement({ dropboxConnected, lastSyncTime, onDropboxStatus
     const [dropboxAccount, setDropboxAccount] = useState(null);
     const [uploadStatus, setUploadStatus] = useState(null); // null, 'loading', 'success', 'error'
     const [downloadStatus, setDownloadStatus] = useState(null); // null, 'loading', 'success', 'error'
+    const [syncStatus, setSyncStatus] = useState(null); // null, 'loading', 'success', 'error'
     const [errorDialog, setErrorDialog] = useState({ open: false, title: '', message: '' });
 
     const loadStats = async () => {
@@ -172,6 +173,26 @@ export function DataManagement({ dropboxConnected, lastSyncTime, onDropboxStatus
         }
     };
 
+    const handleSyncNow = async () => {
+        try {
+            setSyncStatus('loading');
+            await silentSync();
+            setSyncStatus('success');
+            // Clear success status after 3 seconds
+            setTimeout(() => setSyncStatus(null), 3000);
+        } catch (error) {
+            console.error('Error syncing to Dropbox:', error);
+            setSyncStatus('error');
+            setErrorDialog({
+                open: true,
+                title: 'Sync Failed',
+                message: error.message
+            });
+            // Clear error status after showing dialog
+            setTimeout(() => setSyncStatus(null), 5000);
+        }
+    };
+
     const handleDropboxDisconnect = () => {
         dropboxService.logout();
         onDropboxStatusChange(false);
@@ -234,19 +255,8 @@ export function DataManagement({ dropboxConnected, lastSyncTime, onDropboxStatus
                         ) : (
                             <div className="space-y-4">
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <span>Connected as {dropboxAccount?.name?.display_name || dropboxAccount?.email}</span>
-
-                                    {lastSyncTime && (
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <CheckCircle className="h-4 w-4 text-green-600" />
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>synced {formatDistanceToNow(lastSyncTime, { addSuffix: false })} ago</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    )}
-
+                                    <span>Connected as {dropboxAccount?.name?.display_name || dropboxAccount?.email}
+                                    </span>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <Button
@@ -264,8 +274,54 @@ export function DataManagement({ dropboxConnected, lastSyncTime, onDropboxStatus
                                     </Tooltip>
                                 </div>
 
+                                {lastSyncTime && (
+                                    <div className="text-sm text-muted-foreground">
+                                        <span className="flex items-center gap-1">
+                                            <CheckCircle className="h-4 w-4 text-green-600" />
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <span>
+                                                        Synced {formatDistanceToNow(lastSyncTime, { addSuffix: false })} ago
+                                                    </span>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>Last synced: {format(lastSyncTime, 'PPpp')}</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </span>
+                                    </div>
+                                )}
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-3 gap-4">
+
+
+
+
+
+
+                                </div>
+
+
+                                <div className="grid grid-cols-3 gap-4">
+                                    <Button
+                                        variant="outline"
+                                        className="flex flex-col gap-3 h-auto py-6"
+                                        onClick={handleSyncNow}
+                                        disabled={syncStatus === 'loading'}
+                                    >
+                                        {syncStatus === 'loading' ? (
+                                            <ArrowsClockwise className="h-8 w-8 animate-spin" />
+                                        ) : syncStatus === 'success' ? (
+                                            <CheckCircle className="h-8 w-8 text-green-600" />
+                                        ) : syncStatus === 'error' ? (
+                                            <XCircle className="h-8 w-8 text-red-600" />
+                                        ) : (
+                                            <ArrowsClockwise className="h-8 w-8" />
+                                        )}
+                                        <span className="text-sm font-medium">
+                                            {syncStatus === 'loading' ? 'Syncing...' : 'Sync now'}
+                                        </span>
+                                    </Button>
                                     <Button
                                         variant="outline"
                                         className="flex flex-col gap-3 h-auto py-6"

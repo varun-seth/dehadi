@@ -115,6 +115,7 @@ export function useDropboxSync() {
         dropboxConnected,
         lastSyncTime,
         setDropboxConnected,
-        updateLastSyncTime
+        updateLastSyncTime,
+        silentSync
     };
 }
