@@ -1,7 +1,7 @@
 
 
 import React, { useState, useMemo } from 'react';
-import { CycleUnit, findNextDueDate } from '@/lib/cycle';
+import { CycleUnit, getPhaseDates, getPhaseLabel } from '@/lib/cycle';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -144,19 +144,10 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                     <div className="flex items-center gap-2">
                         <Label htmlFor="cycle-phase" className="min-w-[48px]">Phase</Label>
                         {(() => {
-                            // Compute all possible next dates for each phase value
-                            const dateOptions = [];
-                            for (let p = 0; p <= cycle.rest; p++) {
-                                const nextDate = findNextDueDate({ ...cycle, phase: p }, new Date().toISOString().slice(0, 10));
-                                dateOptions.push({ phase: p, date: nextDate });
-                            }
-                            // Sort by date ascending
-                            dateOptions.sort((a, b) => a.date.localeCompare(b.date));
-                            // If current phase is not in sorted order, select the earliest by default
-                            const selectedPhase = dateOptions.some(opt => opt.phase === cycle.phase) ? cycle.phase : dateOptions[0]?.phase;
+                            const phases = getPhaseDates(cycle.unit, cycle.rest);
                             return (
                                 <Select
-                                    value={selectedPhase}
+                                    value={cycle.phase}
                                     onValueChange={val => {
                                         if (!editable) return;
                                         setCycle({ ...cycle, phase: parseInt(val) });
@@ -164,8 +155,10 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                                     disabled={!editable}
                                     className="min-w-[250px]"
                                 >
-                                    {dateOptions.map(opt => (
-                                        <SelectItem key={opt.phase} value={opt.phase} className="min-w-[250px]">{new Date(opt.date).toLocaleDateString(undefined, { dateStyle: 'full' })}</SelectItem>
+                                    {phases.map(phase => (
+                                        <SelectItem key={phase.phase} value={phase.phase} className="min-w-[250px]">{
+                                            getPhaseLabel(cycle.unit, phase.date)
+                                        }</SelectItem>
                                     ))}
                                 </Select>
                             );
@@ -174,7 +167,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                             <TooltipTrigger asChild>
                                 <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><Question size={18} /></span>
                             </TooltipTrigger>
-                            <TooltipContent>Sets which date to align the cycle to (choices are 1 greater than the rest value).</TooltipContent>
+                            <TooltipContent>Sets which date or date-range to align the cycle to.</TooltipContent>
                         </Tooltip>
                     </div>
                 )}

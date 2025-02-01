@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { isHabitDueOnDate } from '@/lib/cycle';
+import { isCycleDueOnDate } from '@/lib/cycle';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useHabits } from '@/lib/hooks';
 import HabitActionItem from './HabitActionItem';
@@ -69,7 +69,7 @@ export function HabitActionList() {
     }, [setSearchParams]);
 
     useEffect(() => {
-        const habitsForDate = safeHabits.filter(habit => isHabitDueOnDate(habit, selectedDate));
+        const habitsForDate = safeHabits.filter(habit => isCycleDueOnDate(habit.cycle, selectedDate));
 
         const countCompletedHabits = async () => {
             let count = 0;
@@ -128,7 +128,7 @@ export function HabitActionList() {
     }
 
     // Only show habits due on selectedDate
-    const habitsForDate = safeHabits.filter(habit => isHabitDueOnDate(habit, selectedDate));
+    const habitsForDate = safeHabits.filter(habit => isCycleDueOnDate(habit.cycle, selectedDate));
     const sortedHabits = [...habitsForDate].sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
 
     const handleHabitCreated = () => {

@@ -80,6 +80,7 @@ export function DataManagement({ dropboxConnected, lastSyncTime, onDropboxStatus
 
             const link = document.createElement('a');
             link.href = url;
+            // TODO REMOVE THE SHITTY DATE CODE AND USE PROPER FUNCTION
             const isoDate = new Date().toISOString().slice(0, 10);
             link.download = `${appTitle}-${isoDate}.json`;
             document.body.appendChild(link);
