@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { createHabit } from '../habits.js';
+import { createHabit, getHabit } from '../habits.js';
 import { toggleHabitForDate } from '../actions.js';
 import { exportAllData, importAllData } from '../importExport.js';
 import { clearDB, createMockHabitData, createMockHabit, TEST_DATE } from './testHelpers.js';
@@ -68,7 +68,7 @@ describe('importExport db functions', () => {
                 name: '(0,1,0) 1 habit in db, 1 habit in import with same id, different value',
                 initialHabits: [createMockHabit({ id: '1' })],
                 importHabits: [createMockHabit({ id: '1' })],
-                expected: { habitsCreated: 0, habitsUpdated: 1, habitsExisted: 0 }
+                expected: { habitsCreated: 0, habitsUpdated: 0, habitsExisted: 1 }
             },
             {
                 name: '(0,0,1) 1 habit in db, 1 habit in import with same id, same value',
@@ -83,7 +83,7 @@ describe('importExport db functions', () => {
                     createMockHabit({ id: '1', name: 'Updated' }),
                     createMockHabit()
                 ],
-                expected: { habitsCreated: 1, habitsUpdated: 1, habitsExisted: 0 }
+                expected: { habitsCreated: 1, habitsUpdated: 0, habitsExisted: 1 }
             },
             {
                 name: '(1,0,1) 1 new habit, 1 same habit in import',
@@ -104,7 +104,7 @@ describe('importExport db functions', () => {
                     createMockHabit({ id: '1', name: 'Updated' }),
                     createMockHabit({ id: '2', name: 'Same' })
                 ],
-                expected: { habitsCreated: 0, habitsUpdated: 1, habitsExisted: 1 }
+                expected: { habitsCreated: 0, habitsUpdated: 0, habitsExisted: 2 }
             },
             {
                 name: '(1,1,1) 1 new, 1 updated, 1 same habit in import',
@@ -117,7 +117,7 @@ describe('importExport db functions', () => {
                     createMockHabit({ id: '2', name: 'Same' }),
                     createMockHabit()
                 ],
-                expected: { habitsCreated: 1, habitsUpdated: 1, habitsExisted: 1 }
+                expected: { habitsCreated: 1, habitsUpdated: 0, habitsExisted: 2 }
             }
         ];
 
@@ -173,5 +173,73 @@ describe('importExport db functions', () => {
             actionsUpdated: 0,
             actionsExisted: 0
         });
+    });
+
+    it('importAllData respects updated_at timestamps for conflict resolution', async () => {
+        // Create local habit with older updated_at
+        const localHabit = createMockHabit({
+            id: 'test-habit',
+            name: 'Local Name',
+            updated_at: '2025-01-01T10:00:00.000Z'
+        });
+        await createHabit(localHabit);
+
+        // Import habit with same id but newer updated_at and different name
+        const importData = {
+            habits: [{
+                ...localHabit,
+                name: 'Backup Name',
+                updated_at: '2025-01-01T11:00:00.000Z' // newer
+            }],
+            actions: []
+        };
+
+        const result = await importAllData(importData);
+        expect(result).toEqual({
+            habitsCreated: 0,
+            habitsUpdated: 1,
+            habitsExisted: 0,
+            actionsCreated: 0,
+            actionsUpdated: 0,
+            actionsExisted: 0
+        });
+
+        // Verify the habit was updated to backup name
+        const updatedHabit = await getHabit('test-habit');
+        expect(updatedHabit.name).toBe('Backup Name');
+    });
+
+    it('importAllData preserves local changes when local updated_at is newer', async () => {
+        // Create local habit with newer updated_at
+        const localHabit = createMockHabit({
+            id: 'test-habit-2',
+            name: 'Local Name',
+            updated_at: '2025-01-01T12:00:00.000Z'
+        });
+        await createHabit(localHabit);
+
+        // Import habit with same id but older updated_at and different name
+        const importData = {
+            habits: [{
+                ...localHabit,
+                name: 'Backup Name',
+                updated_at: '2025-01-01T11:00:00.000Z' // older
+            }],
+            actions: []
+        };
+
+        const result = await importAllData(importData);
+        expect(result).toEqual({
+            habitsCreated: 0,
+            habitsUpdated: 0,
+            habitsExisted: 1,
+            actionsCreated: 0,
+            actionsUpdated: 0,
+            actionsExisted: 0
+        });
+
+        // Verify the habit kept the local name
+        const updatedHabit = await getHabit('test-habit-2');
+        expect(updatedHabit.name).toBe('Local Name');
     });
 });

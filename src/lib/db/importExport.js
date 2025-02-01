@@ -52,15 +52,18 @@ export const importAllData = async (importData) => {
         }
         const existingHabit = await db.habits.get(habit[HABIT_COLUMNS.ID]);
         if (existingHabit) {
-          if (areObjectsEqual(existingHabit, habit)) {
+          const backupUpdatedAt = new Date(habit[HABIT_COLUMNS.UPDATED_AT]);
+          const localUpdatedAt = new Date(existingHabit[HABIT_COLUMNS.UPDATED_AT]);
+          if (backupUpdatedAt > localUpdatedAt) {
+            habitsUpdated++;
+            await db.habits.put(habit);
+          } else {
             habitsExisted++;
-            continue;
           }
-          habitsUpdated++;
         } else {
           habitsCreated++;
+          await db.habits.put(habit);
         }
-        await db.habits.put(habit);
       }
 
       for (const action of actions) {
