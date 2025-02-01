@@ -3,6 +3,7 @@ import { STORES } from '../constants.js';
 import { createHabit } from '../habits.js';
 import { toggleHabitForDate } from '../actions.js';
 import { getTotalHabitsCount, getTotalActionsCount } from '../meta.js';
+import { isHabitCompletedForDate } from '../actions.js';
 import { clearDB, createMockHabitData, TEST_DATE } from './testHelpers.js';
 
 describe('meta db functions', () => {
@@ -42,6 +43,9 @@ describe('meta db functions', () => {
         // Toggle again to remove
         await toggleHabitForDate(habit1.id, TEST_DATE, false);
         count = await getTotalActionsCount();
-        expect(count).toBe(1);
+        expect(count).toBe(2);
+        // confirm the value is false now.
+        const flag = await isHabitCompletedForDate(habit1.id, TEST_DATE);
+        expect(flag).toBe(false);
     });
 });

@@ -4,7 +4,8 @@ import { createHabit } from '../habits.js';
 import {
     toggleHabitForDate,
     getActionsForDate,
-    isHabitCompletedForDate
+    isHabitCompletedForDate,
+    getCompletedActionsForDate
 } from '../actions.js';
 import { clearDB, createMockHabitData, TEST_DATE } from './testHelpers.js';
 
@@ -21,10 +22,10 @@ describe('actions db functions', () => {
         expect(completed).toBe(true);
     });
 
-    it('toggleHabitForDate removes action when completed=false and returns false', async () => {
+    it('toggleHabitForDate sets done=false when completed=false and returns false', async () => {
         const habit = await createHabit(createMockHabitData());
         await toggleHabitForDate(habit.id, TEST_DATE, true); // add
-        const result = await toggleHabitForDate(habit.id, TEST_DATE, false); // remove
+        const result = await toggleHabitForDate(habit.id, TEST_DATE, false); // set done=false
         expect(result).toBe(false);
         const completed = await isHabitCompletedForDate(habit.id, TEST_DATE);
         expect(completed).toBe(false);
@@ -56,5 +57,15 @@ describe('actions db functions', () => {
     it('isHabitCompletedForDate returns false for non-existent habit', async () => {
         const completed = await isHabitCompletedForDate('non-existent', TEST_DATE);
         expect(completed).toBe(false);
+    });
+
+    it('getCompletedActionsForDate returns only completed actions', async () => {
+        const habit1 = await createHabit(createMockHabitData());
+        const habit2 = await createHabit(createMockHabitData());
+        await toggleHabitForDate(habit1.id, TEST_DATE, true);
+        await toggleHabitForDate(habit2.id, TEST_DATE, false); // not completed
+        const actions = await getCompletedActionsForDate(TEST_DATE);
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toEqual([habit1.id, expect.any(String)]);
     });
 });

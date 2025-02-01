@@ -7,40 +7,41 @@ export const toggleHabitForDate = async (habitId, date, completed) => {
   }
   return await executeWithRetry(async () => {
     return await db.transaction('rw', db.actions, async () => {
-      const existingActions = await db.actions.where('[date+habit_id]').equals([date, habitId]).toArray();
-      if (completed) {
-        if (existingActions.length === 0) {
-          const now = new Date().toISOString();
-          const action = {
-            [ACTION_COLUMNS.HABIT_ID]: habitId,
-            [ACTION_COLUMNS.CREATED_AT]: now,
-            [ACTION_COLUMNS.DATE]: date
-          };
-          await db.actions.add(action);
-        }
-        return true;
+      const existing = await db.actions.where('[habit_id+date]').equals([habitId, date]).first();
+      let createdAt;
+      if (existing) {
+        createdAt = existing[ACTION_COLUMNS.CREATED_AT];
       } else {
-        if (existingActions.length > 0) {
-          await db.actions.where('[date+habit_id]').equals([date, habitId]).delete();
-        }
-        return false;
+        // Use current timestamp for created_at
+        createdAt = new Date().toISOString();
       }
+      const action = {
+        [ACTION_COLUMNS.HABIT_ID]: habitId,
+        [ACTION_COLUMNS.CREATED_AT]: createdAt,
+        [ACTION_COLUMNS.DATE]: date,
+        [ACTION_COLUMNS.DONE]: completed
+      };
+      await db.actions.put(action);
+      return completed;
     });
   });
 };
 
 export const getActionsForDate = async (date) => {
   return await executeWithRetry(async () => {
-    const actions = await db.actions.where(ACTION_COLUMNS.DATE).equals(date).toArray();
+    const actions = await db.actions.where(ACTION_COLUMNS.DATE).equals(date).and(action => action[ACTION_COLUMNS.DONE] === true).toArray();
     return actions.map(action => [action[ACTION_COLUMNS.HABIT_ID], action[ACTION_COLUMNS.CREATED_AT]]);
   });
 };
 
-
-
 export const isHabitCompletedForDate = async (habitId, date) => {
   return await executeWithRetry(async () => {
-    const actions = await db.actions.where('[date+habit_id]').equals([date, habitId]).toArray();
-    return actions.length > 0;
+    const action = await db.actions.where('[habit_id+date]').equals([habitId, date]).first();
+    return action ? action[ACTION_COLUMNS.DONE] === true : false;
   });
+};
+
+export const getCompletedActionsForDate = (date) => {
+  if (!date) return Promise.resolve([]);
+  return db.actions.where('date').equals(date).filter(action => action.done === true).toArray().then(actions => actions.map(action => [action.habit_id, action.created_at]));
 };

@@ -40,6 +40,7 @@ describe('importExport db functions', () => {
             expect(action).toHaveProperty('habit_id');
             expect(action).toHaveProperty('date');
             expect(action).toHaveProperty('created_at');
+            expect(action).toHaveProperty('done');
         });
     });
 

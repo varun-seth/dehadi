@@ -22,11 +22,13 @@ export const getMonthlyScores = async (year, month) => {
       const actions = await db.actions.where(ACTION_COLUMNS.DATE).between(startDate, endDate).toArray();
       const completionsByDate = {};
       actions.forEach(action => {
-        const date = action[ACTION_COLUMNS.DATE];
-        if (!completionsByDate[date]) {
-          completionsByDate[date] = new Set();
+        if (action[ACTION_COLUMNS.DONE] === true) {
+          const date = action[ACTION_COLUMNS.DATE];
+          if (!completionsByDate[date]) {
+            completionsByDate[date] = new Set();
+          }
+          completionsByDate[date].add(action[ACTION_COLUMNS.HABIT_ID]);
         }
-        completionsByDate[date].add(action[ACTION_COLUMNS.HABIT_ID]);
       });
       const scores = {};
       for (let day = 1; day <= lastDay; day++) {
@@ -57,10 +59,12 @@ export const calculatePaceForHabit = async (habitId) => {
     const uniqueDates = new Set();
     let earliestActionDate = null;
     actions.forEach(action => {
-      uniqueDates.add(action[ACTION_COLUMNS.DATE]);
-      const actionDate = new Date(action[ACTION_COLUMNS.DATE]);
-      if (!earliestActionDate || actionDate < earliestActionDate) {
-        earliestActionDate = actionDate;
+      if (action[ACTION_COLUMNS.DONE] === true) {
+        uniqueDates.add(action[ACTION_COLUMNS.DATE]);
+        const actionDate = new Date(action[ACTION_COLUMNS.DATE]);
+        if (!earliestActionDate || actionDate < earliestActionDate) {
+          earliestActionDate = actionDate;
+        }
       }
     });
     const startDate = earliestActionDate < habitCreatedDate ? earliestActionDate : habitCreatedDate;

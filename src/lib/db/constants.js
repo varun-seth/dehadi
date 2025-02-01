@@ -1,6 +1,6 @@
 const appSlug = import.meta.env.VITE_APP_SLUG;
 export const DB_NAME = appSlug;
-export const DB_VERSION = 3;
+export const DB_VERSION = 4;
 
 export const STORES = {
   HABITS: 'habits',
@@ -22,7 +22,8 @@ export const HABIT_COLUMNS = {
 export const ACTION_COLUMNS = {
   HABIT_ID: 'habit_id',
   CREATED_AT: 'created_at',
-  DATE: 'date'
+  DATE: 'date',
+  DONE: 'done'
 };
 
 export const INDEXES = {

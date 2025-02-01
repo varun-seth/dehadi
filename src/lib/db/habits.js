@@ -1,5 +1,5 @@
 import { db, executeWithRetry } from './dbManager.js';
-import { STORES, HABIT_COLUMNS } from './constants.js';
+import { STORES, HABIT_COLUMNS, ACTION_COLUMNS } from './constants.js';
 
 export function generateId() {
   const words = new Uint32Array(2);
@@ -56,7 +56,7 @@ export const deleteHabit = async (id) => {
   return await executeWithRetry(async () => {
     await db.transaction('rw', db.habits, db.actions, async () => {
       await db.habits.delete(id);
-      await db.actions.where('[habit_id+created_at]').between([id, ''], [id, '\uffff']).delete();
+      await db.actions.where(ACTION_COLUMNS.HABIT_ID).equals(id).delete();
     });
   });
 };

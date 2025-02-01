@@ -6,9 +6,22 @@ class HabitTrackerDB extends Dexie {
     constructor() {
         super(DB_NAME);
 
-        this.version(DB_VERSION).stores({
+        // Version 3: Previous schema (no 'done' column)
+        this.version(3).stores({
             [STORES.HABITS]: `&${HABIT_COLUMNS.ID}, ${HABIT_COLUMNS.NAME}, ${HABIT_COLUMNS.CREATED_AT}, ${HABIT_COLUMNS.UPDATED_AT}, ${HABIT_COLUMNS.RANK}`,
-            [STORES.ACTIONS]: `&[${ACTION_COLUMNS.HABIT_ID}+${ACTION_COLUMNS.CREATED_AT}], ${ACTION_COLUMNS.DATE}, [${ACTION_COLUMNS.DATE}+${ACTION_COLUMNS.HABIT_ID}]`
+            [STORES.ACTIONS]: `&[${ACTION_COLUMNS.HABIT_ID}+${ACTION_COLUMNS.CREATED_AT}], ${ACTION_COLUMNS.DATE}, [${ACTION_COLUMNS.HABIT_ID}+${ACTION_COLUMNS.DATE}]`
+        });
+
+        // Version 4: Add 'done' column to actions table
+        this.version(4).stores({
+            [STORES.HABITS]: `&${HABIT_COLUMNS.ID}, ${HABIT_COLUMNS.NAME}, ${HABIT_COLUMNS.CREATED_AT}, ${HABIT_COLUMNS.UPDATED_AT}, ${HABIT_COLUMNS.RANK}`,
+            [STORES.ACTIONS]: `&[${ACTION_COLUMNS.HABIT_ID}+${ACTION_COLUMNS.CREATED_AT}], ${ACTION_COLUMNS.DATE}, ${ACTION_COLUMNS.DONE}, [${ACTION_COLUMNS.HABIT_ID}+${ACTION_COLUMNS.DATE}]`
+        }).upgrade(async (tx) => {
+            // Migration for database version 4: Add 'done' column to actions table
+            // Sets done=true for all existing action records (which represented completions)
+            await tx.table(STORES.ACTIONS).toCollection().modify(action => {
+                action[ACTION_COLUMNS.DONE] = true;
+            });
         });
     }
 }

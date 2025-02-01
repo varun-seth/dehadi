@@ -70,4 +70,37 @@ describe('stats db functions', () => {
         const pace = await calculatePaceForHabit('non-existent');
         expect(pace).toBe(0);
     });
+
+    it('getMonthlyScores only counts actions with done=true', async () => {
+        const habit = await createHabit(createMockHabitData());
+        const year = 2025;
+        const month = 1;
+
+        // Add completed action
+        await toggleHabitForDate(habit.id, TEST_DATE, true);
+        // Small delay to ensure operations complete
+        await new Promise(resolve => setTimeout(resolve, 10));
+        // Add non-completed action (done=false)
+        await toggleHabitForDate(habit.id, '2025-01-02', false);
+
+        const scores = await getMonthlyScores(year, month);
+        expect(scores[TEST_DATE]).toBe(100); // completed action counts
+        expect(scores['2025-01-02']).toBe(0); // non-completed action doesn't count
+    });
+
+    it('calculatePaceForHabit only counts actions with done=true', async () => {
+        const habit = await createHabit(createMockHabitData());
+
+        // Add completed action
+        await toggleHabitForDate(habit.id, TEST_DATE, true);
+        // Small delay to ensure operations complete
+        await new Promise(resolve => setTimeout(resolve, 10));
+        // Add non-completed action
+        await toggleHabitForDate(habit.id, '2025-01-02', false);
+
+        const pace = await calculatePaceForHabit(habit.id);
+        // Should only count the completed action
+        expect(pace).toBeGreaterThan(0);
+        expect(pace).toBeLessThanOrEqual(100);
+    });
 });
