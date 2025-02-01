@@ -152,15 +152,13 @@ export function SettingsDialog({ open, onOpenChange }) {
                     </div>
                     <div className="pt-4 border-t">
                         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                            <span>{appTitle} is a habit tracking app</span>
-                            <Button
-                                variant="link"
-                                size="sm"
-                                className="h-auto p-0 text-sm"
-                                onClick={handleNavigateToLanding}
+                            <a
+                                href="/"
+                                className="text-sm underline text-muted-foreground hover:text-foreground"
                             >
-                                home page
-                            </Button>
+                                {appTitle}
+                            </a>
+                            <span>is a habit tracking app</span>
                         </div>
                         <div className="flex items-center justify-center text-xs text-muted-foreground mt-2">
                             <span>Version: {appVersion}</span>
