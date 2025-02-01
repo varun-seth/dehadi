@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { ClipboardText, CaretLeft, CaretRight, Gear, Wrench, Plus, PencilSimple, Trash, Database } from '@phosphor-icons/react';
+import { ClipboardText, CaretLeft, CaretRight, Gear, Wrench, Plus, List, Rows, Database } from '@phosphor-icons/react';
 import { HabitFormDialog } from './HabitFormDialog';
 import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import {
@@ -23,6 +23,7 @@ import { ScoreDisplay } from './ScoreDisplay';
 import { SettingsDialog } from './SettingsDialog';
 import * as dateService from '@/lib/date';
 import { getMonthlyScores } from '@/lib/db';
+import { emit, subscribe, REORDER_MODE_TOGGLED_EVENT } from '@/lib/bus';
 import { cn } from '@/lib/utils';
 
 /**
@@ -37,6 +38,7 @@ export function Toolbar() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isCreateHabitOpen, setIsCreateHabitOpen] = useState(false);
+    const [isReorderMode, setIsReorderMode] = useState(false);
     const [monthlyScores, setMonthlyScores] = useState({});
     const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -47,27 +49,9 @@ export function Toolbar() {
     const isDataView = location.pathname === '/data';
     const habitId = isHabitDetailView ? location.pathname.split('/habits/')[1] : null;
 
-    const [isEditHabitOpen, setIsEditHabitOpen] = useState(false);
-    const [isDeleteHabitOpen, setIsDeleteHabitOpen] = useState(false);
-
     const handleHabitCreated = () => {
         setIsCreateHabitOpen(false);
         navigate('/habits');
-    };
-
-    const handleEditSuccess = () => {
-        setIsEditHabitOpen(false);
-    };
-
-    const handleDeleteConfirm = async () => {
-        try {
-            const { deleteHabit } = await import('@/lib/db');
-            await deleteHabit(habitId);
-            setIsDeleteHabitOpen(false);
-            navigate('/habits');
-        } catch (err) {
-            console.error('Failed to delete habit:', err);
-        }
     };
 
     useEffect(() => {
@@ -83,6 +67,21 @@ export function Toolbar() {
 
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        // Listen for reorder mode changes
+        const unsubscribe = subscribe(REORDER_MODE_TOGGLED_EVENT, () => {
+            setIsReorderMode(prev => !prev);
+        });
+        return unsubscribe;
+    }, []);
+
+    useEffect(() => {
+        // Reset reorder mode when entering habits view (always start in detailed mode)
+        if (isHabitsView) {
+            setIsReorderMode(false);
+        }
+    }, [isHabitsView]);
 
     const handlePreviousDay = () => {
         dateService.previousDay();
@@ -283,25 +282,23 @@ export function Toolbar() {
                             Habits
                         </Button>
                     </div>
-                    <Button size="sm" onClick={() => setIsCreateHabitOpen(true)}>
-                        <Plus className="h-4 w-4 mr-1" />
-                        New Habit
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button size="sm" variant="outline" onClick={() => emit(REORDER_MODE_TOGGLED_EVENT)}>
+                            {isReorderMode ? <Rows className="h-4 w-4 mr-1" /> : <List className="h-4 w-4 mr-1" />}
+                            {isReorderMode ? 'Detailed View' : 'Reorder'}
+                        </Button>
+                        <Button size="sm" onClick={() => setIsCreateHabitOpen(true)}>
+                            <Plus className="h-4 w-4 mr-1" />
+                            New Habit
+                        </Button>
+                    </div>
                 </>
             )}
             {isHabitDetailView && (
-                <TooltipProvider>
-                    <div className="flex gap-2">
-                        <Button variant="outline" size="sm" onClick={() => setIsEditHabitOpen(true)}>
-                            <PencilSimple className="h-4 w-4 mr-1" />
-                            Edit
-                        </Button>
-                        <Button variant="destructive" size="sm" onClick={() => setIsDeleteHabitOpen(true)}>
-                            <Trash className="h-4 w-4 mr-1" />
-                            Delete
-                        </Button>
-                    </div>
-                </TooltipProvider>
+                <Button variant="ghost" onClick={() => navigate('/habits')}>
+                    <CaretLeft className="h-4 w-4 mr-2" />
+                    All Habits
+                </Button>
             )}
             <SettingsDialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
             <HabitFormDialog
@@ -309,30 +306,6 @@ export function Toolbar() {
                 onOpenChange={setIsCreateHabitOpen}
                 onSuccess={handleHabitCreated}
             />
-            <HabitFormDialog
-                open={isEditHabitOpen}
-                onOpenChange={setIsEditHabitOpen}
-                habitId={habitId}
-                onSuccess={handleEditSuccess}
-            />
-            <Dialog open={isDeleteHabitOpen} onOpenChange={setIsDeleteHabitOpen}>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Delete Habit</DialogTitle>
-                        <DialogDescription>
-                            Are you sure you want to delete this habit? This action cannot be undone.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                        <Button variant="outline" onClick={() => setIsDeleteHabitOpen(false)}>
-                            Cancel
-                        </Button>
-                        <Button variant="destructive" onClick={handleDeleteConfirm}>
-                            Delete
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
         </header>
     );
 }

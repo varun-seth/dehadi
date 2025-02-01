@@ -99,7 +99,6 @@ export function HabitFormDialog({ open, onOpenChange, habitId = null, onSuccess 
                 emit(HABIT_UPDATED_EVENT, { id: newHabit.id, habit: newHabit });
                 onOpenChange(false);
                 if (onSuccess) {
-                    window.location.reload();
                     onSuccess(newHabit.id);
                 }
                 return;

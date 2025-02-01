@@ -17,3 +17,4 @@ export function emit(event, payload) {
 }
 
 export const HABIT_UPDATED_EVENT = 'habit-updated';
+export const REORDER_MODE_TOGGLED_EVENT = 'reorder-mode-toggled';
