@@ -1,6 +1,6 @@
 
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { CycleUnit, getPhaseDates, getPhaseLabel } from '@/lib/cycle';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,6 +13,12 @@ import { Question } from '@phosphor-icons/react';
 
 export function CycleConfig({ cycle, setCycle, editable = true }) {
     if (!cycle) return null;
+
+    const [restInput, setRestInput] = useState(cycle.rest.toString());
+
+    useEffect(() => {
+        setRestInput(cycle.rest.toString());
+    }, [cycle.rest]);
 
 
     return (
@@ -123,8 +129,14 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                         id="cycle-rest"
                         type="number"
                         min={0}
-                        value={cycle.rest}
-                        onChange={e => editable && setCycle({ ...cycle, rest: parseInt(e.target.value) || 0 })}
+                        inputMode="numeric"
+                        value={restInput}
+                        onChange={e => setRestInput(e.target.value)}
+                        onBlur={() => {
+                            const val = parseInt(restInput) || 0;
+                            setCycle({ ...cycle, rest: val });
+                            setRestInput(val.toString());
+                        }}
                         disabled={!editable}
                         className="max-w-[80px]"
                     />
@@ -142,7 +154,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
 
                 {cycle.rest > 0 && (
                     <div className="flex items-center gap-2">
-                        <Label htmlFor="cycle-phase" className="min-w-[48px]">Phase</Label>
+                        <Label htmlFor="cycle-phase" className="min-w-[48px]">Active Phase</Label>
                         {(() => {
                             const phases = getPhaseDates(cycle.unit, cycle.rest);
                             return (
@@ -167,7 +179,7 @@ export function CycleConfig({ cycle, setCycle, editable = true }) {
                             <TooltipTrigger asChild>
                                 <span tabIndex={-1} style={{ cursor: 'default', display: 'flex', alignItems: 'center' }}><Question size={18} /></span>
                             </TooltipTrigger>
-                            <TooltipContent>Sets which date or date-range to align the cycle to.</TooltipContent>
+                            <TooltipContent>This date or date-range will be used as the active cycle. After this, {cycle.rest} {cycle.unit === CycleUnit.DAY ? 'days' : cycle.unit === CycleUnit.WEEK ? 'weeks' : 'months'} will be skipped before the next active cycle.</TooltipContent>
                         </Tooltip>
                     </div>
                 )}

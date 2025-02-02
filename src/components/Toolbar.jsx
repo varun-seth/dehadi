@@ -26,6 +26,20 @@ import { getMonthlyScores } from '@/lib/db';
 import { emit, subscribe, REORDER_MODE_TOGGLED_EVENT } from '@/lib/bus';
 import { cn } from '@/lib/utils';
 
+
+function BackButton({ onClick, className }) {
+    return (
+        <Button
+            variant="ghost"
+            className={cn("h-9 w-9 p-0 sm:h-9 sm:px-4 sm:py-2 sm:w-auto", className)}
+            onClick={onClick}
+        >
+            <CaretLeft className="h-4 w-4" />
+            <span className="hidden sm:inline">Back</span>
+        </Button>
+    );
+}
+
 /**
  * Toolbar component - STAYS MOUNTED at App level
  * Uses date service for state management - no props from children
@@ -173,11 +187,11 @@ export function Toolbar() {
                 <div className="flex items-center gap-2">
                     <Button
                         variant="ghost"
-                        className="text-lg font-semibold hover:bg-transparent p-0 h-auto flex items-center gap-2"
+                        className="h-9 w-9 p-0 sm:h-9 sm:px-4 sm:py-2 sm:w-auto"
                         asChild
                     >
                         <Link to="/actions" onClick={handleHomeClick}>
-                            <ClipboardText className="w-5 h-5" />
+                            <ClipboardText className="h-4 w-4" />
                             <span className="hidden sm:inline">{appTitle}</span>
                         </Link>
                     </Button>
@@ -191,10 +205,7 @@ export function Toolbar() {
             )}
             {isDataView && (
                 <div className="flex items-center gap-2">
-                    <Button variant="ghost" onClick={() => navigate('/actions')}>
-                        <CaretLeft className="h-4 w-4 sm:mr-2" />
-                        <span className="hidden sm:inline">Back</span>
-                    </Button>
+                    <BackButton onClick={() => navigate('/actions')} />
                     <Button
                         variant="ghost"
                         className="flex items-center gap-2"
@@ -247,33 +258,12 @@ export function Toolbar() {
                             <CaretRight className="h-4 w-4" />
                         </Button>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={() => setIsSettingsOpen(true)}
-                                    >
-                                        <Gear className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Settings</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                    </div>
                 </>
             )}
             {isHabitsView && (
                 <>
                     <div className="flex items-center gap-2">
-                        <Button variant="ghost" onClick={() => navigate('/actions')}>
-                            <CaretLeft className="h-4 w-4 sm:mr-2" />
-                            <span className="hidden sm:inline">Back</span>
-                        </Button>
+                        <BackButton onClick={() => navigate('/actions')} />
                         <Button
                             variant="ghost"
                             className="flex items-center gap-2"
@@ -287,10 +277,6 @@ export function Toolbar() {
                             {isReorderMode ? <Rows className="h-4 w-4 mr-1" /> : <List className="h-4 w-4 mr-1" />}
                             {isReorderMode ? 'Detailed View' : 'Reorder'}
                         </Button>
-                        <Button size="sm" onClick={() => setIsCreateHabitOpen(true)}>
-                            <Plus className="h-4 w-4 mr-1" />
-                            New Habit
-                        </Button>
                     </div>
                 </>
             )}
@@ -300,6 +286,33 @@ export function Toolbar() {
                     All Habits
                 </Button>
             )}
+
+            {/* Settings button - always visible in right corner */}
+            <div className="flex items-center gap-2">
+                {isHabitsView && (
+                    <Button size="sm" onClick={() => setIsCreateHabitOpen(true)}>
+                        <Plus className="h-4 w-4 mr-1" />
+                        New Habit
+                    </Button>
+                )}
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => setIsSettingsOpen(true)}
+                            >
+                                <Gear className="h-4 w-4" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Settings</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            </div>
+
             <SettingsDialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
             <HabitFormDialog
                 open={isCreateHabitOpen}

@@ -141,9 +141,8 @@ export const getPhaseLabel = (unit, dateString) => {
     // Format as "DD Month, YYYY - DD Month, YYYY"
     const formatDate = (d) => {
       const day = d.getDate();
-      const month = d.toLocaleDateString(undefined, { month: 'long' });
-      const year = d.getFullYear();
-      return `${day} ${month}, ${year}`;
+      const month = d.toLocaleDateString(undefined, { month: 'short' });
+      return `${day} ${month}`;
     };
 
     return `${formatDate(sunday)} - ${formatDate(saturday)}`;

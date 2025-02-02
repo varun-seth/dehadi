@@ -4,6 +4,7 @@ import { Icons } from '@/lib/iconsSubset.jsx';
 import { ICON_SLUG_TO_NAME } from '@/lib/iconRegistry';
 import * as db from '@/lib/db';
 import { ICON_PAIRS, DEFAULT_CHECK_ICON, DEFAULT_EMPTY_ICON, DEFAULT_CHECK_ICON_SLUG, DEFAULT_EMPTY_ICON_SLUG } from '@/lib/iconRegistry';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 
 const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNextCompleted = false, cardMode = false, tileMode = false }) => {
     // Convert habit.icon (slug) to iconName
@@ -116,35 +117,218 @@ const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNe
 
     if (cardMode) {
         return (
+            <TooltipProvider>
+                <div
+                    className={cn(
+                        "flex flex-col items-center justify-between py-12 px-4 h-full min-h-[220px] w-full max-w-xs mx-auto bg-card border border-border rounded-xl shadow-md transition-all duration-200 ease-out cursor-pointer hover:bg-muted/50",
+                        isCompleted && "opacity-80"
+                    )}
+                    style={{
+                        backgroundColor: isCompleted ? habitColor : undefined
+                    }}
+                    onClick={handleToggle}
+                >
+                    <div className="flex flex-col items-center w-full mb-4">
+                        {habit.icon && IconComponent && (
+                            <div
+                                className={cn(
+                                    "w-20 h-20 flex items-center justify-center rounded-lg mb-2",
+                                    "transition-all duration-300 ease-out"
+                                )}
+                            >
+                                {isCompleted && CompletedIconComponent ? (
+                                    <CompletedIconComponent
+                                        className={cn(
+                                            "w-24 h-24 transition-all duration-300 ease-out",
+                                            "text-background"
+                                        )}
+                                    />
+                                ) : (
+                                    <IconComponent
+                                        className={cn(
+                                            "w-24 h-24 transition-all duration-300 ease-out",
+                                            isCompleted && "text-background"
+                                        )}
+                                        style={{
+                                            color: !isCompleted ? habitColor : undefined
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        )}
+                        {habit.description ? (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <span
+                                        className={cn(
+                                            "text-lg font-semibold text-center cursor-pointer",
+                                            "transition-all duration-300 ease-out",
+                                            isCompleted && "text-background"
+                                        )}
+                                        style={{
+                                            color: !isCompleted ? habitColor : undefined
+                                        }}
+                                    >
+                                        {habit.name}
+                                    </span>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{habit.description}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        ) : (
+                            <span
+                                className={cn(
+                                    "text-lg font-semibold text-center",
+                                    "transition-all duration-300 ease-out",
+                                    isCompleted && "text-background"
+                                )}
+                                style={{
+                                    color: !isCompleted ? habitColor : undefined
+                                }}
+                            >
+                                {habit.name}
+                            </span>
+                        )}
+                    </div>
+                    {pace !== null && (
+                        <div
+                            className={cn(
+                                "px-3 py-1 rounded-md text-sm font-semibold shrink-0 mt-auto",
+                                "transition-all duration-300 ease-out",
+                                isCompleted ? "bg-background/20 text-background" : "bg-muted text-muted-foreground"
+                            )}
+                        >
+                            {pace}%
+                        </div>
+                    )}
+                </div>
+            </TooltipProvider>
+        );
+    }
+
+    if (tileMode) {
+        return (
+            <TooltipProvider>
+                <div
+                    className={cn(
+                        "relative flex flex-col items-center justify-between rounded-xl shadow-sm h-40 min-w-0 p-2 transition-colors group border-2 cursor-pointer",
+                        isCompleted ? "bg-primary/90 border-transparent text-primary-foreground" : "bg-muted border-transparent hover:bg-accent"
+                    )}
+                    style={{ outline: 'none', backgroundColor: isCompleted ? habitColor : undefined }}
+                    onClick={handleToggle}
+                    tabIndex={0}
+                    aria-pressed={isCompleted}
+                >
+                    {showPaceTile && (
+                        <div
+                            className={cn(
+                                "absolute top-2 right-2 text-xs font-semibold rounded-md px-2 py-1 transition-opacity duration-500",
+                                isCompleted ? "bg-background/20 text-background" : "bg-muted text-muted-foreground",
+                                fadePaceTile ? "opacity-0" : "opacity-100"
+                            )}
+                        >
+                            {pace !== null ? `${pace}%` : ''}
+                        </div>
+                    )}
+                    <div className="flex-1 flex flex-col items-center justify-center w-full">
+                        {habit.icon && IconComponent && (
+                            <div
+                                className={cn(
+                                    "w-14 h-14 flex items-center justify-center rounded-lg mb-2",
+                                    "transition-all duration-300 ease-out"
+                                )}
+                            >
+                                {isCompleted && CompletedIconComponent ? (
+                                    <CompletedIconComponent
+                                        className={cn(
+                                            "w-16 h-16 transition-all duration-300 ease-out",
+                                            "text-background"
+                                        )}
+                                    />
+                                ) : (
+                                    <IconComponent
+                                        className={cn(
+                                            "w-16 h-16 transition-all duration-300 ease-out",
+                                            isCompleted && "text-background"
+                                        )}
+                                        style={{
+                                            color: !isCompleted ? habitColor : undefined
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        )}
+                        {habit.description ? (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <span
+                                        className={cn(
+                                            "text-xs font-medium text-center break-words w-full line-clamp-2 cursor-pointer",
+                                            isCompleted && "text-background"
+                                        )}
+                                        style={{ color: !isCompleted ? habitColor : undefined }}
+                                    >
+                                        {habit.name}
+                                    </span>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{habit.description}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        ) : (
+                            <span
+                                className={cn(
+                                    "text-xs font-medium text-center break-words w-full line-clamp-2",
+                                    isCompleted && "text-background"
+                                )}
+                                style={{ color: !isCompleted ? habitColor : undefined }}
+                            >
+                                {habit.name}
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </TooltipProvider>
+        );
+    }
+    return (
+        <TooltipProvider>
             <div
                 className={cn(
-                    "flex flex-col items-center justify-between py-12 px-4 h-full min-h-[220px] w-full max-w-xs mx-auto bg-card border border-border rounded-xl shadow-md transition-all duration-200 ease-out cursor-pointer hover:bg-muted/50",
-                    isCompleted && "opacity-80"
+                    "flex items-center gap-3 p-4",
+                    "transition-all duration-200 ease-out",
+                    "cursor-pointer",
+                    "hover:bg-muted/50",
+                    !isCompleted && "bg-card",
+                    isCompleted && isPrevCompleted ? "rounded-t-none" : "rounded-t-lg",
+                    isCompleted && isNextCompleted ? "rounded-b-none" : "rounded-b-lg",
+                    !isCompleted && "rounded-lg"
                 )}
                 style={{
                     backgroundColor: isCompleted ? habitColor : undefined
                 }}
                 onClick={handleToggle}
             >
-                <div className="flex flex-col items-center w-full mb-4">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
                     {habit.icon && IconComponent && (
                         <div
                             className={cn(
-                                "w-20 h-20 flex items-center justify-center rounded-lg mb-2",
+                                "w-10 h-10 flex items-center justify-center rounded-md",
                                 "transition-all duration-300 ease-out"
                             )}
                         >
                             {isCompleted && CompletedIconComponent ? (
                                 <CompletedIconComponent
                                     className={cn(
-                                        "w-24 h-24 transition-all duration-300 ease-out",
+                                        "w-6 h-6 transition-all duration-300 ease-out",
                                         "text-background"
                                     )}
                                 />
                             ) : (
                                 <IconComponent
                                     className={cn(
-                                        "w-24 h-24 transition-all duration-300 ease-out",
+                                        "w-6 h-6 transition-all duration-300 ease-out",
                                         isCompleted && "text-background"
                                     )}
                                     style={{
@@ -154,23 +338,39 @@ const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNe
                             )}
                         </div>
                     )}
-                    <span
-                        className={cn(
-                            "text-lg font-semibold text-center",
-                            "transition-all duration-300 ease-out",
-                            isCompleted && "text-background"
-                        )}
-                        style={{
-                            color: !isCompleted ? habitColor : undefined
-                        }}
-                    >
-                        {habit.name}
-                    </span>
+                    {habit.description ? (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <span
+                                    className={cn(
+                                        "text-base font-medium leading-snug flex-1 cursor-pointer",
+                                        "transition-all duration-300 ease-out",
+                                        isCompleted && "text-background"
+                                    )}
+                                >
+                                    {habit.name}
+                                </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{habit.description}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    ) : (
+                        <span
+                            className={cn(
+                                "text-base font-medium leading-snug flex-1",
+                                "transition-all duration-300 ease-out",
+                                isCompleted && "text-background"
+                            )}
+                        >
+                            {habit.name}
+                        </span>
+                    )}
                 </div>
                 {pace !== null && (
                     <div
                         className={cn(
-                            "px-3 py-1 rounded-md text-sm font-semibold shrink-0 mt-auto",
+                            "px-2 py-1 rounded-md text-xs font-semibold shrink-0",
                             "transition-all duration-300 ease-out",
                             isCompleted ? "bg-background/20 text-background" : "bg-muted text-muted-foreground"
                         )}
@@ -179,140 +379,7 @@ const HabitActionItem = React.memo(({ habit, date, isPrevCompleted = false, isNe
                     </div>
                 )}
             </div>
-        );
-    }
-
-    if (tileMode) {
-        return (
-            <div
-                className={cn(
-                    "relative flex flex-col items-center justify-between rounded-xl shadow-sm h-40 min-w-0 p-2 transition-colors group border-2 cursor-pointer",
-                    isCompleted ? "bg-primary/90 border-transparent text-primary-foreground" : "bg-muted border-transparent hover:bg-accent"
-                )}
-                style={{ outline: 'none', backgroundColor: isCompleted ? habitColor : undefined }}
-                onClick={handleToggle}
-                tabIndex={0}
-                aria-pressed={isCompleted}
-            >
-                {showPaceTile && (
-                    <div
-                        className={cn(
-                            "absolute top-2 right-2 text-xs font-semibold rounded-md px-2 py-1 transition-opacity duration-500",
-                            isCompleted ? "bg-background/20 text-background" : "bg-muted text-muted-foreground",
-                            fadePaceTile ? "opacity-0" : "opacity-100"
-                        )}
-                    >
-                        {pace !== null ? `${pace}%` : ''}
-                    </div>
-                )}
-                <div className="flex-1 flex flex-col items-center justify-center w-full">
-                    {habit.icon && IconComponent && (
-                        <div
-                            className={cn(
-                                "w-14 h-14 flex items-center justify-center rounded-lg mb-2",
-                                "transition-all duration-300 ease-out"
-                            )}
-                        >
-                            {isCompleted && CompletedIconComponent ? (
-                                <CompletedIconComponent
-                                    className={cn(
-                                        "w-16 h-16 transition-all duration-300 ease-out",
-                                        "text-background"
-                                    )}
-                                />
-                            ) : (
-                                <IconComponent
-                                    className={cn(
-                                        "w-16 h-16 transition-all duration-300 ease-out",
-                                        isCompleted && "text-background"
-                                    )}
-                                    style={{
-                                        color: !isCompleted ? habitColor : undefined
-                                    }}
-                                />
-                            )}
-                        </div>
-                    )}
-                    <span
-                        className={cn(
-                            "text-xs font-medium text-center break-words w-full line-clamp-2",
-                            isCompleted && "text-background"
-                        )}
-                        style={{ color: !isCompleted ? habitColor : undefined }}
-                    >
-                        {habit.name}
-                    </span>
-                </div>
-            </div>
-        );
-    }
-    return (
-        <div
-            className={cn(
-                "flex items-center gap-3 p-4",
-                "transition-all duration-200 ease-out",
-                "cursor-pointer",
-                "hover:bg-muted/50",
-                !isCompleted && "bg-card",
-                isCompleted && isPrevCompleted ? "rounded-t-none" : "rounded-t-lg",
-                isCompleted && isNextCompleted ? "rounded-b-none" : "rounded-b-lg",
-                !isCompleted && "rounded-lg"
-            )}
-            style={{
-                backgroundColor: isCompleted ? habitColor : undefined
-            }}
-            onClick={handleToggle}
-        >
-            <div className="flex items-center gap-3 flex-1 min-w-0">
-                {habit.icon && IconComponent && (
-                    <div
-                        className={cn(
-                            "w-10 h-10 flex items-center justify-center rounded-md",
-                            "transition-all duration-300 ease-out"
-                        )}
-                    >
-                        {isCompleted && CompletedIconComponent ? (
-                            <CompletedIconComponent
-                                className={cn(
-                                    "w-6 h-6 transition-all duration-300 ease-out",
-                                    "text-background"
-                                )}
-                            />
-                        ) : (
-                            <IconComponent
-                                className={cn(
-                                    "w-6 h-6 transition-all duration-300 ease-out",
-                                    isCompleted && "text-background"
-                                )}
-                                style={{
-                                    color: !isCompleted ? habitColor : undefined
-                                }}
-                            />
-                        )}
-                    </div>
-                )}
-                <span
-                    className={cn(
-                        "text-base font-medium leading-snug flex-1",
-                        "transition-all duration-300 ease-out",
-                        isCompleted && "text-background"
-                    )}
-                >
-                    {habit.name}
-                </span>
-            </div>
-            {pace !== null && (
-                <div
-                    className={cn(
-                        "px-2 py-1 rounded-md text-xs font-semibold shrink-0",
-                        "transition-all duration-300 ease-out",
-                        isCompleted ? "bg-background/20 text-background" : "bg-muted text-muted-foreground"
-                    )}
-                >
-                    {pace}%
-                </div>
-            )}
-        </div>
+        </TooltipProvider>
     );
 });
 
